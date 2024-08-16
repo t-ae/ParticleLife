@@ -83,6 +83,11 @@ class ViewController: NSViewController {
         renderer.renderingRect = .init(centerX: center.x, centerY: center.y, width: size, height: size)
     }
     
+    override func scrollWheel(with event: NSEvent) {
+        renderer.renderingRect.x -= Float(event.scrollingDeltaX) / Float(metalView.bounds.width) * renderer.renderingRect.width
+        renderer.renderingRect.y += Float(event.scrollingDeltaY) / Float(metalView.bounds.height) * renderer.renderingRect.height
+    }
+    
     func doWithErrorNotify(_ f: () throws -> Void) {
         do {
             try f()

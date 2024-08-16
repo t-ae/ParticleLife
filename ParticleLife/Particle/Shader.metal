@@ -87,7 +87,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     particles[gid].velocity += rmax * accel * *dt;
 }
 
-float zeroOneRange(float value) {
+float wrappedZeroOneRange(float value) {
     if(value < 0) {
         value += ceil(abs(value));
     } else if(value > 1) {
@@ -104,8 +104,8 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
     float2 velocity = particles[gid].velocity;
     
     particles[gid].position += velocity * *dt;
-    particles[gid].position.x = zeroOneRange(particles[gid].position.x);
-    particles[gid].position.y = zeroOneRange(particles[gid].position.y);
+    particles[gid].position.x = wrappedZeroOneRange(particles[gid].position.x);
+    particles[gid].position.y = wrappedZeroOneRange(particles[gid].position.y);
 }
 
 struct Point {
