@@ -87,6 +87,15 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     particles[gid].velocity += rmax * accel * *dt;
 }
 
+float zeroOneRange(float value) {
+    if(value < 0) {
+        value += abs(ceil(value));
+    } else if(value > 1) {
+        value -= floor(value);
+    }
+    return value;
+}
+
 kernel void
 updatePosition(device Particle* particles [[ buffer(0) ]],
                constant float *dt [[ buffer(1) ]],
@@ -95,20 +104,8 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
     float2 velocity = particles[gid].velocity;
     
     particles[gid].position += velocity * *dt;
-    
-    while(particles[gid].position.x < 0) {
-        particles[gid].position.x += 1;
-    }
-    while(particles[gid].position.x > 1) {
-        particles[gid].position.x -= 1;
-    }
-    
-    while(particles[gid].position.y < 0) {
-        particles[gid].position.y += 1;
-    }
-    while(particles[gid].position.y > 1) {
-        particles[gid].position.y -= 1;
-    }
+    particles[gid].position.x = zeroOneRange(particles[gid].position.x);
+    particles[gid].position.y = zeroOneRange(particles[gid].position.y);
 }
 
 struct Point {
@@ -121,12 +118,31 @@ vertex Point
 vertexFunc(const device Particle* particles [[ buffer(0) ]],
            constant vector_float3 *rgba [[ buffer(1) ]],
            constant float *particleSize [[ buffer(2) ]],
+           constant Rect *renderingRect [[ buffer(3) ]],
            unsigned int vid [[ vertex_id ]])
 {
     Point out;
     out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
-    out.position.xy = particles[vid].position * 2 - 1;
-    out.size = *particleSize;
+    out.position.xy = particles[vid].position;
+    
+    while(out.position.x < renderingRect->x) out.position.x += 1;
+    while(out.position.y < renderingRect->y) out.position.y += 1;
+    
+    out.position.x -= renderingRect->x;
+    out.position.x /= renderingRect->width;
+    out.position.y -= renderingRect->y;
+    out.position.y /= renderingRect->height;
+    float baseWidth = 1 / renderingRect->width;
+    while(out.position.x < -baseWidth) out.position.x += baseWidth;
+    while(out.position.x > baseWidth) out.position.x -= baseWidth;
+    float baseHeight = 1 / renderingRect->height;
+    while(out.position.y < -baseHeight) out.position.y += baseHeight;
+    while(out.position.y > baseHeight) out.position.y -= baseHeight;
+    
+    out.position.xy *= 2;
+    out.position.xy -= 1;
+    
+    out.size = *particleSize / renderingRect->width;
     out.color = rgba[particles[vid].color];
     return out;
 }
@@ -139,6 +155,6 @@ fragmentFunc(Point in [[stage_in]],
     if(distance > 0.5) {
         discard_fragment();
     }
-    float alpha = 1 - smoothstep(0.2, 0.8, distance);
+    float alpha = 1 - smoothstep(0.2, 0.5, distance);
     return float4(in.color, alpha);
 };

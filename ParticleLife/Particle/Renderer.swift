@@ -20,6 +20,8 @@ final class Renderer: NSObject, MTKViewDelegate {
     var velocityUpdateSetting: VelocityUpdateSetting = .init(forceFunction: .force2, velocityHalfLife: 0.1, rmax: 0.05)
     var particleSize: Float = 7
     
+    var renderingRect: Rect = .init(x: 0, y: 0, width: 1, height: 1)
+    
     init(
         device: MTLDevice,
         pixelFormat: MTLPixelFormat
@@ -190,6 +192,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         renderEncoder.setVertexBuffer(particleBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(Color.rgb, length: MemoryLayout<vector_float3>.size * Color.rgb.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
+        renderEncoder.setVertexBytes(&renderingRect, length: MemoryLayout<Rect>.size, index: 3)
         renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleCount)
         renderEncoder.endEncoding()
         

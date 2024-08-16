@@ -15,4 +15,11 @@ typedef struct {
     float rmax;
 } VelocityUpdateSetting;
 
+typedef struct {
+    float x;
+    float y;
+    float width;
+    float height;
+} Rect;
+
 #endif /* particle_h */
