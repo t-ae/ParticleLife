@@ -89,7 +89,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
 
 float zeroOneRange(float value) {
     if(value < 0) {
-        value += abs(ceil(value));
+        value += ceil(abs(value));
     } else if(value > 1) {
         value -= floor(value);
     }
@@ -114,6 +114,16 @@ struct Point {
     float3 color;
 };
 
+float transform(float value, float origin, float size) {
+    value -= origin;
+    if(value < 0) {
+        value += ceil(abs(value));
+    } else if(value > size) {
+        value -= ceil(value - size);
+    }
+    return value / size;
+}
+
 vertex Point
 vertexFunc(const device Particle* particles [[ buffer(0) ]],
            constant vector_float3 *rgba [[ buffer(1) ]],
@@ -125,19 +135,8 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
     out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
     out.position.xy = particles[vid].position;
     
-    while(out.position.x < renderingRect->x) out.position.x += 1;
-    while(out.position.y < renderingRect->y) out.position.y += 1;
-    
-    out.position.x -= renderingRect->x;
-    out.position.x /= renderingRect->width;
-    out.position.y -= renderingRect->y;
-    out.position.y /= renderingRect->height;
-    float baseWidth = 1 / renderingRect->width;
-    while(out.position.x < -baseWidth) out.position.x += baseWidth;
-    while(out.position.x > baseWidth) out.position.x -= baseWidth;
-    float baseHeight = 1 / renderingRect->height;
-    while(out.position.y < -baseHeight) out.position.y += baseHeight;
-    while(out.position.y > baseHeight) out.position.y -= baseHeight;
+    out.position.x = transform(out.position.x, renderingRect->x, renderingRect->width);
+    out.position.y = transform(out.position.y, renderingRect->y, renderingRect->height);
     
     out.position.xy *= 2;
     out.position.xy -= 1;
