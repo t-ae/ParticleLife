@@ -68,9 +68,9 @@ class AttractionMatrixCell: NSView {
     
     override func layout() {
         if step > 0 {
-            layer?.backgroundColor = .init(red: 0, green: CGFloat(step)/10, blue: 0, alpha: 1)
+            layer?.backgroundColor = .init(red: 0, green: sqrt(CGFloat(step)/10), blue: 0, alpha: 1)
         } else {
-            layer?.backgroundColor = .init(red: CGFloat(-step)/10, green: 0, blue: 0, alpha: 1)
+            layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/10), green: 0, blue: 0, alpha: 1)
         }
         label.frame = .init(x: 0, y: bounds.midY - label.bounds.midY, width: bounds.width, height: label.frame.height)
     }
