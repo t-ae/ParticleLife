@@ -4,22 +4,30 @@ import MetalKit
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
     private var renderer: Renderer!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        doWithErrorNotify {
+
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        doWithErrorTerminate {
             try setupMetalView()
         }
+        openControlWindow()
+        
+        metalView.isPaused = false
     }
-
+    
+    override func viewWillDisappear() {
+        metalView.isPaused = true
+        controlWindow?.close()
+        super.viewWillDisappear()
+    }
+    
     func setupMetalView() throws {
         guard let device = MTLCreateSystemDefaultDevice() else {
             throw MessageError("MTLCreateSystemDefaultDevice failed.")
         }
         
-        metalView.isPaused = true
         metalView.device = device
-        metalView.preferredFramesPerSecond = 60
+        metalView.preferredFramesPerSecond = 120
         
         metalView.addGestureRecognizer(NSMagnificationGestureRecognizer(target: self, action: #selector(magnify(_:))))
         let scr = NSPanGestureRecognizer(target: self, action: #selector(pan(_:)))
@@ -36,20 +44,7 @@ class ViewController: NSViewController {
         metalView.delegate = renderer
     }
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        openControlWindow()
-        
-        metalView.isPaused = false
-    }
-    
-    override func viewWillDisappear() {
-        metalView.isPaused = true
-        controlWindow?.close()
-        super.viewWillDisappear()
-    }
-    
-    var controlWindow: NSWindowController?
+    private var controlWindow: NSWindowController?
     
     func openControlWindow() {
         guard controlWindow == nil else {
@@ -98,6 +93,21 @@ class ViewController: NSViewController {
         } catch {
             let alert = NSAlert(error: error)
             alert.runModal()
+        }
+    }
+    
+    func doWithErrorTerminate(_ f: () throws -> Void) {
+        do {
+            try f()
+        } catch let error as MessageError {
+            let alert = NSAlert()
+            alert.messageText = error.message
+            alert.runModal()
+            NSApplication.shared.terminate(self)
+        } catch {
+            let alert = NSAlert(error: error)
+            alert.runModal()
+            NSApplication.shared.terminate(self)
         }
     }
 }
