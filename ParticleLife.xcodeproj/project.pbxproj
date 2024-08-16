@@ -1,0 +1,671 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73193EF2C6C2CEF0070148A /* AppDelegate.swift */; };
+		A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73193F12C6C2CEF0070148A /* ViewController.swift */; };
+		A73193F42C6C2CF00070148A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A73193F32C6C2CF00070148A /* Assets.xcassets */; };
+		A73193F72C6C2CF00070148A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A73193F62C6C2CF00070148A /* Base */; };
+		A73194022C6C2CF00070148A /* ParticleLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194012C6C2CF00070148A /* ParticleLifeTests.swift */; };
+		A731940C2C6C2CF00070148A /* ParticleLifeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731940B2C6C2CF00070148A /* ParticleLifeUITests.swift */; };
+		A731940E2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731940D2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift */; };
+		A73194252C6C40C30070148A /* Shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = A73194242C6C40C30070148A /* Shader.metal */; };
+		A73194272C6C6FC00070148A /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194262C6C6FC00070148A /* Renderer.swift */; };
+		A731942D2C6C7C010070148A /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942C2C6C7C010070148A /* Particle.swift */; };
+		A731942F2C6C7C170070148A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942E2C6C7C170070148A /* Color.swift */; };
+		A73194322C6C81CC0070148A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194312C6C81CC0070148A /* Extension.swift */; };
+		A73194352C6C9C770070148A /* Attraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194342C6C9C770070148A /* Attraction.swift */; };
+		A73194372C6D881A0070148A /* MessageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194362C6D881A0070148A /* MessageError.swift */; };
+		A73194392C6DB5150070148A /* ForceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194382C6DB5150070148A /* ForceFunction.swift */; };
+		A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943B2C6DC5590070148A /* ControlViewController.swift */; };
+		A731943E2C6DFCC50070148A /* AccelSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943D2C6DFCC50070148A /* AccelSetting.swift */; };
+		A73194402C6E83680070148A /* Xorshift64.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943F2C6E83680070148A /* Xorshift64.swift */; };
+		A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194412C6E85D70070148A /* ParticleGenerator.swift */; };
+		A73194442C6E95100070148A /* AttractionMatrixCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194432C6E95100070148A /* AttractionMatrixCell.swift */; };
+		A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194452C6E9E040070148A /* AttractionMatrixView.swift */; };
+		A73194482C6EA45C0070148A /* ColorCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194472C6EA45C0070148A /* ColorCircleView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A73193FE2C6C2CF00070148A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A73193E42C6C2CEF0070148A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A73193EB2C6C2CEF0070148A;
+			remoteInfo = ParticleLife;
+		};
+		A73194082C6C2CF00070148A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A73193E42C6C2CEF0070148A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A73193EB2C6C2CEF0070148A;
+			remoteInfo = ParticleLife;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A73193EC2C6C2CEF0070148A /* ParticleLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A73193EF2C6C2CEF0070148A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A73193F12C6C2CEF0070148A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A73193F32C6C2CF00070148A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A73193F62C6C2CF00070148A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A73193F82C6C2CF00070148A /* ParticleLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ParticleLife.entitlements; sourceTree = "<group>"; };
+		A73193FD2C6C2CF00070148A /* ParticleLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParticleLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A73194012C6C2CF00070148A /* ParticleLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleLifeTests.swift; sourceTree = "<group>"; };
+		A73194072C6C2CF00070148A /* ParticleLifeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParticleLifeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A731940B2C6C2CF00070148A /* ParticleLifeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleLifeUITests.swift; sourceTree = "<group>"; };
+		A731940D2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleLifeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A73194232C6C35110070148A /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		A73194242C6C40C30070148A /* Shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shader.metal; sourceTree = "<group>"; };
+		A73194262C6C6FC00070148A /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		A731942C2C6C7C010070148A /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
+		A731942E2C6C7C170070148A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		A73194312C6C81CC0070148A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		A73194342C6C9C770070148A /* Attraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attraction.swift; sourceTree = "<group>"; };
+		A73194362C6D881A0070148A /* MessageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageError.swift; sourceTree = "<group>"; };
+		A73194382C6DB5150070148A /* ForceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceFunction.swift; sourceTree = "<group>"; };
+		A731943B2C6DC5590070148A /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
+		A731943D2C6DFCC50070148A /* AccelSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelSetting.swift; sourceTree = "<group>"; };
+		A731943F2C6E83680070148A /* Xorshift64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xorshift64.swift; sourceTree = "<group>"; };
+		A73194412C6E85D70070148A /* ParticleGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleGenerator.swift; sourceTree = "<group>"; };
+		A73194432C6E95100070148A /* AttractionMatrixCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixCell.swift; sourceTree = "<group>"; };
+		A73194452C6E9E040070148A /* AttractionMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixView.swift; sourceTree = "<group>"; };
+		A73194472C6EA45C0070148A /* ColorCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCircleView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A73193E92C6C2CEF0070148A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73193FA2C6C2CF00070148A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73194042C6C2CF00070148A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A73193E32C6C2CEF0070148A = {
+			isa = PBXGroup;
+			children = (
+				A73193EE2C6C2CEF0070148A /* ParticleLife */,
+				A73194002C6C2CF00070148A /* ParticleLifeTests */,
+				A731940A2C6C2CF00070148A /* ParticleLifeUITests */,
+				A73193ED2C6C2CEF0070148A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A73193ED2C6C2CEF0070148A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A73193EC2C6C2CEF0070148A /* ParticleLife.app */,
+				A73193FD2C6C2CF00070148A /* ParticleLifeTests.xctest */,
+				A73194072C6C2CF00070148A /* ParticleLifeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A73193EE2C6C2CEF0070148A /* ParticleLife */ = {
+			isa = PBXGroup;
+			children = (
+				A731943A2C6DC5410070148A /* UI */,
+				A731941A2C6C2CF80070148A /* Particle */,
+				A73194332C6C81FF0070148A /* Utils */,
+				A73193EF2C6C2CEF0070148A /* AppDelegate.swift */,
+				A73193F32C6C2CF00070148A /* Assets.xcassets */,
+				A73193F52C6C2CF00070148A /* Main.storyboard */,
+				A73193F82C6C2CF00070148A /* ParticleLife.entitlements */,
+			);
+			path = ParticleLife;
+			sourceTree = "<group>";
+		};
+		A73194002C6C2CF00070148A /* ParticleLifeTests */ = {
+			isa = PBXGroup;
+			children = (
+				A73194012C6C2CF00070148A /* ParticleLifeTests.swift */,
+			);
+			path = ParticleLifeTests;
+			sourceTree = "<group>";
+		};
+		A731940A2C6C2CF00070148A /* ParticleLifeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A731940B2C6C2CF00070148A /* ParticleLifeUITests.swift */,
+				A731940D2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift */,
+			);
+			path = ParticleLifeUITests;
+			sourceTree = "<group>";
+		};
+		A731941A2C6C2CF80070148A /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				A73194342C6C9C770070148A /* Attraction.swift */,
+				A731942E2C6C7C170070148A /* Color.swift */,
+				A73194232C6C35110070148A /* Types.h */,
+				A731942C2C6C7C010070148A /* Particle.swift */,
+				A73194262C6C6FC00070148A /* Renderer.swift */,
+				A73194242C6C40C30070148A /* Shader.metal */,
+				A73194382C6DB5150070148A /* ForceFunction.swift */,
+				A731943D2C6DFCC50070148A /* AccelSetting.swift */,
+				A73194412C6E85D70070148A /* ParticleGenerator.swift */,
+			);
+			path = Particle;
+			sourceTree = "<group>";
+		};
+		A73194332C6C81FF0070148A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A73194312C6C81CC0070148A /* Extension.swift */,
+				A73194362C6D881A0070148A /* MessageError.swift */,
+				A731943F2C6E83680070148A /* Xorshift64.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		A731943A2C6DC5410070148A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A73193F12C6C2CEF0070148A /* ViewController.swift */,
+				A731943B2C6DC5590070148A /* ControlViewController.swift */,
+				A73194432C6E95100070148A /* AttractionMatrixCell.swift */,
+				A73194452C6E9E040070148A /* AttractionMatrixView.swift */,
+				A73194472C6EA45C0070148A /* ColorCircleView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A73193EB2C6C2CEF0070148A /* ParticleLife */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A73194112C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLife" */;
+			buildPhases = (
+				A73193E82C6C2CEF0070148A /* Sources */,
+				A73193E92C6C2CEF0070148A /* Frameworks */,
+				A73193EA2C6C2CEF0070148A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ParticleLife;
+			productName = ParticleLife;
+			productReference = A73193EC2C6C2CEF0070148A /* ParticleLife.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A73193FC2C6C2CF00070148A /* ParticleLifeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A73194142C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLifeTests" */;
+			buildPhases = (
+				A73193F92C6C2CF00070148A /* Sources */,
+				A73193FA2C6C2CF00070148A /* Frameworks */,
+				A73193FB2C6C2CF00070148A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A73193FF2C6C2CF00070148A /* PBXTargetDependency */,
+			);
+			name = ParticleLifeTests;
+			productName = ParticleLifeTests;
+			productReference = A73193FD2C6C2CF00070148A /* ParticleLifeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A73194062C6C2CF00070148A /* ParticleLifeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A73194172C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLifeUITests" */;
+			buildPhases = (
+				A73194032C6C2CF00070148A /* Sources */,
+				A73194042C6C2CF00070148A /* Frameworks */,
+				A73194052C6C2CF00070148A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A73194092C6C2CF00070148A /* PBXTargetDependency */,
+			);
+			name = ParticleLifeUITests;
+			productName = ParticleLifeUITests;
+			productReference = A73194072C6C2CF00070148A /* ParticleLifeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A73193E42C6C2CEF0070148A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					A73193EB2C6C2CEF0070148A = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					A73193FC2C6C2CF00070148A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = A73193EB2C6C2CEF0070148A;
+					};
+					A73194062C6C2CF00070148A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = A73193EB2C6C2CEF0070148A;
+					};
+				};
+			};
+			buildConfigurationList = A73193E72C6C2CEF0070148A /* Build configuration list for PBXProject "ParticleLife" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A73193E32C6C2CEF0070148A;
+			productRefGroup = A73193ED2C6C2CEF0070148A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A73193EB2C6C2CEF0070148A /* ParticleLife */,
+				A73193FC2C6C2CF00070148A /* ParticleLifeTests */,
+				A73194062C6C2CF00070148A /* ParticleLifeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A73193EA2C6C2CEF0070148A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A73193F42C6C2CF00070148A /* Assets.xcassets in Resources */,
+				A73193F72C6C2CF00070148A /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73193FB2C6C2CF00070148A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73194052C6C2CF00070148A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A73193E82C6C2CEF0070148A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A73194442C6E95100070148A /* AttractionMatrixCell.swift in Sources */,
+				A73194272C6C6FC00070148A /* Renderer.swift in Sources */,
+				A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */,
+				A73194372C6D881A0070148A /* MessageError.swift in Sources */,
+				A73194482C6EA45C0070148A /* ColorCircleView.swift in Sources */,
+				A731942D2C6C7C010070148A /* Particle.swift in Sources */,
+				A73194252C6C40C30070148A /* Shader.metal in Sources */,
+				A73194322C6C81CC0070148A /* Extension.swift in Sources */,
+				A73194392C6DB5150070148A /* ForceFunction.swift in Sources */,
+				A73194352C6C9C770070148A /* Attraction.swift in Sources */,
+				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
+				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
+				A731942F2C6C7C170070148A /* Color.swift in Sources */,
+				A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */,
+				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,
+				A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */,
+				A731943E2C6DFCC50070148A /* AccelSetting.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73193F92C6C2CF00070148A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A73194022C6C2CF00070148A /* ParticleLifeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A73194032C6C2CF00070148A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A731940E2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift in Sources */,
+				A731940C2C6C2CF00070148A /* ParticleLifeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A73193FF2C6C2CF00070148A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A73193EB2C6C2CEF0070148A /* ParticleLife */;
+			targetProxy = A73193FE2C6C2CF00070148A /* PBXContainerItemProxy */;
+		};
+		A73194092C6C2CF00070148A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A73193EB2C6C2CEF0070148A /* ParticleLife */;
+			targetProxy = A73194082C6C2CF00070148A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A73193F52C6C2CF00070148A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A73193F62C6C2CF00070148A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A731940F2C6C2CF00070148A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A73194102C6C2CF00070148A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A73194122C6C2CF00070148A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ParticleLife/ParticleLife.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AX6P4U3X2R;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLife;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = ParticleLife/Particle/Types.h;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A73194132C6C2CF00070148A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ParticleLife/ParticleLife.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AX6P4U3X2R;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLife;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = ParticleLife/Particle/Types.h;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A73194152C6C2CF00070148A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLifeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParticleLife.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParticleLife";
+			};
+			name = Debug;
+		};
+		A73194162C6C2CF00070148A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLifeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ParticleLife.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ParticleLife";
+			};
+			name = Release;
+		};
+		A73194182C6C2CF00070148A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLifeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ParticleLife;
+			};
+			name = Debug;
+		};
+		A73194192C6C2CF00070148A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.qoncept.ParticleLifeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ParticleLife;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A73193E72C6C2CEF0070148A /* Build configuration list for PBXProject "ParticleLife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A731940F2C6C2CF00070148A /* Debug */,
+				A73194102C6C2CF00070148A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A73194112C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A73194122C6C2CF00070148A /* Debug */,
+				A73194132C6C2CF00070148A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A73194142C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLifeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A73194152C6C2CF00070148A /* Debug */,
+				A73194162C6C2CF00070148A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A73194172C6C2CF00070148A /* Build configuration list for PBXNativeTarget "ParticleLifeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A73194182C6C2CF00070148A /* Debug */,
+				A73194192C6C2CF00070148A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A73193E42C6C2CEF0070148A /* Project object */;
+}
