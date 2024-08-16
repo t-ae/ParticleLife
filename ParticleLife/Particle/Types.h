@@ -20,6 +20,6 @@ typedef struct {
     float y;
     float width;
     float height;
-} Rect;
+} Rect2;
 
 #endif /* particle_h */

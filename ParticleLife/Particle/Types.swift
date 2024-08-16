@@ -6,7 +6,7 @@ extension VelocityUpdateSetting {
     }
 }
 
-extension Rect {
+extension Rect2 {
     init(centerX: Float, centerY: Float, width: Float, height: Float) {
         self.init(x: centerX - width/2, y: centerY - height/2, width: width, height: height)
     }

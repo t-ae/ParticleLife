@@ -41,6 +41,8 @@ class ControlViewController: NSViewController {
             generator = PartitionParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
         case "ring":
             generator = RingParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
+        case "imbalance":
+            generator = ImbalanceParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
         default: return
         }
         

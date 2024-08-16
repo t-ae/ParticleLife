@@ -75,6 +75,28 @@ final class RingParticleGenerator: ParticleGenerator {
     }
 }
 
+final class ImbalanceParticleGenerator: ParticleGenerator {
+    var colorCount: Int
+    var particleCount: Int
+    var rng: RandomNumberGenerator
+    
+    init(colorCount: Int, particleCount: Int, rng: RandomNumberGenerator = SystemRandomNumberGenerator()) {
+        self.colorCount = colorCount
+        self.particleCount = particleCount
+        self.rng = rng
+    }
+    
+    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        let replacement = (0..<colorCount).shuffled(using: &rng)
+        for i in 0..<particleCount {
+            let cc = Int.random(in: 0..<colorCount*colorCount, using: &rng) + 1
+            let c = replacement[Int(sqrt(Float(cc)))-1]
+            let color = Color(rawValue: UInt32(c))!
+            buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
+        }
+    }
+}
+
 
 fileprivate extension SIMD2<Float> {
     static func randomInUnitCircle(using generator: inout RandomNumberGenerator) -> Self {

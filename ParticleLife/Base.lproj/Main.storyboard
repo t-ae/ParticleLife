@@ -143,7 +143,7 @@
         <scene sceneID="3IF-wZ-yVg">
             <objects>
                 <viewController id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="VM6-R2-6ON">
+                    <view key="view" id="VM6-R2-6ON">
                         <rect key="frame" x="0.0" y="0.0" width="324" height="810"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -218,6 +218,7 @@
                                                         <menuItem title="uniform" state="on" id="OEK-vg-J4n"/>
                                                         <menuItem title="partition" id="gOi-Rr-lja"/>
                                                         <menuItem title="ring" id="HN4-7L-5tv"/>
+                                                        <menuItem title="imbalance" id="tg6-qU-e2t"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>

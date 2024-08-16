@@ -128,7 +128,7 @@ vertex Point
 vertexFunc(const device Particle* particles [[ buffer(0) ]],
            constant vector_float3 *rgba [[ buffer(1) ]],
            constant float *particleSize [[ buffer(2) ]],
-           constant Rect *renderingRect [[ buffer(3) ]],
+           constant Rect2 *renderingRect [[ buffer(3) ]],
            unsigned int vid [[ vertex_id ]])
 {
     Point out;
