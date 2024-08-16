@@ -157,7 +157,7 @@
                                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz">
                                             <rect key="frame" x="105" y="7" width="181" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                             <connections>
