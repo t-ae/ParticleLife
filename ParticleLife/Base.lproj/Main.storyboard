@@ -482,7 +482,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="192" id="P8A-PO-cEO"/>
                                             </constraints>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="15" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                             <connections>
@@ -609,10 +609,10 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="cnB-fI-SfS" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="15h-9a-sSJ"/>
-                            <constraint firstAttribute="trailing" secondItem="cnB-fI-SfS" secondAttribute="trailing" id="363-4n-vWS"/>
-                            <constraint firstAttribute="bottom" secondItem="cnB-fI-SfS" secondAttribute="bottom" id="dW7-Lb-erI"/>
-                            <constraint firstItem="cnB-fI-SfS" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="yKF-Yd-wcT"/>
+                            <constraint firstItem="cnB-fI-SfS" firstAttribute="top" relation="lessThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Qnw-tD-usO"/>
+                            <constraint firstItem="cnB-fI-SfS" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="RKC-xT-nmG"/>
+                            <constraint firstItem="cnB-fI-SfS" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" priority="900" id="Stq-0y-9xH"/>
+                            <constraint firstItem="cnB-fI-SfS" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="VpY-g3-avC"/>
                         </constraints>
                     </view>
                     <connections>
