@@ -424,8 +424,8 @@
                                             <rect key="frame" x="10" y="36" width="300" height="300"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </customView>
-                                        <comboButton verticalHuggingPriority="750" fixedFrame="YES" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8">
-                                            <rect key="frame" x="230" y="6" width="73" height="24"/>
+                                        <comboButton verticalHuggingPriority="750" fixedFrame="YES" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8">
+                                            <rect key="frame" x="258" y="6" width="55" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <menu key="menu" id="91A-RG-Uwc">
                                                 <items>
