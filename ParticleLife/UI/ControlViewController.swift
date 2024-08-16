@@ -86,6 +86,10 @@ class ControlViewController: NSViewController {
         delegate?.controlViewControllerOnChangeParticleSize(sender.floatValue)
     }
     
+    @IBAction func onForceFuctionClickHelpButton(_ sender: Any) {
+        let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md#force-functions")!
+        NSWorkspace.shared.open(url)
+    }
     
     
 }

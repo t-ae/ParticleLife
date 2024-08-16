@@ -42,7 +42,7 @@ Combination of `force1` and `force2`.
 force3(distance, attraction) = \left\{
 \begin{array}{ll}
 force1(distance, attraction) & (attraction \ge 0) \\
-force2(distance, attraction) & (attraction \lt 0) \\
+force2(distance, attraction) & (attraction \lt 0)
 \end{array}
 \right.
 ```
