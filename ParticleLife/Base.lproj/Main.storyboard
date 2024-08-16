@@ -144,11 +144,11 @@
             <objects>
                 <viewController id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="VM6-R2-6ON">
-                        <rect key="frame" x="0.0" y="0.0" width="324" height="787"/>
+                        <rect key="frame" x="0.0" y="0.0" width="324" height="810"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box title="Particle setting" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-zC-dyS">
-                                <rect key="frame" x="9" y="627" width="306" height="148"/>
+                                <rect key="frame" x="9" y="650" width="306" height="148"/>
                                 <view key="contentView" id="czC-Pt-JhJ">
                                     <rect key="frame" x="4" y="5" width="298" height="128"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -269,7 +269,7 @@
                                 </constraints>
                             </box>
                             <box title="Attraction" translatesAutoresizingMaskIntoConstraints="NO" id="Goo-8Y-qmM">
-                                <rect key="frame" x="10" y="275" width="304" height="348"/>
+                                <rect key="frame" x="10" y="298" width="304" height="348"/>
                                 <view key="contentView" id="uRI-GH-At4">
                                     <rect key="frame" x="4" y="5" width="296" height="328"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -302,7 +302,7 @@
                                 </view>
                             </box>
                             <box title="Velocity update rule" translatesAutoresizingMaskIntoConstraints="NO" id="wSm-jq-enh">
-                                <rect key="frame" x="11" y="147" width="304" height="124"/>
+                                <rect key="frame" x="11" y="170" width="304" height="124"/>
                                 <view key="contentView" id="FGG-dr-vFy">
                                     <rect key="frame" x="4" y="5" width="296" height="104"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -334,6 +334,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="128" id="mLU-w3-KBW"/>
                                             </constraints>
+                                            <connections>
+                                                <action selector="updateVelocityUpdateSetting:" target="3gE-1T-kfi" id="3iD-aP-Snf"/>
+                                            </connections>
                                         </popUpButton>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh">
                                             <rect key="frame" x="261" y="70" width="25" height="25"/>
@@ -372,7 +375,7 @@
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>
-                                                <action selector="updateAccelSetting:" target="3gE-1T-kfi" id="EwU-X8-ZDC"/>
+                                                <action selector="updateVelocityUpdateSetting:" target="3gE-1T-kfi" id="Tet-B3-VnB"/>
                                             </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-8H-i6c">
@@ -399,7 +402,7 @@
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>
-                                                <action selector="updateAccelSetting:" target="3gE-1T-kfi" id="qCR-PG-7Mo"/>
+                                                <action selector="updateVelocityUpdateSetting:" target="3gE-1T-kfi" id="Gnd-ab-DYu"/>
                                             </connections>
                                         </popUpButton>
                                     </subviews>
@@ -429,13 +432,52 @@
                                 </constraints>
                             </box>
                             <box title="Other" translatesAutoresizingMaskIntoConstraints="NO" id="XbP-Lb-uGx">
-                                <rect key="frame" x="12" y="76" width="302" height="67"/>
+                                <rect key="frame" x="12" y="76" width="302" height="90"/>
                                 <view key="contentView" id="8WL-dt-aMO">
-                                    <rect key="frame" x="4" y="5" width="294" height="47"/>
+                                    <rect key="frame" x="4" y="5" width="294" height="70"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fq3-vW-Lfc">
+                                            <rect key="frame" x="10" y="42" width="112" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="108" id="E0R-ea-NVa"/>
+                                            </constraints>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Preferred FPS" id="tiy-ut-Qbh">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-6R-SFa">
+                                            <rect key="frame" x="125" y="36" width="135" height="25"/>
+                                            <popUpButtonCell key="cell" type="push" title="60" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="60" imageScaling="proportionallyDown" inset="2" selectedItem="Rrg-yK-0uR" id="zYk-HN-inP">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="3FE-Xb-w37">
+                                                    <items>
+                                                        <menuItem title="30" tag="30" id="08a-pd-oHT"/>
+                                                        <menuItem title="60" state="on" tag="60" id="Rrg-yK-0uR"/>
+                                                        <menuItem title="120" tag="120" id="Twx-3X-XMs"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="128" id="Um3-2G-H9Z"/>
+                                            </constraints>
+                                            <connections>
+                                                <action selector="onChangePreferredFPS:" target="3gE-1T-kfi" id="cs8-2i-df6"/>
+                                            </connections>
+                                        </popUpButton>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wz9-5f-U8I">
+                                            <rect key="frame" x="10" y="14" width="78" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Particle size" id="o02-6F-ind">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz">
-                                            <rect key="frame" x="92" y="11" width="196" height="28"/>
+                                            <rect key="frame" x="92" y="6" width="196" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="192" id="P8A-PO-cEO"/>
                                             </constraints>
@@ -446,24 +488,20 @@
                                                 <action selector="onChangeParticleSizeSlider:" target="3gE-1T-kfi" id="XDx-4z-MUL"/>
                                             </connections>
                                         </slider>
-                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wz9-5f-U8I">
-                                            <rect key="frame" x="10" y="19" width="78" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Particle size" id="o02-6F-ind">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="top" secondItem="8WL-dt-aMO" secondAttribute="top" constant="12" id="MiV-qt-Iii"/>
+                                        <constraint firstItem="fq3-vW-Lfc" firstAttribute="top" secondItem="8WL-dt-aMO" secondAttribute="top" constant="12" id="Ln1-eo-Ud7"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="leading" secondItem="wz9-5f-U8I" secondAttribute="trailing" constant="8" id="QhG-y2-TsG"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="centerY" secondItem="wz9-5f-U8I" secondAttribute="centerY" id="a0J-bh-Mas"/>
-                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="leading" secondItem="8WL-dt-aMO" secondAttribute="leading" constant="12" id="lBo-Jz-ZJF"/>
+                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="leading" id="l10-y8-huP"/>
+                                        <constraint firstItem="fq3-vW-Lfc" firstAttribute="leading" secondItem="8WL-dt-aMO" secondAttribute="leading" constant="12" id="pPF-Sb-Z5f"/>
+                                        <constraint firstItem="gZV-6R-SFa" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="trailing" constant="8" id="qdx-i7-eWh"/>
+                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="top" secondItem="fq3-vW-Lfc" secondAttribute="bottom" constant="12" id="rKH-aA-8lv"/>
+                                        <constraint firstItem="gZV-6R-SFa" firstAttribute="centerY" secondItem="fq3-vW-Lfc" secondAttribute="centerY" id="xpI-5y-cZV"/>
                                     </constraints>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="fUK-ex-WFJ"/>
+                                    <constraint firstAttribute="height" constant="86" id="fUK-ex-WFJ"/>
                                 </constraints>
                             </box>
                             <box title="Control" translatesAutoresizingMaskIntoConstraints="NO" id="00z-vB-JRj">
@@ -552,7 +590,7 @@
                 </viewController>
                 <customObject id="FqP-i5-WUy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="676" y="976.5"/>
+            <point key="canvasLocation" x="676" y="968"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">

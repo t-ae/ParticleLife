@@ -15,7 +15,6 @@ class ControlViewController: NSViewController {
     @IBOutlet var rmaxButton: NSPopUpButton!
     @IBOutlet var velocityHalfLifeButton: NSPopUpButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,19 +26,7 @@ class ControlViewController: NSViewController {
         }
     }
     
-    override func viewWillDisappear() {
-        delegate?.controlViewControllerOnClose()
-        super.viewWillDisappear()
-    }
-    
-    @IBAction func onClickPlayButton(_ sender: Any) {
-        delegate?.controlViewControllerOnClickPlayButton()
-    }
-    
-    @IBAction func onClickPauseButton(_ sender: Any) {
-        delegate?.controlViewControllerOnClickPauseButton()
-    }
-    
+    // MARK: Particle setting
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
         let count = particleCountField.intValue
         let colorCount = colorCountButton.selectedTag()
@@ -61,13 +48,14 @@ class ControlViewController: NSViewController {
         attractionMatrixView.colorCount = colorCount
     }
     
+    // MARK: Attracion
     @objc func onClickAttractionPresetItem(_ sender: NSMenuItem) {
         let setup = AttractionSetup(rawValue: sender.title)!
         attractionMatrixView.setupAttraction(setup)
     }
     
-    
-    @IBAction func updateAccelSetting(_ sender: Any) {
+    // MARK: Velocity update rule
+    @IBAction func updateVelocityUpdateSetting(_ sender: Any) {
         guard let ff = ForceFunction(rawValue: UInt32(forceFunctionButton.selectedTag())) else {
             return
         }
@@ -82,29 +70,41 @@ class ControlViewController: NSViewController {
         ))
     }
     
-    @IBAction func onChangeParticleSizeSlider(_ sender: NSSlider) {
-        delegate?.controlViewControllerOnChangeParticleSize(sender.floatValue)
-    }
-    
     @IBAction func onForceFuctionClickHelpButton(_ sender: Any) {
         let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md#force-functions")!
         NSWorkspace.shared.open(url)
     }
     
     
+    // MARK: Other
+    @IBAction func onChangePreferredFPS(_ sender: NSPopUpButton) {
+        let fps = sender.selectedTag()
+        delegate?.controlViewControllerOnChangePreferredFPS(fps)
+    }
+    @IBAction func onChangeParticleSizeSlider(_ sender: NSSlider) {
+        delegate?.controlViewControllerOnChangeParticleSize(sender.floatValue)
+    }
+    
+    // MARK: Control
+    @IBAction func onClickPlayButton(_ sender: Any) {
+        delegate?.controlViewControllerOnClickPlayButton()
+    }
+    
+    @IBAction func onClickPauseButton(_ sender: Any) {
+        delegate?.controlViewControllerOnClickPauseButton()
+    }
 }
 
 protocol ControlViewControllerDelegate {
-    func controlViewControllerOnClickPauseButton()
-    func controlViewControllerOnClickPlayButton()
-    func controlViewControllerOnClose()
-    
     func controlViewControllerGenerateParticles(generator: ParticleGenerator)
-    
     func controlViewControllerOnChangeAttraction(_ attraction: Attraction)
     func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting)
     
+    func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int)
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float)
+    
+    func controlViewControllerOnClickPauseButton()
+    func controlViewControllerOnClickPlayButton()
 }
 
 extension ControlViewController: AttractionMatrixViewDelegate {

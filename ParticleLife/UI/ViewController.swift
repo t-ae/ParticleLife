@@ -27,7 +27,7 @@ class ViewController: NSViewController {
         }
         
         metalView.device = device
-        metalView.preferredFramesPerSecond = 120
+        metalView.preferredFramesPerSecond = 60
         
         metalView.addGestureRecognizer(NSMagnificationGestureRecognizer(target: self, action: #selector(magnify(_:))))
         let scr = NSPanGestureRecognizer(target: self, action: #selector(pan(_:)))
@@ -119,18 +119,6 @@ extension ViewController: RendererDelegate {
 }
 
 extension ViewController: ControlViewControllerDelegate {
-    func controlViewControllerOnClickPlayButton() {
-        renderer.isPaused = false
-    }
-    
-    func controlViewControllerOnClickPauseButton() {
-        renderer.isPaused = true
-    }
-    
-    func controlViewControllerOnClose() {
-        controlWindow = nil
-    }
-    
     func controlViewControllerGenerateParticles(generator: any ParticleGenerator) {
         doWithErrorNotify {
             try renderer.generateParticles(generator)
@@ -145,7 +133,19 @@ extension ViewController: ControlViewControllerDelegate {
         renderer.velocityUpdateSetting = setting
     }
     
+    func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int) {
+        metalView.preferredFramesPerSecond = preferredFPS
+    }
+    
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float) {
         renderer.particleSize = particleSize
+    }
+    
+    func controlViewControllerOnClickPlayButton() {
+        renderer.isPaused = false
+    }
+    
+    func controlViewControllerOnClickPauseButton() {
+        renderer.isPaused = true
     }
 }
