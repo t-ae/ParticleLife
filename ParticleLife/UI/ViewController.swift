@@ -73,7 +73,7 @@ class ViewController: NSViewController {
     @objc func magnify(_ sender: NSMagnificationGestureRecognizer) {
         let factor = Float(sender.magnification / 10) + 1
         var size = renderer.renderingRect.width / factor
-        size = min(max(size, 0.2), 1)
+        size = min(max(size, 0.2), 2)
         let center = renderer.renderingRect.center
         renderer.renderingRect = .init(centerX: center.x, centerY: center.y, width: size, height: size)
     }
