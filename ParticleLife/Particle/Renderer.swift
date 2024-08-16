@@ -193,7 +193,11 @@ final class Renderer: NSObject, MTKViewDelegate {
         renderEncoder.setVertexBytes(Color.rgb, length: MemoryLayout<vector_float3>.size * Color.rgb.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&renderingRect, length: MemoryLayout<Rect2>.size, index: 3)
-        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleCount)
+        for var offsets in [vector_float2(-1, 0), vector_float2(0, -1),  vector_float2(0, 0), vector_float2(1, 0), vector_float2(0, 1)] {
+            renderEncoder.setVertexBytes(&offsets, length: MemoryLayout<vector_float2>.size, index: 4)
+            renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleCount)
+        }
+        
         renderEncoder.endEncoding()
         
         if let drawable = view.currentDrawable {

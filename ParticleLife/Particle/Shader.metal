@@ -114,13 +114,14 @@ struct Point {
     float3 color;
 };
 
-float transform(float value, float origin, float size) {
+float transform(float value, float origin, float size, float offset) {
     value -= origin;
     if(value < 0) {
         value += ceil(abs(value));
     } else if(value > size) {
         value -= ceil(value - size);
     }
+    value += offset;
     return value / size;
 }
 
@@ -129,14 +130,15 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
            constant vector_float3 *rgba [[ buffer(1) ]],
            constant float *particleSize [[ buffer(2) ]],
            constant Rect2 *renderingRect [[ buffer(3) ]],
+           constant vector_float2 *offset [[ buffer(4) ]],
            unsigned int vid [[ vertex_id ]])
 {
     Point out;
     out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
     out.position.xy = particles[vid].position;
     
-    out.position.x = transform(out.position.x, renderingRect->x, renderingRect->width);
-    out.position.y = transform(out.position.y, renderingRect->y, renderingRect->height);
+    out.position.x = transform(out.position.x, renderingRect->x, renderingRect->width, offset->x);
+    out.position.y = transform(out.position.y, renderingRect->y, renderingRect->height, offset->y);
     
     out.position.xy *= 2;
     out.position.xy -= 1;
