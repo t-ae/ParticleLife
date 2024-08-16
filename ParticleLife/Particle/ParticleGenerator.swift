@@ -66,8 +66,8 @@ final class RingParticleGenerator: ParticleGenerator {
             
             let thetaRange = volume*Float(color.rawValue) ..< volume*Float(color.rawValue + 1)
             
-            let r = Float.random(in: rRange)
-            let theta = Float.random(in: thetaRange)
+            let r = Float.random(in: rRange, using: &rng)
+            let theta = Float.random(in: thetaRange, using: &rng)
             
             let position0 = SIMD2<Float>(x: r * cos(theta), y: r * sin(theta))
             buffer[i] = Particle(color: color, position: (position0 + 1) / 2)
