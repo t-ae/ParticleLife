@@ -2,8 +2,6 @@
 
 Particle Life on macOS/Metal.
 
-Reference: [The code behind Particle Life](https://youtu.be/scvuli-zcRc?si=QMxci6VO3pppf4lN)
-
 ## Force functions
 
 ### force1
@@ -46,3 +44,7 @@ force2(distance, attraction) & (attraction \lt 0)
 \end{array}
 \right.
 ```
+
+# Reference 
+- https://particle-life.com/
+- [The code behind Particle Life](https://youtu.be/scvuli-zcRc?si=QMxci6VO3pppf4lN)
