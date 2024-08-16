@@ -21,8 +21,6 @@ class ControlViewController: NSViewController {
         
         attractionMatrixView.delegate = self
         
-        
-        
         attractionMatrixSetupButton.menu.removeAllItems()
         for attractionSetup in AttractionSetup.allCases {
             attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))

@@ -129,7 +129,10 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
     }
     
+    var isPaused: Bool = false
+    
     func updateVelocity(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
+        guard !isPaused else { return }
         if particleCount == 0 { return }
         guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
             return
@@ -152,6 +155,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     func updatePosition(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
+        guard !isPaused else { return }
         if particleCount == 0 { return }
         guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
             return

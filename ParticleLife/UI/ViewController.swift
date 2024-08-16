@@ -79,11 +79,11 @@ extension ViewController: RendererDelegate {
 
 extension ViewController: ControlViewControllerDelegate {
     func controlViewControllerOnClickPlayButton() {
-        metalView.isPaused = false
+        renderer.isPaused = false
     }
     
     func controlViewControllerOnClickPauseButton() {
-        metalView.isPaused = true
+        renderer.isPaused = true
     }
     
     func controlViewControllerOnClose() {
@@ -91,11 +91,9 @@ extension ViewController: ControlViewControllerDelegate {
     }
     
     func controlViewControllerGenerateParticles(generator: any ParticleGenerator) {
-        metalView.isPaused = true
         doWithErrorNotify {
             try renderer.generateParticles(generator)
         }
-        metalView.isPaused = false
     }
     
     func controlViewControllerOnChangeAttraction(_ attraction: Attraction) {
