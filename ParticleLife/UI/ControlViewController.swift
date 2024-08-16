@@ -21,6 +21,8 @@ class ControlViewController: NSViewController {
         
         attractionMatrixView.delegate = self
         
+        
+        
         attractionMatrixSetupButton.menu.removeAllItems()
         for attractionSetup in AttractionSetup.allCases {
             attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
@@ -75,7 +77,7 @@ class ControlViewController: NSViewController {
         let velocityHalfLife = Float(velocityHalfLifeButton.selectedTag()) / 1000
         let rmax = Float(rmaxButton.selectedTag()) / 1000
         
-        delegate?.controlViewControllerUpdateAccelSetting(AccelSetting(
+        delegate?.controlViewControllerUpdateVelocityUpdateSetting(.init(
             forceFunction: ff,
             velocityHalfLife: velocityHalfLife,
             rmax: rmax
@@ -102,7 +104,7 @@ protocol ControlViewControllerDelegate {
     func controlViewControllerGenerateParticles(generator: ParticleGenerator)
     
     func controlViewControllerOnChangeAttraction(_ attraction: Attraction)
-    func controlViewControllerUpdateAccelSetting(_ accelSetting: AccelSetting)
+    func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting)
     
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float)
 }

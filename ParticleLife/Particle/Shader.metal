@@ -40,18 +40,18 @@ kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
                constant float* attraction [[ buffer(2) ]],
-               constant AccelSetting *accelSetting [[ buffer(3) ]],
+               constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(3) ]],
                constant float *dt [[ buffer(4) ]],
                const uint gid [[ thread_position_in_grid ]])
 {
-    float rmax = accelSetting->rmax;
-    float velocityHalfLife = accelSetting->velocityHalfLife;
+    float rmax = velocityUpdateSetting->rmax;
+    float velocityHalfLife = velocityUpdateSetting->velocityHalfLife;
     auto forceFunction = force1;
-    if(accelSetting->forceFunction == 1) {
+    if(velocityUpdateSetting->forceFunction == 1) {
         forceFunction = force1;
-    } else if(accelSetting->forceFunction == 2) {
+    } else if(velocityUpdateSetting->forceFunction == 2) {
         forceFunction = force2;
-    }else if(accelSetting->forceFunction == 3) {
+    }else if(velocityUpdateSetting->forceFunction == 3) {
         forceFunction = force3;
     }
     

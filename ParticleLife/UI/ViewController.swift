@@ -102,8 +102,8 @@ extension ViewController: ControlViewControllerDelegate {
         renderer.attraction = attraction
     }
     
-    func controlViewControllerUpdateAccelSetting(_ accelSetting: AccelSetting) {
-        renderer.accelSetting = accelSetting
+    func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting) {
+        renderer.velocityUpdateSetting = setting
     }
     
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float) {

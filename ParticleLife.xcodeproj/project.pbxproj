@@ -23,7 +23,7 @@
 		A73194372C6D881A0070148A /* MessageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194362C6D881A0070148A /* MessageError.swift */; };
 		A73194392C6DB5150070148A /* ForceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194382C6DB5150070148A /* ForceFunction.swift */; };
 		A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943B2C6DC5590070148A /* ControlViewController.swift */; };
-		A731943E2C6DFCC50070148A /* AccelSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943D2C6DFCC50070148A /* AccelSetting.swift */; };
+		A731943E2C6DFCC50070148A /* VelocityUpdateSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943D2C6DFCC50070148A /* VelocityUpdateSetting.swift */; };
 		A73194402C6E83680070148A /* Xorshift64.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943F2C6E83680070148A /* Xorshift64.swift */; };
 		A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194412C6E85D70070148A /* ParticleGenerator.swift */; };
 		A73194442C6E95100070148A /* AttractionMatrixCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194432C6E95100070148A /* AttractionMatrixCell.swift */; };
@@ -70,7 +70,7 @@
 		A73194362C6D881A0070148A /* MessageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageError.swift; sourceTree = "<group>"; };
 		A73194382C6DB5150070148A /* ForceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceFunction.swift; sourceTree = "<group>"; };
 		A731943B2C6DC5590070148A /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
-		A731943D2C6DFCC50070148A /* AccelSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelSetting.swift; sourceTree = "<group>"; };
+		A731943D2C6DFCC50070148A /* VelocityUpdateSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityUpdateSetting.swift; sourceTree = "<group>"; };
 		A731943F2C6E83680070148A /* Xorshift64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xorshift64.swift; sourceTree = "<group>"; };
 		A73194412C6E85D70070148A /* ParticleGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleGenerator.swift; sourceTree = "<group>"; };
 		A73194432C6E95100070148A /* AttractionMatrixCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixCell.swift; sourceTree = "<group>"; };
@@ -164,7 +164,7 @@
 				A73194262C6C6FC00070148A /* Renderer.swift */,
 				A73194242C6C40C30070148A /* Shader.metal */,
 				A73194382C6DB5150070148A /* ForceFunction.swift */,
-				A731943D2C6DFCC50070148A /* AccelSetting.swift */,
+				A731943D2C6DFCC50070148A /* VelocityUpdateSetting.swift */,
 				A73194412C6E85D70070148A /* ParticleGenerator.swift */,
 			);
 			path = Particle;
@@ -338,7 +338,7 @@
 				A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */,
 				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,
 				A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */,
-				A731943E2C6DFCC50070148A /* AccelSetting.swift in Sources */,
+				A731943E2C6DFCC50070148A /* VelocityUpdateSetting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

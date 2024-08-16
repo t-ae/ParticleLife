@@ -13,6 +13,6 @@ typedef struct {
     uint forceFunction;
     float velocityHalfLife;
     float rmax;
-} AccelSetting;
+} VelocityUpdateSetting;
 
 #endif /* particle_h */

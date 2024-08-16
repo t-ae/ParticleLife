@@ -17,7 +17,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     let particleBuffer: MTLBuffer
     
     var attraction: Attraction = .init()
-    var accelSetting: AccelSetting = .init(forceFunction: .force2, velocityHalfLife: 0.1, rmax: 0.05)
+    var velocityUpdateSetting: VelocityUpdateSetting = .init(forceFunction: .force2, velocityHalfLife: 0.1, rmax: 0.05)
     var particleSize: Float = 7
     
     init(
@@ -143,7 +143,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         computeEncoder.setBuffer(particleBuffer, offset: 0, index: 0)
         computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
         computeEncoder.setBytes(attraction.matrix, length: MemoryLayout<Float>.size * attraction.matrix.count, index: 2)
-        computeEncoder.setBytes(&accelSetting, length: MemoryLayout<AccelSetting>.size, index: 3)
+        computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 3)
         var dt = dt
         computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 4)
         computeEncoder.setThreadgroupMemoryLength(updatePositionState.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
