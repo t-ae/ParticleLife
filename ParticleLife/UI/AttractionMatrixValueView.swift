@@ -1,7 +1,7 @@
 import Foundation
 import Cocoa
 
-class AttractionMatrixValueView: NSView {
+class AttractionMatrixValueView: NSControl {
     var delegate: AttractionMatrixValueViewDelegate?
     
     /// [-10, 10] range,
@@ -41,6 +41,7 @@ class AttractionMatrixValueView: NSView {
         addSubview(label)
         
         self.step = 0
+        self.allowsExpansionToolTips = true
     }
     
     override func layout() {

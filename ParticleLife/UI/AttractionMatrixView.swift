@@ -51,9 +51,10 @@ class AttractionMatrixView: NSView {
             view.delegate = self
             views.append(view)
             
-            for _ in Color.allCases {
+            for column in Color.allCases {
                 let cell = AttractionMatrixValueView()
                 cell.delegate = self
+                cell.toolTip = "\(row)→\(column) attraction"
                 views.append(cell)
             }
         }
