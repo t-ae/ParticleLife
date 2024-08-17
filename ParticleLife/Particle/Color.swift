@@ -1,7 +1,7 @@
 import Foundation
 import Cocoa
 
-enum Color: UInt32, CaseIterable {
+enum Color: UInt32, CaseIterable, IntRepresentable {
     case red = 0
     case green
     case blue
@@ -39,8 +39,4 @@ extension Color {
     func next(_ i: Int) -> Color {
         .init(rawValue: (rawValue + UInt32(i)) % UInt32(Color.allCases.count))!
     }
-}
-
-extension Color {
-    var intValue: Int { Int(rawValue) }
 }

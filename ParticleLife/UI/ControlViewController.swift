@@ -59,10 +59,10 @@ class ControlViewController: NSViewController {
     
     // MARK: Velocity update rule
     @IBAction func updateVelocityUpdateSetting(_ sender: Any) {
-        guard let ff = ForceFunction(rawValue: UInt32(forceFunctionButton.selectedTag())) else {
+        guard let ff = ForceFunction(intValue: forceFunctionButton.selectedTag()) else {
             return
         }
-        guard let df = DistanceFunction(rawValue: Int32(distanceFunctionButton.selectedTag())) else {
+        guard let df = DistanceFunction(intValue: distanceFunctionButton.selectedTag()) else {
             return
         }
         

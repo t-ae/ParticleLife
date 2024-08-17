@@ -1,6 +1,6 @@
 import Foundation
 
-enum DistanceFunction: Int32 {
+enum DistanceFunction: Int32, IntRepresentable {
     case l1 = 1
     case l2 = 2
     case linf = -1

@@ -30,6 +30,7 @@
 		A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194452C6E9E040070148A /* AttractionMatrixView.swift */; };
 		A73194482C6EA45C0070148A /* ColorCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194472C6EA45C0070148A /* ColorCircleView.swift */; };
 		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
+		A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944B2C70669F0070148A /* IntRepresentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		A73194452C6E9E040070148A /* AttractionMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixView.swift; sourceTree = "<group>"; };
 		A73194472C6EA45C0070148A /* ColorCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCircleView.swift; sourceTree = "<group>"; };
 		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
+		A731944B2C70669F0070148A /* IntRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntRepresentable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				A73194312C6C81CC0070148A /* Extension.swift */,
 				A73194362C6D881A0070148A /* MessageError.swift */,
 				A731943F2C6E83680070148A /* Xorshift64.swift */,
+				A731944B2C70669F0070148A /* IntRepresentable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				A73194352C6C9C770070148A /* Attraction.swift in Sources */,
 				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
+				A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,
 				A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */,
 				A731944A2C7025830070148A /* DistanceFunction.swift in Sources */,

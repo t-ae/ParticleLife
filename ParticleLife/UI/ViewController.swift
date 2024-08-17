@@ -116,7 +116,7 @@ extension ViewController: RendererDelegate {
 
 extension ViewController: ControlViewControllerDelegate {
     func controlViewControllerGenerateParticles(generator: any ParticleGenerator) {
-        print("generate: \(generator)")
+        print("generate:", generator)
         doWithErrorNotify {
             try renderer.generateParticles(generator)
         }
@@ -130,12 +130,12 @@ extension ViewController: ControlViewControllerDelegate {
     
     func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting) {
         renderer.velocityUpdateSetting = setting
-        print("velocity update setting: \(setting)")
+        print("velocity update setting:", setting)
     }
     
     func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int) {
         metalView.preferredFramesPerSecond = preferredFPS
-        print("preferredFPS: \(preferredFPS)")
+        print("preferredFPS:", preferredFPS)
     }
     
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float) {

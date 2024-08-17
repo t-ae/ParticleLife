@@ -20,7 +20,7 @@ final class UniformParticleGenerator: ParticleGenerator {
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         for i in 0..<particleCount {
-            let color = Color(rawValue: UInt32(i % colorCount))!
+            let color = Color(intValue: i % colorCount)!
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
         }
     }
@@ -40,7 +40,7 @@ final class PartitionParticleGenerator: ParticleGenerator {
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         let volume: Float = 1 / Float(colorCount)
         for i in 0..<particleCount {
-            let color = Color(rawValue: UInt32(i % colorCount))!
+            let color = Color(intValue: i % colorCount)!
             let xrange = volume*Float(color.rawValue) ..< volume*Float(color.rawValue + 1)
             buffer[i] = Particle(color: color, position: .random(in: xrange, 0..<1, using: &rng))
         }
@@ -62,7 +62,7 @@ final class RingParticleGenerator: ParticleGenerator {
         let volume: Float = 2 * .pi / Float(colorCount)
         let rRange: Range<Float> = 0.5..<0.7
         for i in 0..<particleCount {
-            let color = Color(rawValue: UInt32(i % colorCount))!
+            let color = Color(intValue: i % colorCount)!
             
             let thetaRange = volume*Float(color.rawValue) ..< volume*Float(color.rawValue + 1)
             
@@ -91,7 +91,7 @@ final class ImbalanceParticleGenerator: ParticleGenerator {
         for i in 0..<particleCount {
             let cc = Int.random(in: 0..<colorCount*colorCount, using: &rng) + 1
             let c = replacement[Int(sqrt(Float(cc)))-1]
-            let color = Color(rawValue: UInt32(c))!
+            let color = Color(intValue: c)!
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
         }
     }
