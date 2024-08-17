@@ -18,7 +18,6 @@ class AttractionMatrixView: NSView {
     
     private var views: [NSView] = []
     
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
@@ -72,76 +71,75 @@ class AttractionMatrixView: NSView {
         .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.attractionValue })
     }
     
-    func setSteps(_ steps: [Int]) {
-        for (cell, step) in zip(attractionMatrixCells, steps) {
+    var steps: Matrix<Int> {
+        .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.step })
+    }
+    
+    func setSteps(_ steps: Matrix<Int>) {
+        for (cell, step) in zip(attractionMatrixCells, steps.elements) {
             cell.setStep(step)
         }
     }
     
     func updateAttraction(update: AttractionUpdate) {
-        let count = Color.allCases.count * Color.allCases.count
+        var steps = steps
         
         switch update {
         case .randomize:
-            setSteps((0..<count).map { _ in Int.random(in: -10...10) })
+            steps.modifyElements { _, _  in .random(in: -10...10) }
         case .symmetricRandom:
-            var matrix = [Int](repeating: 0, count: count)
             for i in 0..<Color.allCases.count {
                 for j in i..<Color.allCases.count {
                     let v = Int.random(in: -10...10)
-                    matrix[i*Color.allCases.count + j] = v
-                    matrix[j*Color.allCases.count + i] = v
+                    steps[i, j] = v
+                    steps[j, i] = v
                 }
             }
-            setSteps(matrix)
         case .invert:
-            let matrix = attractionMatrixCells.map { -$0.step }
-            setSteps(matrix)
+            steps.modifyElements { _, value in -value }
         case .zeroToOne:
-            let matrix = attractionMatrixCells.map { $0.step == 0 ? 10 : $0.step }
-            setSteps(matrix)
+            steps.modifyElements { _, value in value == 0 ? 10 : value }
         case .zeroToMinusOne:
-            let matrix = attractionMatrixCells.map { $0.step == 0 ? -10 : $0.step }
-            setSteps(matrix)
+            steps.modifyElements { _, value in value == 0 ? -10 : value }
         }
+        
+        setSteps(steps)
     }
     
     func setAttraction(preset: AttractionPreset) {
-        let count = Color.allCases.count * Color.allCases.count
-        
         switch preset {
         case .zero:
-            setSteps(.init(repeating: 0, count: count))
+            setSteps(.colorMatrix(filledWith: 0))
         case .identity:
-            var matrix = [Int](repeating: 0, count: count)
-            for i in 0..<Color.allCases.count {
-                matrix[i*Color.allCases.count + i] = 10
+            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
+            for i in 0..<matrix.rows {
+                matrix[i, i] = 10
             }
             setSteps(matrix)
         case .exclusive:
-            var matrix = [Int](repeating: -10, count: count)
-            for i in 0..<Color.allCases.count {
-                matrix[i*Color.allCases.count + i] = 10
+            var matrix = Matrix<Int>.colorMatrix(filledWith: -10)
+            for i in 0..<matrix.rows {
+                matrix[i, i] = 10
             }
             setSteps(matrix)
         case .chain:
-            var matrix = [Int](repeating: 0, count: count)
+            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
             for i in 0..<colorCount {
                 let prev = (i - 1 + colorCount) % colorCount
                 let next = (i + 1) % colorCount
                 for j in 0..<colorCount {
-                    matrix[i*Color.allCases.count + j] = i == j ? 10 :
+                    matrix[i, j] = i == j ? 10 :
                     j == prev || j == next ? 2 :
                     -10
                 }
             }
             setSteps(matrix)
         case .snake:
-            var matrix = [Int](repeating: 0, count: count)
+            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
             for i in 0..<colorCount {
                 let next = (i + 1) % colorCount
                 for j in 0..<colorCount {
-                    matrix[i*Color.allCases.count + j] = i == j ? 10 :
+                    matrix[i, j] = i == j ? 10 :
                     j == next ? 2 :
                     0
                 }

@@ -44,3 +44,13 @@ extension Color {
         .init(rawValue: (rawValue + UInt32(i)) % UInt32(Color.allCases.count))!
     }
 }
+
+extension Matrix {
+    static func colorMatrix(elements: [Element]) -> Matrix {
+        return .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: elements)
+    }
+    
+    static func colorMatrix(filledWith element: Element) -> Matrix {
+        return .init(rows: Color.allCases.count, cols: Color.allCases.count, filledWith: element)
+    }
+}

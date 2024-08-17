@@ -30,6 +30,12 @@ struct Matrix<Element> {
             (0..<cols).map { (r, $0) }
         }
     }
+    
+    mutating func modifyElements(_ transform: ((Int, Int), Element)->Element) {
+        for (r, c) in indices() {
+            self[r, c] = transform((r, c), self[r, c])
+        }
+    }
 }
 
 extension Matrix: CustomDebugStringConvertible {

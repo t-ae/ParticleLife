@@ -16,7 +16,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     var particleCount: Int = 0
     let particleBuffer: MTLBuffer
     
-    var attraction: Matrix<Float> = .init(rows: Color.allCases.count, cols: Color.allCases.count, filledWith: 0)
+    var attraction: Matrix<Float> = .colorMatrix(filledWith: 0)
     var velocityUpdateSetting: VelocityUpdateSetting = .init(
         forceFunction: .force2,
         distanceFunction: .l2,
