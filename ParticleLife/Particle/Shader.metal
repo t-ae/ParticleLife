@@ -73,12 +73,14 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         distanceFunction = linf;
     }
     
+    vector_float2 position = particles[gid].position;
+    constant float* attractionRow = attraction + particles[gid].color * COLOR_COUNT;
     
     vector_float2 accel(0, 0);
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
-        float2 vector = particles[i].position - particles[gid].position;
+        float2 vector = particles[i].position - position;
         if(vector.x < -0.5) {
             vector.x += 1;
         } else if(vector.x > 0.5) {
@@ -90,12 +92,12 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
             vector.y -= 1;
         }
         
-        if(vector.x < -rmax || vector.x > rmax || vector.y < -rmax || vector.y > rmax) {
+        if(linf(vector) > rmax) {
             // early continue
             continue;
         }
         
-        float attr = attraction[particles[gid].color * COLOR_COUNT + particles[i].color];
+        float attr = attractionRow[particles[i].color];
         float distance = distanceFunction(vector);
         
         float f = forceFunction(distance/rmax, attr);
