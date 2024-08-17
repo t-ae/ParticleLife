@@ -15,7 +15,7 @@ class ControlViewController: NSViewController {
     @IBOutlet var distanceFunctionButton: NSPopUpButton!
     @IBOutlet var rmaxButton: NSPopUpButton!
     @IBOutlet var velocityHalfLifeButton: NSPopUpButton!
-    @IBOutlet var forceFactorSlider: CustomSlider!
+    @IBOutlet var forceFactorSlider: NSSlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +26,6 @@ class ControlViewController: NSViewController {
         for attractionSetup in AttractionSetup.allCases {
             attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
         }
-        
-        forceFactorSlider.transform = { pow(10, $0) }
     }
     
     // MARK: Particle setting
@@ -71,7 +69,7 @@ class ControlViewController: NSViewController {
         
         let velocityHalfLife = Float(velocityHalfLifeButton.selectedTag()) / 1000
         let rmax = Float(rmaxButton.selectedTag()) / 1000
-        let forceFactor = forceFactorSlider.transformedValue
+        let forceFactor = forceFactorSlider.floatValue
         
         delegate?.controlViewControllerUpdateVelocityUpdateSetting(.init(
             forceFunction: ff,
