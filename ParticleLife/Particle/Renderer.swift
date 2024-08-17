@@ -239,16 +239,27 @@ extension Renderer {
         print("velocityUpdateSetting:", velocityUpdateSetting)
         print("fixedDt:", fixedDt)
         print("particleSize:", particleSize)
-        
-        var hasNaN = false
-        var hasInfinite = false
+        print("")
+    }
+    
+    func dumpStatistics() {
+        var nanCout = 0
+        var infiniteCount = 0
+        var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
         let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
         for particle in buffer {
-            hasNaN  = particle.hasNaN || hasNaN
-            hasInfinite  = particle.hasInfinite || hasInfinite
+            if particle.hasNaN { nanCout += 1 }
+            if particle.hasInfinite { infiniteCount += 1 }
+            colorCounts[Int(particle.color)] += 1
         }
-        print("particle hasNaN: \(hasNaN), hasInfinite:\(hasInfinite)")
         
+        print("# Statistics:")
+        print("particleCount:", particleCount)
+        for color in Color.allCases {
+            print("- \(color):", colorCounts[color.intValue])
+        }
+        print("NaN:", nanCout)
+        print("Inf:", infiniteCount)
         print("")
     }
 }

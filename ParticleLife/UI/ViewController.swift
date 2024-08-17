@@ -87,8 +87,10 @@ class ViewController: NSViewController {
     
     override func keyDown(with event: NSEvent) {
         switch event.characters {
-        case "d":
+        case "p":
             renderer.dumpParameters()
+        case "s":
+            renderer.dumpStatistics()
         default:
             break
         }
