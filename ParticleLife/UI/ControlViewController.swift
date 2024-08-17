@@ -25,6 +25,8 @@ class ControlViewController: NSViewController {
         for attractionSetup in AttractionSetup.allCases {
             attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
         }
+        
+        attractionMatrixSetupButton.allowsExpansionToolTips
     }
     
     // MARK: Particle setting

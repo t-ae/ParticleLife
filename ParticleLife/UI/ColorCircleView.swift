@@ -1,8 +1,8 @@
 import Foundation
 import Cocoa
 
-class ColorCircleView: NSView {
-    enum Target {
+class ColorCircleView: NSControl {
+    enum FillTarget {
         case row, column
     }
     
@@ -14,9 +14,14 @@ class ColorCircleView: NSView {
         }
     }
     
-    var target: Target = .row
+    var fillTarget: FillTarget = .row {
+        didSet {
+            toolTip = "Right click to fill this \(fillTarget)"
+        }
+    }
     
     override func layout() {
+        allowsExpansionToolTips = true
         layer?.backgroundColor = color.nsColor.cgColor
         layer?.cornerRadius = bounds.width / 2
     }
@@ -33,6 +38,10 @@ class ColorCircleView: NSView {
     
     @objc func menuItemClicked(sender: NSMenuItem) {
         delegate?.colorCircleViewOnClickFillMenu(self, value: sender.tag)
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        print(event)
     }
 }
 
