@@ -46,7 +46,7 @@ extension Matrix: CustomDebugStringConvertible {
         for r in 0..<rows {
             var line = ""
             for c in 0..<cols {
-                line += stringifyEleemnt(self[r, c])
+                line += stringifyEleemnt(self[r, c]) + " "
             }
             strs.append(line)
         }

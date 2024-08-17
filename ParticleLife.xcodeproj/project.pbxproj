@@ -19,7 +19,6 @@
 		A731942D2C6C7C010070148A /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942C2C6C7C010070148A /* Particle.swift */; };
 		A731942F2C6C7C170070148A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942E2C6C7C170070148A /* Color.swift */; };
 		A73194322C6C81CC0070148A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194312C6C81CC0070148A /* Extension.swift */; };
-		A73194352C6C9C770070148A /* Attraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194342C6C9C770070148A /* Attraction.swift */; };
 		A73194372C6D881A0070148A /* MessageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194362C6D881A0070148A /* MessageError.swift */; };
 		A73194392C6DB5150070148A /* ForceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194382C6DB5150070148A /* ForceFunction.swift */; };
 		A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731943B2C6DC5590070148A /* ControlViewController.swift */; };
@@ -69,7 +68,6 @@
 		A731942C2C6C7C010070148A /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		A731942E2C6C7C170070148A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		A73194312C6C81CC0070148A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		A73194342C6C9C770070148A /* Attraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attraction.swift; sourceTree = "<group>"; };
 		A73194362C6D881A0070148A /* MessageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageError.swift; sourceTree = "<group>"; };
 		A73194382C6DB5150070148A /* ForceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceFunction.swift; sourceTree = "<group>"; };
 		A731943B2C6DC5590070148A /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 		A731941A2C6C2CF80070148A /* Particle */ = {
 			isa = PBXGroup;
 			children = (
-				A73194342C6C9C770070148A /* Attraction.swift */,
 				A731942E2C6C7C170070148A /* Color.swift */,
 				A73194232C6C35110070148A /* Types.h */,
 				A731942C2C6C7C010070148A /* Particle.swift */,
@@ -340,7 +337,6 @@
 				A73194252C6C40C30070148A /* Shader.metal in Sources */,
 				A73194322C6C81CC0070148A /* Extension.swift in Sources */,
 				A73194392C6DB5150070148A /* ForceFunction.swift in Sources */,
-				A73194352C6C9C770070148A /* Attraction.swift in Sources */,
 				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
 				A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */,

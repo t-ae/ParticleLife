@@ -126,7 +126,7 @@ class ControlViewController: NSViewController {
 
 protocol ControlViewControllerDelegate {
     func controlViewControllerGenerateParticles(generator: ParticleGenerator)
-    func controlViewControllerOnChangeAttraction(_ attraction: Attraction)
+    func controlViewControllerOnChangeAttraction(_ attraction: Matrix<Float>)
     func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting)
     
     func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int)
@@ -138,7 +138,7 @@ protocol ControlViewControllerDelegate {
 }
 
 extension ControlViewController: AttractionMatrixViewDelegate {
-    func attractionMatrixViewOnChangeAttraction(_ attraction: Attraction) {
+    func attractionMatrixViewOnChangeAttraction(_ attraction: Matrix<Float>) {
         delegate?.controlViewControllerOnChangeAttraction(attraction)
     }
 }

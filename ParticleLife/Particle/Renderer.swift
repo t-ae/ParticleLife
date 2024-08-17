@@ -16,7 +16,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     var particleCount: Int = 0
     let particleBuffer: MTLBuffer
     
-    var attraction: Attraction = .init()
+    var attraction: Matrix<Float> = .init(rows: Color.allCases.count, cols: Color.allCases.count, filledWith: 0)
     var velocityUpdateSetting: VelocityUpdateSetting = .init(
         forceFunction: .force2,
         distanceFunction: .l2,
@@ -162,7 +162,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
         var colorCount = Color.allCases.count
         computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
-        computeEncoder.setBytes(attraction.matrix, length: MemoryLayout<Float>.size * attraction.matrix.count, index: 3)
+        computeEncoder.setBytes(attraction.elements, length: MemoryLayout<Float>.size * attraction.elements.count, index: 3)
         computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
         var dt = dt
         computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)

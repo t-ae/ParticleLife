@@ -143,7 +143,7 @@ extension ViewController: ControlViewControllerDelegate {
         }
     }
     
-    func controlViewControllerOnChangeAttraction(_ attraction: Attraction) {
+    func controlViewControllerOnChangeAttraction(_ attraction: Matrix<Float>) {
         renderer.attraction = attraction
     }
     

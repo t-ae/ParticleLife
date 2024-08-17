@@ -68,8 +68,8 @@ class AttractionMatrixView: NSView {
         views.compactMap { $0 as? AttractionMatrixValueView }
     }
     
-    var attraction: Attraction {
-        .init(matrix: attractionMatrixCells.map { $0.attractionValue })
+    var attraction: Matrix<Float> {
+        .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.attractionValue })
     }
     
     func setSteps(_ steps: [Int]) {
@@ -175,7 +175,7 @@ class AttractionMatrixView: NSView {
 }
 
 protocol AttractionMatrixViewDelegate {
-    func attractionMatrixViewOnChangeAttraction(_ attraction: Attraction)
+    func attractionMatrixViewOnChangeAttraction(_ attraction: Matrix<Float>)
 }
 
 extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
