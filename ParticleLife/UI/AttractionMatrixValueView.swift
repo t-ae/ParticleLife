@@ -43,14 +43,25 @@ class AttractionMatrixValueView: NSView {
         self.step = 0
     }
     
-    func increment() {
-        if step >= 10 { return }
-        step += 1
+    override func layout() {
+        if step > 0 {
+            layer?.backgroundColor = .init(red: 0, green: sqrt(CGFloat(step)/10), blue: 0, alpha: 1)
+        } else {
+            layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/10), green: 0, blue: 0, alpha: 1)
+        }
+        label.frame = .init(x: 0, y: bounds.midY - label.bounds.midY, width: bounds.width, height: label.frame.height)
     }
     
-    func decrement() {
-        if step <= -10 { return }
+    func increment() -> Bool {
+        if step >= 10 { return false }
+        step += 1
+        return true
+    }
+    
+    func decrement() -> Bool {
+        if step <= -10 { return false }
         step -= 1
+        return true
     }
     
     func setStep(_ step: Int) {
@@ -59,20 +70,38 @@ class AttractionMatrixValueView: NSView {
     }
     
     override func mouseDown(with event: NSEvent) {
-        increment()
+        startMouseHold(increment)
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        endMouseHold()
     }
     
     override func rightMouseDown(with event: NSEvent) {
-        decrement()
+        startMouseHold(decrement)
     }
     
-    override func layout() {
-        if step > 0 {
-            layer?.backgroundColor = .init(red: 0, green: sqrt(CGFloat(step)/10), blue: 0, alpha: 1)
-        } else {
-            layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/10), green: 0, blue: 0, alpha: 1)
+    override func rightMouseUp(with event: NSEvent) {
+        mouseHoldTask?.cancel()
+        mouseHoldTask = nil
+    }
+    
+    private var mouseHoldTask: Task<(), Error>? = nil
+    
+    private func startMouseHold(_ f: @escaping ()->Bool) {
+        _ = f() // immediately
+        
+        mouseHoldTask = Task { @MainActor in
+            try await Task.sleep(nanoseconds: 500*1000*1000)
+            while f() {
+                try await Task.sleep(nanoseconds: 100*1000*1000)
+            }
         }
-        label.frame = .init(x: 0, y: bounds.midY - label.bounds.midY, width: bounds.width, height: label.frame.height)
+    }
+    
+    private func endMouseHold() {
+        mouseHoldTask?.cancel()
+        mouseHoldTask = nil
     }
 }
 

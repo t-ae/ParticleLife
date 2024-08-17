@@ -8,6 +8,8 @@ enum Color: UInt32, CaseIterable, IntRepresentable {
     case cyan
     case magenta
     case yellow
+//    case white
+//    case gray
 }
 
 extension Color {
@@ -18,6 +20,8 @@ extension Color {
         .init(0, 1, 1),
         .init(1, 0, 1),
         .init(1, 1, 0),
+//        .init(1, 1, 1),
+//        .init(0.7, 0.7, 0.7),
     ]
     
     var rgb: SIMD3<Float> {
