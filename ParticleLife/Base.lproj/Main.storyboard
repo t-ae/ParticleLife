@@ -507,7 +507,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-6R-SFa">
-                                            <rect key="frame" x="125" y="36" width="135" height="25"/>
+                                            <rect key="frame" x="125" y="36" width="71" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="60" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="60" imageScaling="proportionallyDown" inset="2" selectedItem="Rrg-yK-0uR" id="zYk-HN-inP">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -520,7 +520,7 @@
                                                 </menu>
                                             </popUpButtonCell>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="128" id="Um3-2G-H9Z"/>
+                                                <constraint firstAttribute="width" constant="64" id="Um3-2G-H9Z"/>
                                             </constraints>
                                             <connections>
                                                 <action selector="onChangePreferredFPS:" target="3gE-1T-kfi" id="cs8-2i-df6"/>
@@ -546,15 +546,27 @@
                                                 <action selector="onChangeParticleSizeSlider:" target="3gE-1T-kfi" id="XDx-4z-MUL"/>
                                             </connections>
                                         </slider>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7">
+                                            <rect key="frame" x="198" y="41" width="75" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Fixed ⊿t" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gZi-pT-fBE">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="onChangeFixedDt:" target="3gE-1T-kfi" id="68v-K5-I04"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="fq3-vW-Lfc" firstAttribute="top" secondItem="8WL-dt-aMO" secondAttribute="top" constant="12" id="Ln1-eo-Ud7"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="leading" secondItem="wz9-5f-U8I" secondAttribute="trailing" constant="8" id="QhG-y2-TsG"/>
+                                        <constraint firstItem="qxr-z9-EJ7" firstAttribute="centerY" secondItem="gZV-6R-SFa" secondAttribute="centerY" id="Y1R-bp-9CF"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="centerY" secondItem="wz9-5f-U8I" secondAttribute="centerY" id="a0J-bh-Mas"/>
                                         <constraint firstItem="wz9-5f-U8I" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="leading" id="l10-y8-huP"/>
                                         <constraint firstItem="fq3-vW-Lfc" firstAttribute="leading" secondItem="8WL-dt-aMO" secondAttribute="leading" constant="12" id="pPF-Sb-Z5f"/>
                                         <constraint firstItem="gZV-6R-SFa" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="trailing" constant="8" id="qdx-i7-eWh"/>
                                         <constraint firstItem="wz9-5f-U8I" firstAttribute="top" secondItem="fq3-vW-Lfc" secondAttribute="bottom" constant="12" id="rKH-aA-8lv"/>
+                                        <constraint firstItem="qxr-z9-EJ7" firstAttribute="leading" secondItem="gZV-6R-SFa" secondAttribute="trailing" constant="8" id="vCc-J0-76l"/>
                                         <constraint firstItem="gZV-6R-SFa" firstAttribute="centerY" secondItem="fq3-vW-Lfc" secondAttribute="centerY" id="xpI-5y-cZV"/>
                                     </constraints>
                                 </view>

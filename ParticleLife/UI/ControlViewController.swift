@@ -91,6 +91,9 @@ class ControlViewController: NSViewController {
         let fps = sender.selectedTag()
         delegate?.controlViewControllerOnChangePreferredFPS(fps)
     }
+    @IBAction func onChangeFixedDt(_ sender: NSButton) {
+        delegate?.controlViewControllerOnChangeFixedDt(sender.state == .on)
+    }
     @IBAction func onChangeParticleSizeSlider(_ sender: NSSlider) {
         delegate?.controlViewControllerOnChangeParticleSize(sender.floatValue)
     }
@@ -111,6 +114,7 @@ protocol ControlViewControllerDelegate {
     func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting)
     
     func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int)
+    func controlViewControllerOnChangeFixedDt(_ fixedDt: Bool)
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float)
     
     func controlViewControllerOnClickPauseButton()

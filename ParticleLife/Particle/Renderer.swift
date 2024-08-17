@@ -24,6 +24,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         rmax: 0.05,
         forceFactor: 1
     )
+    var fixedDt: Bool = false
     var particleSize: Float = 5
     var viewportSize: SIMD2<Float> = .zero
     
@@ -109,14 +110,16 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     func draw(in view: MTKView) {
         let now = Date()
-        let dt = Float(now.timeIntervalSince(lastDrawDate))
-        let fps = 1/dt
+        let realDt = Float(now.timeIntervalSince(lastDrawDate))
+        let fps = 1/realDt
         fpsHistory.append(fps)
         if fpsHistory.count == 30 {
             delegate?.rendererOnUpdateFPS(fpsHistory.reduce(0, +) / 30)
             fpsHistory = []
         }
         lastDrawDate = now
+        
+        let dt = fixedDt ? 1 / Float(view.preferredFramesPerSecond) : realDt
         
         do { // Update velocity
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
