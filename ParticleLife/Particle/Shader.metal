@@ -52,6 +52,12 @@ float linfDistance(vector_float2 vector) {
     return max(abs(vector.x), abs(vector.y));
 }
 
+float triangleDistance(vector_float2 vector) {
+    float a = atan2(vector.x, vector.y);
+    float r = M_PI_F * 2 / 3;
+    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
+}
+
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
@@ -83,6 +89,8 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         distanceFunction = l05Distance;
     } else if(velocityUpdateSetting->distanceFunction == -3) {
         distanceFunction = l02Distance;
+    } else if(velocityUpdateSetting->distanceFunction == -4) {
+        distanceFunction = triangleDistance;
     }
     
     vector_float2 position = particles[gid].position;

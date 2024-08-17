@@ -426,6 +426,7 @@
                                                         <menuItem title="L1" tag="1" id="R56-CS-4h8"/>
                                                         <menuItem title="L2" state="on" tag="2" id="zVX-h2-y3Z"/>
                                                         <menuItem title="L∞" tag="-1" id="lpJ-Ts-jns"/>
+                                                        <menuItem title="Triangle" tag="-4" id="QBS-cF-27D" userLabel="Triangle"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
