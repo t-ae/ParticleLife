@@ -31,6 +31,7 @@
 		A73194482C6EA45C0070148A /* AttractionMatrixHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194472C6EA45C0070148A /* AttractionMatrixHeaderView.swift */; };
 		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
 		A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944B2C70669F0070148A /* IntRepresentable.swift */; };
+		A73194562C713CBC0070148A /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194552C713CBC0070148A /* Matrix.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		A73194472C6EA45C0070148A /* AttractionMatrixHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixHeaderView.swift; sourceTree = "<group>"; };
 		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
 		A731944B2C70669F0070148A /* IntRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntRepresentable.swift; sourceTree = "<group>"; };
+		A73194552C713CBC0070148A /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				A73194362C6D881A0070148A /* MessageError.swift */,
 				A731943F2C6E83680070148A /* Xorshift64.swift */,
 				A731944B2C70669F0070148A /* IntRepresentable.swift */,
+				A73194552C713CBC0070148A /* Matrix.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,
 				A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */,
 				A731944A2C7025830070148A /* DistanceFunction.swift in Sources */,
+				A73194562C713CBC0070148A /* Matrix.swift in Sources */,
 				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,
 				A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */,
 				A731943E2C6DFCC50070148A /* Types.swift in Sources */,
