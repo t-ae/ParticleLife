@@ -267,7 +267,23 @@ extension Renderer {
         guard particleCount > 0 else { return }
         let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
         let index = Int.random(in: 0..<particleCount)
-        buffer[index].position.x = [Float.nan, Float.infinity].randomElement()!
+        
+        let target = ["x", "y", "vx", "vy"].randomElement()!
+        let value = [Float.nan, .infinity].randomElement()!
+        switch target {
+        case "x":
+            buffer[index].position.x = value
+        case "y":
+            buffer[index].position.x = value
+        case "vx":
+            buffer[index].velocity.x = value
+        case "vy":
+            buffer[index].velocity.x = value
+        default:
+            break
+        }
+        
+        print("Induce \(value) for \(target) of particles[\(index)].")
     }
 }
 

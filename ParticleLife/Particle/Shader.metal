@@ -47,6 +47,7 @@ float l1Distance(vector_float2 vector) {
 }
 
 float linfDistance(vector_float2 vector) {
+    if(isnan(vector.x)) return NAN; // if vector.y is NaN, max returns NaN.
     return max(abs(vector.x), abs(vector.y));
 }
 
@@ -125,8 +126,8 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
             vector.y -= 1;
         }
         
-        if(linfDistance(vector) > rmax) {
-            // early continue
+        if(!(linfDistance(vector) < rmax)) {
+            // early continue. Ignore too large distance and NaN.
             continue;
         }
         
@@ -157,17 +158,9 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
 {
     float2 velocity = particles[gid].velocity;
     
-    // workaround to avoid invalid value
-    if(isnan(velocity.x) || isnan(velocity.y) || isinf(velocity.x) ||  isinf(velocity.y)) {
-        velocity = 0;
-    }
-    
     particles[gid].position += velocity * *dt;
     particles[gid].position.x = wrappedZeroOneRange(particles[gid].position.x);
     particles[gid].position.y = wrappedZeroOneRange(particles[gid].position.y);
-    
-    
-    
 }
 
 struct Point {
