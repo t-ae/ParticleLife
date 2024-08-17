@@ -123,14 +123,18 @@ extension ViewController: ControlViewControllerDelegate {
     
     func controlViewControllerOnChangeAttraction(_ attraction: Attraction) {
         renderer.attraction = attraction
+        print("attraction:")
+        print(attraction)
     }
     
     func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting) {
         renderer.velocityUpdateSetting = setting
+        print("velocity update setting: \(setting)")
     }
     
     func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int) {
         metalView.preferredFramesPerSecond = preferredFPS
+        print("preferredFPS: \(preferredFPS)")
     }
     
     func controlViewControllerOnChangeParticleSize(_ particleSize: Float) {

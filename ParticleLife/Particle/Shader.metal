@@ -36,11 +36,19 @@ float force3(float distance, float attraction) {
     }
 }
 
-float l1(vector_float2 vector) {
+float l05Distance(vector_float2 vector) {
+    return pow(pow(abs(vector.x), 0.5) + pow(abs(vector.y), 0.5), 2);
+}
+
+float l02Distance(vector_float2 vector) {
+    return pow(pow(abs(vector.x), 0.2) + pow(abs(vector.y), 0.2), 5);
+}
+
+float l1Distance(vector_float2 vector) {
     return abs(vector.x) + abs(vector.y);
 }
 
-float linf(vector_float2 vector) {
+float linfDistance(vector_float2 vector) {
     return max(abs(vector.x), abs(vector.y));
 }
 
@@ -66,11 +74,15 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     
     float (*distanceFunction)(vector_float2);
     if(velocityUpdateSetting->distanceFunction == 1) {
-        distanceFunction = l1;
+        distanceFunction = l1Distance;
     } else if(velocityUpdateSetting->distanceFunction == 2) {
         distanceFunction = length;
     } else if(velocityUpdateSetting->distanceFunction == -1) {
-        distanceFunction = linf;
+        distanceFunction = linfDistance;
+    } else if(velocityUpdateSetting->distanceFunction == -2) {
+        distanceFunction = l05Distance;
+    } else if(velocityUpdateSetting->distanceFunction == -3) {
+        distanceFunction = l02Distance;
     }
     
     vector_float2 position = particles[gid].position;
@@ -92,7 +104,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
             vector.y -= 1;
         }
         
-        if(linf(vector) > rmax) {
+        if(linfDistance(vector) > rmax) {
             // early continue
             continue;
         }

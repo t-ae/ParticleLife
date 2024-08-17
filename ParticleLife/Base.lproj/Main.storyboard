@@ -414,14 +414,16 @@
                                                 <action selector="updateVelocityUpdateSetting:" target="3gE-1T-kfi" id="Gnd-ab-DYu"/>
                                             </connections>
                                         </popUpButton>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="force function">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function">
                                             <rect key="frame" x="125" y="72" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="zVX-h2-y3Z" id="fDc-Xu-fdC" userLabel="force function">
+                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="zVX-h2-y3Z" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="y7c-g6-4ia">
                                                     <items>
-                                                        <menuItem title="L1" tag="1" id="mkJ-pA-dD9"/>
+                                                        <menuItem title="L0.2" tag="-3" id="mkJ-pA-dD9"/>
+                                                        <menuItem title="L0.5" tag="-2" id="ym4-Ip-16f"/>
+                                                        <menuItem title="L1" tag="1" id="R56-CS-4h8"/>
                                                         <menuItem title="L2" state="on" tag="2" id="zVX-h2-y3Z"/>
                                                         <menuItem title="L∞" tag="-1" id="lpJ-Ts-jns"/>
                                                     </items>
