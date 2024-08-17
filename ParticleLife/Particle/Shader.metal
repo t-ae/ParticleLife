@@ -185,7 +185,7 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
     out.position.xy *= 2;
     out.position.xy -= 1;
     
-    out.size = *particleSize * viewportSize->x / 500 / renderingRect->width;
+    out.size = *particleSize * viewportSize->x / renderingRect->width / 700;
     out.color = rgb[particles[vid].color];
     return out;
 }
