@@ -158,9 +158,17 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
 {
     float2 velocity = particles[gid].velocity;
     
+    // workaround to avoid invalid value
+    if(isnan(velocity.x) || isnan(velocity.y) || isinf(velocity.x) ||  isinf(velocity.y)) {
+        velocity = 0;
+    }
+    
     particles[gid].position += velocity * *dt;
     particles[gid].position.x = wrappedZeroOneRange(particles[gid].position.x);
     particles[gid].position.y = wrappedZeroOneRange(particles[gid].position.y);
+    
+    
+    
 }
 
 struct Point {
