@@ -82,11 +82,11 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     float velocityHalfLife = velocityUpdateSetting->velocityHalfLife;
     
     float (*forceFunction)(float, float);
-    if(velocityUpdateSetting->forceFunction == 1) {
+    if(velocityUpdateSetting->forceFunction == ForceFunction_force1) {
         forceFunction = force1;
-    } else if(velocityUpdateSetting->forceFunction == 2) {
+    } else if(velocityUpdateSetting->forceFunction == ForceFunction_force2) {
         forceFunction = force2;
-    } else if(velocityUpdateSetting->forceFunction == 3) {
+    } else if(velocityUpdateSetting->forceFunction == ForceFunction_force3) {
         forceFunction = force3;
     }
     

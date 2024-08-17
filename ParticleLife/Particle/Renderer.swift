@@ -18,7 +18,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     var attraction: Matrix<Float> = .colorMatrix(filledWith: 0)
     var velocityUpdateSetting: VelocityUpdateSetting = .init(
-        forceFunction: .force2,
+        forceFunction: ForceFunction_force1,
         distanceFunction: .l2,
         velocityHalfLife: 0.1,
         rmax: 0.05,

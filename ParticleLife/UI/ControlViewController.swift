@@ -37,6 +37,9 @@ class ControlViewController: NSViewController {
         for attractionSetup in AttractionPreset.allCases {
             attractionMatrixPresetButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
         }
+        
+        forceFunctionButton.removeAllItems()
+        forceFunctionButton.addItems(withTitles: ForceFunction.allCases.map { $0.description })
     }
     
     // MARK: Particle setting
@@ -76,7 +79,7 @@ class ControlViewController: NSViewController {
     
     // MARK: Velocity update rule
     @IBAction func updateVelocityUpdateSetting(_ sender: Any) {
-        guard let ff = ForceFunction(intValue: forceFunctionButton.selectedTag()) else {
+        guard let ff = ForceFunction(forceFunctionButton.selectedItem?.title ?? "") else {
             return
         }
         guard let df = DistanceFunction(intValue: distanceFunctionButton.selectedTag()) else {

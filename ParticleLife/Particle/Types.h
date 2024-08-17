@@ -9,8 +9,14 @@ typedef struct {
     vector_float2 velocity;
 } Particle;
 
+enum ForceFunction {
+    ForceFunction_force1,
+    ForceFunction_force2,
+    ForceFunction_force3,
+};
+
 typedef struct {
-    uint forceFunction;
+    enum ForceFunction forceFunction;
     int distanceFunction;
     float velocityHalfLife;
     float rmax;
