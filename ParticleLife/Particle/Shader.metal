@@ -148,10 +148,11 @@ float transform(float value, float origin, float size, float offset) {
 
 vertex Point
 vertexFunc(const device Particle* particles [[ buffer(0) ]],
-           constant vector_float3 *rgba [[ buffer(1) ]],
+           constant vector_float3 *rgb [[ buffer(1) ]],
            constant float *particleSize [[ buffer(2) ]],
            constant Rect2 *renderingRect [[ buffer(3) ]],
            constant vector_float2 *offset [[ buffer(4) ]],
+           constant vector_float2 *viewportSize [[ buffer(5) ]],
            unsigned int vid [[ vertex_id ]])
 {
     Point out;
@@ -164,8 +165,8 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
     out.position.xy *= 2;
     out.position.xy -= 1;
     
-    out.size = *particleSize / renderingRect->width;
-    out.color = rgba[particles[vid].color];
+    out.size = *particleSize * viewportSize->x / 500 / renderingRect->width;
+    out.color = rgb[particles[vid].color];
     return out;
 }
 

@@ -23,7 +23,8 @@ final class Renderer: NSObject, MTKViewDelegate {
         velocityHalfLife: 0.1,
         rmax: 0.05
     )
-    var particleSize: Float = 7
+    var particleSize: Float = 5
+    var viewportSize: SIMD2<Float> = .zero
     
     var renderingRect: Rect2 = .init(x: 0, y: 0, width: 1, height: 1)
     
@@ -97,7 +98,10 @@ final class Renderer: NSObject, MTKViewDelegate {
         generator.generate(buffer: buffer)
     }
     
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        viewportSize.x = Float(size.width);
+        viewportSize.y = Float(size.height);
+    }
     
     private var lastDrawDate = Date()
     private var fpsHistory: [Float] = []
@@ -198,6 +202,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         renderEncoder.setVertexBytes(Color.rgb, length: MemoryLayout<SIMD3<Float>>.size * Color.rgb.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&renderingRect, length: MemoryLayout<Rect2>.size, index: 3)
+        renderEncoder.setVertexBytes(&viewportSize, length: MemoryLayout<SIMD2<Float>>.size, index: 5)
         for y: Float in [-1, 0, 1] {
             for x: Float in [-1, 0, 1] {
                 var offsets = SIMD2<Float>(x: x, y: y)
