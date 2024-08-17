@@ -31,25 +31,28 @@ class AttractionMatrixView: NSView {
     
     func setup() {
         // Header
-        views.append(NSView())
+        do {
+            let view = AttractionMatrixHeaderView()
+            view.fillTarget = .diagonal
+            view.delegate = self
+            views.append(view)
+        }
         for color in Color.allCases {
-            let view = ColorCircleView()
-            view.fillTarget = .column
-            view.color = color
+            let view = AttractionMatrixHeaderView()
+            view.fillTarget = .column(color)
             view.delegate = self
             views.append(view)
             
         }
         // Rows
         for row in Color.allCases {
-            let view = ColorCircleView()
-            view.fillTarget = .row
-            view.color = row
+            let view = AttractionMatrixHeaderView()
+            view.fillTarget = .row(row)
             view.delegate = self
             views.append(view)
             
             for _ in Color.allCases {
-                let cell = AttractionMatrixCell()
+                let cell = AttractionMatrixValueView()
                 cell.delegate = self
                 views.append(cell)
             }
@@ -60,8 +63,8 @@ class AttractionMatrixView: NSView {
         }
     }
     
-    var attractionMatrixCells: [AttractionMatrixCell] {
-        views.compactMap { $0 as? AttractionMatrixCell }
+    var attractionMatrixCells: [AttractionMatrixValueView] {
+        views.compactMap { $0 as? AttractionMatrixValueView }
     }
     
     var attraction: Attraction {
@@ -157,24 +160,28 @@ protocol AttractionMatrixViewDelegate {
     func attractionMatrixViewOnChangeAttraction(_ attraction: Attraction)
 }
 
-extension AttractionMatrixView: ColorCircleViewDelegate {
-    func colorCircleViewOnClickFillMenu(_ view: ColorCircleView, value: Int) {
+extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
+    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, value: Int) {
         let cells = attractionMatrixCells
         switch view.fillTarget {
-        case .row:
+        case .row(let color):
             for i in 0..<colorCount {
-                cells[view.color.intValue * Color.allCases.count + i].setStep(value*10)
+                cells[color.intValue * Color.allCases.count + i].setStep(value*10)
             }
-        case .column:
+        case .column(let color):
             for i in 0..<colorCount {
-                cells[i * Color.allCases.count + view.color.intValue].setStep(value*10)
+                cells[i * Color.allCases.count + color.intValue].setStep(value*10)
+            }
+        case .diagonal:
+            for i in 0..<colorCount {
+                cells[i * Color.allCases.count + i].setStep(value*10)
             }
         }
     }
 }
 
-extension AttractionMatrixView: AttractionMatrixCellDelegate {
-    func attractionMatrixCellOnUpdateValue() {
+extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
+    func attractionMatrixValueViewOnUpdateValue() {
         delegate?.attractionMatrixViewOnChangeAttraction(attraction)
     }
 }

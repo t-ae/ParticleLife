@@ -1,15 +1,15 @@
 import Foundation
 import Cocoa
 
-class AttractionMatrixCell: NSView {
-    var delegate: AttractionMatrixCellDelegate?
+class AttractionMatrixValueView: NSView {
+    var delegate: AttractionMatrixValueViewDelegate?
     
     /// [-10, 10] range,
     private var step: Int = 0 {
         didSet {
             label.stringValue = String(format: "%.1f", Float(step)/10)
             needsLayout = true
-            delegate?.attractionMatrixCellOnUpdateValue()
+            delegate?.attractionMatrixValueViewOnUpdateValue()
         }
     }
     
@@ -76,6 +76,6 @@ class AttractionMatrixCell: NSView {
     }
 }
 
-protocol AttractionMatrixCellDelegate {
-    func attractionMatrixCellOnUpdateValue()
+protocol AttractionMatrixValueViewDelegate {
+    func attractionMatrixValueViewOnUpdateValue()
 }
