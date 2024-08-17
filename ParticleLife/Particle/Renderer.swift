@@ -262,6 +262,13 @@ extension Renderer {
         print("Inf:", infiniteCount)
         print("")
     }
+    
+    func induceInvalid() {
+        guard particleCount > 0 else { return }
+        let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
+        let index = Int.random(in: 0..<particleCount)
+        buffer[index].position.x = [Float.nan, Float.infinity].randomElement()!
+    }
 }
 
 protocol RendererDelegate {

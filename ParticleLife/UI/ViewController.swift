@@ -91,6 +91,8 @@ class ViewController: NSViewController {
             renderer.dumpParameters()
         case "s":
             renderer.dumpStatistics()
+        case "i":
+            renderer.induceInvalid()
         default:
             break
         }
