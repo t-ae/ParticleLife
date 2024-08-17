@@ -12,6 +12,7 @@ class ControlViewController: NSViewController {
     @IBOutlet var attractionMatrixView: AttractionMatrixView!
     @IBOutlet var attractionMatrixSetupButton: NSComboButton!
     @IBOutlet var forceFunctionButton: NSPopUpButton!
+    @IBOutlet var distanceFunctionButton: NSPopUpButton!
     @IBOutlet var rmaxButton: NSPopUpButton!
     @IBOutlet var velocityHalfLifeButton: NSPopUpButton!
     
@@ -61,12 +62,16 @@ class ControlViewController: NSViewController {
         guard let ff = ForceFunction(rawValue: UInt32(forceFunctionButton.selectedTag())) else {
             return
         }
+        guard let df = DistanceFunction(rawValue: Int32(distanceFunctionButton.selectedTag())) else {
+            return
+        }
         
         let velocityHalfLife = Float(velocityHalfLifeButton.selectedTag()) / 1000
         let rmax = Float(rmaxButton.selectedTag()) / 1000
         
         delegate?.controlViewControllerUpdateVelocityUpdateSetting(.init(
             forceFunction: ff,
+            distanceFunction: df,
             velocityHalfLife: velocityHalfLife,
             rmax: rmax
         ))

@@ -11,6 +11,7 @@ typedef struct {
 
 typedef struct {
     uint forceFunction;
+    int distanceFunction;
     float velocityHalfLife;
     float rmax;
 } VelocityUpdateSetting;

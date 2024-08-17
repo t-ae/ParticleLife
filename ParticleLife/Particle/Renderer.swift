@@ -17,7 +17,12 @@ final class Renderer: NSObject, MTKViewDelegate {
     let particleBuffer: MTLBuffer
     
     var attraction: Attraction = .init()
-    var velocityUpdateSetting: VelocityUpdateSetting = .init(forceFunction: .force2, velocityHalfLife: 0.1, rmax: 0.05)
+    var velocityUpdateSetting: VelocityUpdateSetting = .init(
+        forceFunction: .force2,
+        distanceFunction: .l2,
+        velocityHalfLife: 0.1,
+        rmax: 0.05
+    )
     var particleSize: Float = 7
     
     var renderingRect: Rect2 = .init(x: 0, y: 0, width: 1, height: 1)

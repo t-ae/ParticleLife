@@ -36,6 +36,14 @@ float force3(float distance, float attraction) {
     }
 }
 
+float l1(vector_float2 vector) {
+    return abs(vector.x) + abs(vector.y);
+}
+
+float linf(vector_float2 vector) {
+    return max(abs(vector.x), abs(vector.y));
+}
+
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
@@ -46,14 +54,25 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
 {
     float rmax = velocityUpdateSetting->rmax;
     float velocityHalfLife = velocityUpdateSetting->velocityHalfLife;
-    auto forceFunction = force1;
+    
+    float (*forceFunction)(float, float);
     if(velocityUpdateSetting->forceFunction == 1) {
         forceFunction = force1;
     } else if(velocityUpdateSetting->forceFunction == 2) {
         forceFunction = force2;
-    }else if(velocityUpdateSetting->forceFunction == 3) {
+    } else if(velocityUpdateSetting->forceFunction == 3) {
         forceFunction = force3;
     }
+    
+    float (*distanceFunction)(vector_float2);
+    if(velocityUpdateSetting->distanceFunction == 1) {
+        distanceFunction = l1;
+    } else if(velocityUpdateSetting->distanceFunction == 2) {
+        distanceFunction = length;
+    } else if(velocityUpdateSetting->distanceFunction == -1) {
+        distanceFunction = linf;
+    }
+    
     
     vector_float2 accel(0, 0);
     for(uint i = 0 ; i < *particleCount ; i++) {
@@ -77,7 +96,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         }
         
         float attr = attraction[particles[gid].color * COLOR_COUNT + particles[i].color];
-        float distance = length(vector);
+        float distance = distanceFunction(vector);
         
         float f = forceFunction(distance/rmax, attr);
         accel += vector / distance * f;

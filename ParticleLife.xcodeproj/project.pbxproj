@@ -29,6 +29,7 @@
 		A73194442C6E95100070148A /* AttractionMatrixCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194432C6E95100070148A /* AttractionMatrixCell.swift */; };
 		A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194452C6E9E040070148A /* AttractionMatrixView.swift */; };
 		A73194482C6EA45C0070148A /* ColorCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194472C6EA45C0070148A /* ColorCircleView.swift */; };
+		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		A73194432C6E95100070148A /* AttractionMatrixCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixCell.swift; sourceTree = "<group>"; };
 		A73194452C6E9E040070148A /* AttractionMatrixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionMatrixView.swift; sourceTree = "<group>"; };
 		A73194472C6EA45C0070148A /* ColorCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCircleView.swift; sourceTree = "<group>"; };
+		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				A73194382C6DB5150070148A /* ForceFunction.swift */,
 				A731943D2C6DFCC50070148A /* Types.swift */,
 				A73194412C6E85D70070148A /* ParticleGenerator.swift */,
+				A73194492C7025830070148A /* DistanceFunction.swift */,
 			);
 			path = Particle;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,
 				A73194422C6E85D70070148A /* ParticleGenerator.swift in Sources */,
+				A731944A2C7025830070148A /* DistanceFunction.swift in Sources */,
 				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,
 				A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */,
 				A731943E2C6DFCC50070148A /* Types.swift in Sources */,
