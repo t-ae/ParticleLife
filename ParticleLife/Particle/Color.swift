@@ -21,7 +21,7 @@ extension Color {
     ]
     
     var rgb: SIMD3<Float> {
-        Color.rgb[Int(rawValue)]
+        Color.rgb[intValue]
     }
     
     var nsColor: NSColor {
@@ -39,4 +39,8 @@ extension Color {
     func next(_ i: Int) -> Color {
         .init(rawValue: (rawValue + UInt32(i)) % UInt32(Color.allCases.count))!
     }
+}
+
+extension Color {
+    var intValue: Int { Int(rawValue) }
 }

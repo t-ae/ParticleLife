@@ -6,4 +6,3 @@ extension Optional {
         return wrapped
     }
 }
-

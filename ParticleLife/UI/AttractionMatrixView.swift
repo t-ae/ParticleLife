@@ -34,16 +34,18 @@ class AttractionMatrixView: NSView {
         views.append(NSView())
         for color in Color.allCases {
             let view = ColorCircleView()
-            view.color = color.nsColor
-            view.layer?.backgroundColor = color.nsColor.cgColor
+            view.target = .column
+            view.color = color
+            view.delegate = self
             views.append(view)
             
         }
         // Rows
         for row in Color.allCases {
             let view = ColorCircleView()
-            view.color = row.nsColor
-            view.layer?.backgroundColor = row.nsColor.cgColor
+            view.target = .row
+            view.color = row
+            view.delegate = self
             views.append(view)
             
             for _ in Color.allCases {
@@ -153,6 +155,22 @@ class AttractionMatrixView: NSView {
 
 protocol AttractionMatrixViewDelegate {
     func attractionMatrixViewOnChangeAttraction(_ attraction: Attraction)
+}
+
+extension AttractionMatrixView: ColorCircleViewDelegate {
+    func colorCircleViewOnClickFillMenu(_ view: ColorCircleView, value: Int) {
+        let cells = attractionMatrixCells
+        switch view.target {
+        case .row:
+            for i in 0..<colorCount {
+                cells[view.color.intValue * Color.allCases.count + i].setStep(value*10)
+            }
+        case .column:
+            for i in 0..<colorCount {
+                cells[i * Color.allCases.count + view.color.intValue].setStep(value*10)
+            }
+        }
+    }
 }
 
 extension AttractionMatrixView: AttractionMatrixCellDelegate {

@@ -116,6 +116,7 @@ extension ViewController: RendererDelegate {
 
 extension ViewController: ControlViewControllerDelegate {
     func controlViewControllerGenerateParticles(generator: any ParticleGenerator) {
+        print("generate: \(generator)")
         doWithErrorNotify {
             try renderer.generateParticles(generator)
         }

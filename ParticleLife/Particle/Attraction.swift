@@ -21,10 +21,10 @@ struct Attraction {
     
     subscript(for target: Color, to to: Color) -> Float {
         get {
-            matrix[Int(target.rawValue) * Color.allCases.count + Int(to.rawValue)]
+            matrix[target.intValue * Color.allCases.count + to.intValue]
         }
         set {
-            matrix[Int(target.rawValue) * Color.allCases.count + Int(to.rawValue)] = newValue
+            matrix[target.intValue * Color.allCases.count + to.intValue] = newValue
         }
     }
 }
