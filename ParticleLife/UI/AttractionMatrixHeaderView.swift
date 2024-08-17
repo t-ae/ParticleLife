@@ -23,27 +23,40 @@ class AttractionMatrixHeaderView: NSControl {
         }
     }
     
+    let lineLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.lineWidth = 2
+        layer.strokeColor = NSColor.red.cgColor
+        
+        return layer
+    }()
+    
+    override func makeBackingLayer() -> CALayer {
+        let layer = CALayer()
+        layer.addSublayer(lineLayer)
+        self.clipsToBounds = true
+        return layer
+    }
+    
     override func layout() {
         allowsExpansionToolTips = true
+        guard let layer = self.layer else { return }
         
         switch fillTarget {
         case .row(let color), .column(let color):
-            layer?.backgroundColor = color.nsColor.cgColor
-            layer?.cornerRadius = bounds.width / 2
+            layer.backgroundColor = color.nsColor.cgColor
+            layer.cornerRadius = bounds.width / 2
+            lineLayer.isHidden = true
         case .diagonal:
-            layer?.backgroundColor = .black
-            layer?.cornerRadius = bounds.width / 4
+            layer.backgroundColor = .black
+            layer.cornerRadius = bounds.width / 4
             
-            let line = CAShapeLayer()
-            line.strokeColor = NSColor.red.cgColor
             let path = NSBezierPath()
             path.move(to: .init(x: bounds.width, y: 0))
             path.line(to: .init(x: 0, y: bounds.height))
-            line.path = path.cgPath
-            line.lineWidth = 2
-            layer?.addSublayer(line)
+            lineLayer.path = path.cgPath
+            lineLayer.isHidden = false
         }
-        
     }
     
     override func menu(for event: NSEvent) -> NSMenu? {
