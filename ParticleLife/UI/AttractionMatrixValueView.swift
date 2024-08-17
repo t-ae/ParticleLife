@@ -5,7 +5,7 @@ class AttractionMatrixValueView: NSView {
     var delegate: AttractionMatrixValueViewDelegate?
     
     /// [-10, 10] range,
-    private var step: Int = 0 {
+    private(set) var step: Int = 0 {
         didSet {
             label.stringValue = String(format: "%.1f", Float(step)/10)
             needsLayout = true

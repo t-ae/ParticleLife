@@ -281,6 +281,16 @@
                                                 <constraint firstAttribute="width" secondItem="VBU-da-5gg" secondAttribute="height" multiplier="1:1" id="Z6S-pi-Kfa"/>
                                             </constraints>
                                         </customView>
+                                        <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Update" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-A2-901">
+                                            <rect key="frame" x="173" y="10" width="61" height="24"/>
+                                            <menu key="menu" id="LDS-3E-AgY">
+                                                <items>
+                                                    <menuItem title="Item" id="tTb-bx-Prw">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </comboButton>
                                         <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8">
                                             <rect key="frame" x="236" y="10" width="55" height="24"/>
                                             <menu key="menu" id="91A-RG-Uwc">
@@ -296,8 +306,10 @@
                                         <constraint firstAttribute="bottom" secondItem="RmV-CS-md8" secondAttribute="bottom" constant="12" id="0bo-Vq-tMQ"/>
                                         <constraint firstItem="RmV-CS-md8" firstAttribute="top" secondItem="VBU-da-5gg" secondAttribute="bottom" constant="8" id="14q-i3-nL1"/>
                                         <constraint firstItem="VBU-da-5gg" firstAttribute="leading" secondItem="uRI-GH-At4" secondAttribute="leading" constant="8" id="4uI-nR-mX8"/>
+                                        <constraint firstItem="RmV-CS-md8" firstAttribute="leading" secondItem="3Ak-A2-901" secondAttribute="trailing" constant="8" id="MHh-2I-J5A"/>
                                         <constraint firstAttribute="trailing" secondItem="VBU-da-5gg" secondAttribute="trailing" constant="8" id="SCI-0b-Wxg"/>
                                         <constraint firstItem="RmV-CS-md8" firstAttribute="trailing" secondItem="VBU-da-5gg" secondAttribute="trailing" id="iqr-Bo-cSK"/>
+                                        <constraint firstItem="3Ak-A2-901" firstAttribute="centerY" secondItem="RmV-CS-md8" secondAttribute="centerY" id="q3D-2u-uIW"/>
                                         <constraint firstItem="VBU-da-5gg" firstAttribute="top" secondItem="uRI-GH-At4" secondAttribute="top" constant="8" id="uSt-RD-0hm"/>
                                     </constraints>
                                 </view>
@@ -648,7 +660,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="attractionMatrixSetupButton" destination="RmV-CS-md8" id="od6-JH-IaA"/>
+                        <outlet property="attractionMatrixPresetButton" destination="RmV-CS-md8" id="aKf-CJ-tbR"/>
+                        <outlet property="attractionMatrixUpdateButton" destination="3Ak-A2-901" id="aEF-2E-VeX"/>
                         <outlet property="attractionMatrixView" destination="VBU-da-5gg" id="1hD-Rl-d9E"/>
                         <outlet property="colorCountButton" destination="fP9-86-aTL" id="5i5-86-mCi"/>
                         <outlet property="distanceFunctionButton" destination="8b7-TM-vHR" id="oGi-pT-2fq"/>

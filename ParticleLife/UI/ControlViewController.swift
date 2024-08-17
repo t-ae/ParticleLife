@@ -10,7 +10,9 @@ class ControlViewController: NSViewController {
     @IBOutlet var fixSeedsCheck: NSButton!
     
     @IBOutlet var attractionMatrixView: AttractionMatrixView!
-    @IBOutlet var attractionMatrixSetupButton: NSComboButton!
+    @IBOutlet var attractionMatrixUpdateButton: NSComboButton!
+    @IBOutlet var attractionMatrixPresetButton: NSComboButton!
+    
     @IBOutlet var forceFunctionButton: NSPopUpButton!
     @IBOutlet var distanceFunctionButton: NSPopUpButton!
     @IBOutlet var rmaxButton: NSPopUpButton!
@@ -26,9 +28,14 @@ class ControlViewController: NSViewController {
         colorCountButton.addItems(withTitles: (1...Color.allCases.count).map(String.init))
         colorCountButton.selectItem(at: Color.allCases.count - 1)
         
-        attractionMatrixSetupButton.menu.removeAllItems()
-        for attractionSetup in AttractionSetup.allCases {
-            attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
+        attractionMatrixUpdateButton.menu.removeAllItems()
+        for attractionSetup in AttractionUpdate.allCases {
+            attractionMatrixUpdateButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionUpdateItem), keyEquivalent: ""))
+        }
+        
+        attractionMatrixPresetButton.menu.removeAllItems()
+        for attractionSetup in AttractionPreset.allCases {
+            attractionMatrixPresetButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
         }
     }
     
@@ -57,9 +64,14 @@ class ControlViewController: NSViewController {
     }
     
     // MARK: Attracion
+    @objc func onClickAttractionUpdateItem(_ sender: NSMenuItem) {
+        let update = AttractionUpdate(rawValue: sender.title)!
+        attractionMatrixView.updateAttraction(update: update)
+    }
+    
     @objc func onClickAttractionPresetItem(_ sender: NSMenuItem) {
-        let setup = AttractionSetup(rawValue: sender.title)!
-        attractionMatrixView.setupAttraction(setup)
+        let preset = AttractionPreset(rawValue: sender.title)!
+        attractionMatrixView.setAttraction(preset: preset)
     }
     
     // MARK: Velocity update rule

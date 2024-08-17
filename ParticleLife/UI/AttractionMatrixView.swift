@@ -71,17 +71,44 @@ class AttractionMatrixView: NSView {
         .init(matrix: attractionMatrixCells.map { $0.attractionValue })
     }
     
-    func setupAttraction(_ setup: AttractionSetup) {
-        func setSteps(_ steps: [Int]) {
-            for (cell, step) in zip(attractionMatrixCells, steps) {
-                cell.setStep(step)
-            }
+    func setSteps(_ steps: [Int]) {
+        for (cell, step) in zip(attractionMatrixCells, steps) {
+            cell.setStep(step)
         }
+    }
+    
+    func updateAttraction(update: AttractionUpdate) {
         let count = Color.allCases.count * Color.allCases.count
         
-        switch setup {
-        case .random:
+        switch update {
+        case .randomize:
             setSteps((0..<count).map { _ in Int.random(in: -10...10) })
+        case .symmetricRandom:
+            var matrix = [Int](repeating: 0, count: count)
+            for i in 0..<Color.allCases.count {
+                for j in i..<Color.allCases.count {
+                    let v = Int.random(in: -10...10)
+                    matrix[i*Color.allCases.count + j] = v
+                    matrix[j*Color.allCases.count + i] = v
+                }
+            }
+            setSteps(matrix)
+        case .invert:
+            let matrix = attractionMatrixCells.map { -$0.step }
+            setSteps(matrix)
+        case .zeroToOne:
+            let matrix = attractionMatrixCells.map { $0.step == 0 ? 10 : $0.step }
+            setSteps(matrix)
+        case .zeroToMinusOne:
+            let matrix = attractionMatrixCells.map { $0.step == 0 ? -10 : $0.step }
+            setSteps(matrix)
+        }
+    }
+    
+    func setAttraction(preset: AttractionPreset) {
+        let count = Color.allCases.count * Color.allCases.count
+        
+        switch preset {
         case .zero:
             setSteps(.init(repeating: 0, count: count))
         case .identity:
@@ -94,16 +121,6 @@ class AttractionMatrixView: NSView {
             var matrix = [Int](repeating: -10, count: count)
             for i in 0..<Color.allCases.count {
                 matrix[i*Color.allCases.count + i] = 10
-            }
-            setSteps(matrix)
-        case .symmetric:
-            var matrix = [Int](repeating: 0, count: count)
-            for i in 0..<Color.allCases.count {
-                for j in i..<Color.allCases.count {
-                    let v = Int.random(in: -10...10)
-                    matrix[i*Color.allCases.count + j] = v
-                    matrix[j*Color.allCases.count + i] = v
-                }
             }
             setSteps(matrix)
         case .chain:
@@ -186,12 +203,18 @@ extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
     }
 }
 
-enum AttractionSetup: String, CaseIterable {
-    case random
-    case zero
-    case identity
-    case exclusive
-    case symmetric
-    case chain
-    case snake
+enum AttractionUpdate: String, CaseIterable {
+    case randomize = "Randomize"
+    case symmetricRandom = "Symmetric random"
+    case invert = "Invert"
+    case zeroToOne = "Zero to one"
+    case zeroToMinusOne = "Zero to minus one"
+}
+
+enum AttractionPreset: String, CaseIterable {
+    case zero = "Zero fill"
+    case identity = "Identity"
+    case exclusive = "Exclusive"
+    case chain = "Chain"
+    case snake = "Snake"
 }
