@@ -40,6 +40,11 @@ class ControlViewController: NSViewController {
         
         forceFunctionButton.removeAllItems()
         forceFunctionButton.addItems(withTitles: ForceFunction.allCases.map { $0.description })
+        forceFunctionButton.selectItem(by: ForceFunction.default.description)
+        
+        distanceFunctionButton.removeAllItems()
+        distanceFunctionButton.addItems(withTitles: DistanceFunction.allCases.map { $0.description })
+        distanceFunctionButton.selectItem(by: DistanceFunction.default.description)
     }
     
     // MARK: Particle setting
@@ -82,7 +87,7 @@ class ControlViewController: NSViewController {
         guard let ff = ForceFunction(forceFunctionButton.selectedItem?.title ?? "") else {
             return
         }
-        guard let df = DistanceFunction(intValue: distanceFunctionButton.selectedTag()) else {
+        guard let df = DistanceFunction(distanceFunctionButton.selectedItem?.title ?? "") else {
             return
         }
         

@@ -1,13 +1,8 @@
 import Foundation
 
 extension VelocityUpdateSetting: CustomDebugStringConvertible {
-    init(forceFunction: ForceFunction, distanceFunction: DistanceFunction, velocityHalfLife: Float, rmax: Float, forceFactor: Float) {
-        self.init(forceFunction: forceFunction, distanceFunction: distanceFunction.rawValue, velocityHalfLife: velocityHalfLife, rmax: rmax, forceFactor: forceFactor)
-    }
-    
     public var debugDescription: String {
-        let df = DistanceFunction(rawValue: distanceFunction)!
-        return "VelocityUpdateSetting(forceFunction: .\(forceFunction), distanceFunction: .\(df), velocityHalfLife: \(velocityHalfLife), rmax: \(rmax), forceFactor: \(forceFactor))"
+        return "VelocityUpdateSetting(forceFunction: .\(forceFunction), distanceFunction: .\(distanceFunction), velocityHalfLife: \(velocityHalfLife), rmax: \(rmax), forceFactor: \(forceFactor))"
     }
 }
 

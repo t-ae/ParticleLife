@@ -333,14 +333,12 @@
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function">
                                             <rect key="frame" x="125" y="118" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="force2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="y5p-uq-j4g" id="moK-Y2-PfX" userLabel="force function">
+                                            <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="4m1-im-Tnu">
                                                     <items>
                                                         <menuItem title="force1" tag="1" id="HD5-zQ-DWx"/>
-                                                        <menuItem title="force2" state="on" tag="2" id="y5p-uq-j4g"/>
-                                                        <menuItem title="force3" tag="3" id="K1f-qd-fjM"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
@@ -361,18 +359,12 @@
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function">
                                             <rect key="frame" x="125" y="90" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="zVX-h2-y3Z" id="fDc-Xu-fdC" userLabel="distance function">
+                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="y7c-g6-4ia">
                                                     <items>
-                                                        <menuItem title="L0.2" tag="-3" id="mkJ-pA-dD9"/>
-                                                        <menuItem title="L0.5" tag="-2" id="ym4-Ip-16f"/>
-                                                        <menuItem title="L1" tag="1" id="R56-CS-4h8"/>
-                                                        <menuItem title="L2" state="on" tag="2" id="zVX-h2-y3Z"/>
-                                                        <menuItem title="L∞" tag="-1" id="lpJ-Ts-jns"/>
-                                                        <menuItem title="Triangular" tag="-4" id="QBS-cF-27D" userLabel="Triangle"/>
-                                                        <menuItem title="Pentagonal" tag="-5" id="ABv-eu-w0W" userLabel="Triangle"/>
+                                                        <menuItem title="L2" tag="-3" id="mkJ-pA-dD9"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>

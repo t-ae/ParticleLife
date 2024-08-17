@@ -15,9 +15,19 @@ enum ForceFunction {
     ForceFunction_force3,
 };
 
+enum DistanceFunction {
+    DistanceFunction_l1,
+    DistanceFunction_l2,
+    DistanceFunction_linf,
+    DistanceFunction_l05,
+    DistanceFunction_l02,
+    DistanceFunction_triangular,
+    DistanceFunction_pentagonal,
+};
+
 typedef struct {
     enum ForceFunction forceFunction;
-    int distanceFunction;
+    enum DistanceFunction distanceFunction;
     float velocityHalfLife;
     float rmax;
     float forceFactor;

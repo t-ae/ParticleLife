@@ -91,19 +91,19 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     }
     
     float (*distanceFunction)(vector_float2);
-    if(velocityUpdateSetting->distanceFunction == 1) {
+    if(velocityUpdateSetting->distanceFunction == DistanceFunction_l1) {
         distanceFunction = l1Distance;
-    } else if(velocityUpdateSetting->distanceFunction == 2) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l2) {
         distanceFunction = length;
-    } else if(velocityUpdateSetting->distanceFunction == -1) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_linf) {
         distanceFunction = linfDistance;
-    } else if(velocityUpdateSetting->distanceFunction == -2) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l05) {
         distanceFunction = l05Distance;
-    } else if(velocityUpdateSetting->distanceFunction == -3) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l02) {
         distanceFunction = l02Distance;
-    } else if(velocityUpdateSetting->distanceFunction == -4) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_triangular) {
         distanceFunction = triangularDistance;
-    } else if(velocityUpdateSetting->distanceFunction == -5) {
+    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_pentagonal) {
         distanceFunction = pentagonalDistance;
     }
     
