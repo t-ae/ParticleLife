@@ -29,14 +29,6 @@ class ViewController: NSViewController {
         metalView.device = device
         metalView.preferredFramesPerSecond = 60
         
-        metalView.addGestureRecognizer(NSMagnificationGestureRecognizer(target: self, action: #selector(magnify(_:))))
-        let scr = NSPanGestureRecognizer(target: self, action: #selector(pan(_:)))
-        metalView.addGestureRecognizer(scr)
-        let clickGestureRecognizer = NSClickGestureRecognizer(target: self, action: #selector(doubleClick(_:)))
-        clickGestureRecognizer.numberOfClicksRequired = 2
-        metalView.addGestureRecognizer(clickGestureRecognizer)
-        
-        
         renderer = try Renderer(device: device, pixelFormat: metalView.colorPixelFormat)
         renderer.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
         renderer.delegate = self
@@ -59,19 +51,23 @@ class ViewController: NSViewController {
         window.window?.styleMask.remove(.closable)
     }
     
-    @objc func doubleClick(_ sender: NSClickGestureRecognizer) {
-        renderer.renderingRect = .init(x: 0, y: 0, width: 1, height: 1)
+    override func mouseUp(with event: NSEvent) {
+        switch event.clickCount {
+        case 2:
+            // Reset
+            renderer.renderingRect = .init(x: 0, y: 0, width: 1, height: 1)
+        default:
+            break
+        }
     }
     
-    @objc func pan(_ sender: NSPanGestureRecognizer) {
-        let t = sender.translation(in: view)
-        sender.setTranslation(.zero, in: nil)
-        renderer.renderingRect.x -= Float(t.x / metalView.bounds.width) * renderer.renderingRect.width
-        renderer.renderingRect.y -= Float(t.y / metalView.bounds.height) * renderer.renderingRect.height
+    override func mouseDragged(with event: NSEvent) {
+        renderer.renderingRect.x -= Float(event.deltaX / metalView.bounds.width) * renderer.renderingRect.width
+        renderer.renderingRect.y += Float(event.deltaY / metalView.bounds.height) * renderer.renderingRect.height
     }
     
-    @objc func magnify(_ sender: NSMagnificationGestureRecognizer) {
-        let factor = Float(sender.magnification / 10) + 1
+    override func magnify(with event: NSEvent) {
+        let factor = Float(event.magnification) + 1
         var size = renderer.renderingRect.width / factor
         size = min(max(size, 0.2), 2)
         let center = renderer.renderingRect.center
