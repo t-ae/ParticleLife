@@ -21,7 +21,8 @@ final class Renderer: NSObject, MTKViewDelegate {
         forceFunction: .force2,
         distanceFunction: .l2,
         velocityHalfLife: 0.1,
-        rmax: 0.05
+        rmax: 0.05,
+        forceFactor: 1
     )
     var particleSize: Float = 5
     var viewportSize: SIMD2<Float> = .zero

@@ -31,6 +31,7 @@
 		A73194482C6EA45C0070148A /* ColorCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194472C6EA45C0070148A /* ColorCircleView.swift */; };
 		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
 		A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944B2C70669F0070148A /* IntRepresentable.swift */; };
+		A731944E2C7074C00070148A /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944D2C7074C00070148A /* CustomSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		A73194472C6EA45C0070148A /* ColorCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCircleView.swift; sourceTree = "<group>"; };
 		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
 		A731944B2C70669F0070148A /* IntRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntRepresentable.swift; sourceTree = "<group>"; };
+		A731944D2C7074C00070148A /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 				A73194432C6E95100070148A /* AttractionMatrixCell.swift */,
 				A73194452C6E9E040070148A /* AttractionMatrixView.swift */,
 				A73194472C6EA45C0070148A /* ColorCircleView.swift */,
+				A731944D2C7074C00070148A /* CustomSlider.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				A73194392C6DB5150070148A /* ForceFunction.swift in Sources */,
 				A73194352C6C9C770070148A /* Attraction.swift in Sources */,
 				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
+				A731944E2C7074C00070148A /* CustomSlider.swift in Sources */,
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
 				A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,

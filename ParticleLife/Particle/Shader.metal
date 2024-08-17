@@ -125,7 +125,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     }
     
     particles[gid].velocity *= pow(0.5, *dt/velocityHalfLife); // friction
-    particles[gid].velocity += rmax * accel * *dt;
+    particles[gid].velocity += rmax * accel * velocityUpdateSetting->forceFactor * *dt;
 }
 
 float wrappedZeroOneRange(float value) {
