@@ -22,6 +22,10 @@ class ControlViewController: NSViewController {
         
         attractionMatrixView.delegate = self
         
+        colorCountButton.removeAllItems()
+        colorCountButton.addItems(withTitles: (1...Color.allCases.count).map(String.init))
+        colorCountButton.selectItem(at: Color.allCases.count - 1)
+        
         attractionMatrixSetupButton.menu.removeAllItems()
         for attractionSetup in AttractionSetup.allCases {
             attractionMatrixSetupButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
@@ -31,7 +35,7 @@ class ControlViewController: NSViewController {
     // MARK: Particle setting
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
         let count = particleCountField.intValue
-        let colorCount = colorCountButton.selectedTag()
+        let colorCount = Int(colorCountButton.selectedItem!.title)!
         
         let rng: RandomNumberGenerator = fixSeedsCheck.state == .on ? Xorshift64() : SystemRandomNumberGenerator()
         

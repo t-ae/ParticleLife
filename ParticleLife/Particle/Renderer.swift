@@ -160,10 +160,12 @@ final class Renderer: NSObject, MTKViewDelegate {
         computeEncoder.setComputePipelineState(updateVelocityState)
         computeEncoder.setBuffer(particleBuffer, offset: 0, index: 0)
         computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
-        computeEncoder.setBytes(attraction.matrix, length: MemoryLayout<Float>.size * attraction.matrix.count, index: 2)
-        computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 3)
+        var colorCount = Color.allCases.count
+        computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
+        computeEncoder.setBytes(attraction.matrix, length: MemoryLayout<Float>.size * attraction.matrix.count, index: 3)
+        computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
         var dt = dt
-        computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 4)
+        computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
         computeEncoder.setThreadgroupMemoryLength(updatePositionState.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
         computeEncoder.dispatchThreads(dispatchThreads, threadsPerThreadgroup: threadsPerThreadgroup)
         computeEncoder.endEncoding()

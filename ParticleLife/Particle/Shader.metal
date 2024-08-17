@@ -2,8 +2,6 @@
 #include "Types.h"
 using namespace metal;
 
-constant int COLOR_COUNT = 6;
-
 /// The force function described in the reference video: https://youtu.be/scvuli-zcRc?si=2XnKp-vTtEUd9QE3
 float force1(float distance, float attraction) {
     float beta = 0.3;
@@ -73,9 +71,10 @@ float pentagonalDistance(vector_float2 vector) {
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
-               constant float* attraction [[ buffer(2) ]],
-               constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(3) ]],
-               constant float *dt [[ buffer(4) ]],
+               constant uint *colorCount [[ buffer(2) ]],
+               constant float* attraction [[ buffer(3) ]],
+               constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(4) ]],
+               constant float *dt [[ buffer(5) ]],
                const uint gid [[ thread_position_in_grid ]])
 {
     float rmax = velocityUpdateSetting->rmax;
@@ -108,7 +107,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     }
     
     vector_float2 position = particles[gid].position;
-    constant float* attractionRow = attraction + particles[gid].color * COLOR_COUNT;
+    constant float* attractionRow = attraction + particles[gid].color * *colorCount;
     
     vector_float2 accel(0, 0);
     for(uint i = 0 ; i < *particleCount ; i++) {

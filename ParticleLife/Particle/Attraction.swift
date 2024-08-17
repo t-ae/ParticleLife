@@ -9,14 +9,7 @@ struct Attraction {
     }
     
     init() {
-        self.init(matrix: [
-            0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0,
-        ])
+        self.init(matrix: .init(repeating: 0, count: Color.allCases.count*Color.allCases.count))
     }
     
     subscript(for target: Color, to to: Color) -> Float {

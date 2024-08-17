@@ -4,7 +4,7 @@ import Cocoa
 class AttractionMatrixView: NSView {
     var delegate: AttractionMatrixViewDelegate?
     
-    var colorCount: Int = 6 {
+    var colorCount: Int = Color.allCases.count {
         didSet {
             needsLayout = true
         }
