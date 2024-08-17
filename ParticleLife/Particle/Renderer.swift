@@ -228,6 +228,17 @@ extension Renderer {
         let particleBuffer = particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount)
         return particleBuffer[i]
     }
+    
+    func dumpParameters() {
+        print("# Parameters:")
+        print("particleCount:", particleCount)
+        print("attraction:")
+        print(attraction)
+        print("velocityUpdateSetting:", velocityUpdateSetting)
+        print("fixedDt:", fixedDt)
+        print("particleSize:", particleSize)
+        print("")
+    }
 }
 
 protocol RendererDelegate {

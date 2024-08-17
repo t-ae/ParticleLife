@@ -15,6 +15,12 @@ class ViewController: NSViewController {
         metalView.isPaused = false
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        // Enable keyboard shortcuts
+        view.window?.makeFirstResponder(self)
+    }
+    
     override func viewWillDisappear() {
         metalView.isPaused = true
         controlWindow?.close()
@@ -79,6 +85,17 @@ class ViewController: NSViewController {
         renderer.renderingRect.y += Float(event.scrollingDeltaY) / Float(metalView.bounds.height) * renderer.renderingRect.height
     }
     
+    override func keyDown(with event: NSEvent) {
+        switch event.characters {
+        case "d":
+            renderer.dumpParameters()
+        default:
+            break
+        }
+    }
+}
+
+extension ViewController {
     func doWithErrorNotify(_ f: () throws -> Void) {
         do {
             try f()

@@ -31,13 +31,14 @@ struct Attraction {
 
 extension Attraction: CustomStringConvertible {
     var description: String {
-        var str = ""
+        var strs = [String]()
         for i in 0..<Color.allCases.count {
+            var line = ""
             for j in 0..<Color.allCases.count {
-                str += String(format: "%2.2f ", matrix[i*Color.allCases.count + j])
+                line += String(format: "%2.2f ", matrix[i*Color.allCases.count + j])
             }
-            str += "\n"
+            strs.append(line)
         }
-        return str
+        return strs.joined(separator: "\n")
     }
 }

@@ -14,11 +14,11 @@ class AttractionMatrixHeaderView: NSControl {
         didSet {
             toolTip = switch fillTarget {
             case .row:
-                "Right click to fill this row"
+                "Click to fill this row"
             case .column:
-                "Right click to fill this column"
+                "Click to fill this column"
             case .diagonal:
-                "Right click to fill diagonal values"
+                "Click to fill diagonal values"
             }
         }
     }
@@ -71,6 +71,11 @@ class AttractionMatrixHeaderView: NSControl {
     
     @objc func menuItemClicked(sender: NSMenuItem) {
         delegate?.attractionMatrixHeaderViewOnClickFillMenu(self, value: sender.tag)
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        let menu = menu(for: event)!
+        NSMenu.popUpContextMenu(menu, with: event, for: self)
     }
 }
 
