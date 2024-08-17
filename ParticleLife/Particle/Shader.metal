@@ -58,6 +58,18 @@ float triangleDistance(vector_float2 vector) {
     return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
 }
 
+float triangularDistance(vector_float2 vector) {
+    float a = atan2(vector.x, vector.y);
+    float r = M_PI_F * 2 / 3;
+    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
+}
+
+float pentagonalDistance(vector_float2 vector) {
+    float a = atan2(vector.x, vector.y);
+    float r = M_PI_F * 2 / 5;
+    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
+}
+
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
@@ -90,7 +102,9 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     } else if(velocityUpdateSetting->distanceFunction == -3) {
         distanceFunction = l02Distance;
     } else if(velocityUpdateSetting->distanceFunction == -4) {
-        distanceFunction = triangleDistance;
+        distanceFunction = triangularDistance;
+    } else if(velocityUpdateSetting->distanceFunction == -5) {
+        distanceFunction = pentagonalDistance;
     }
     
     vector_float2 position = particles[gid].position;

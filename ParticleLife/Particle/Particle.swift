@@ -17,6 +17,14 @@ extension Particle {
             velocity: .zero
         )
     }
+    
+    var hasNaN: Bool {
+        position.hasNaN || velocity.hasNaN
+    }
+    
+    var hasInfinite: Bool {
+        position.hasInfinite || velocity.hasInfinite
+    }
 }
 
 extension SIMD2<Float> {
@@ -37,4 +45,7 @@ extension SIMD2<Float> {
     static func random<T: RandomNumberGenerator>(in xrange: Range<Float>, _ yrange: Range<Float>, using generator: inout T) -> Self {
         .init(.random(in: xrange, using: &generator), .random(in: yrange, using: &generator))
     }
+    
+    var hasNaN: Bool { x.isNaN || y.isNaN }
+    var hasInfinite: Bool { x.isInfinite || y.isInfinite }
 }

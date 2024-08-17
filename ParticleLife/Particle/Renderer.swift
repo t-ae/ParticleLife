@@ -237,6 +237,16 @@ extension Renderer {
         print("velocityUpdateSetting:", velocityUpdateSetting)
         print("fixedDt:", fixedDt)
         print("particleSize:", particleSize)
+        
+        var hasNaN = false
+        var hasInfinite = false
+        let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
+        for particle in buffer {
+            hasNaN  = particle.hasNaN || hasNaN
+            hasInfinite  = particle.hasInfinite || hasInfinite
+        }
+        print("particle hasNaN: \(hasNaN), hasInfinite:\(hasInfinite)")
+        
         print("")
     }
 }
