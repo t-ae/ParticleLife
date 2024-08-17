@@ -223,7 +223,7 @@
                                                 </menu>
                                             </popUpButtonCell>
                                         </popUpButton>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x1R-uf-ZXW">
+                                        <button toolTip="Fix the seeds of random number generator." allowsExpansionToolTips="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x1R-uf-ZXW">
                                             <rect key="frame" x="37" y="11" width="83" height="18"/>
                                             <buttonCell key="cell" type="check" title="Fix seeds" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eWm-fS-DwJ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -546,7 +546,7 @@
                                                 <action selector="onChangeParticleSizeSlider:" target="3gE-1T-kfi" id="XDx-4z-MUL"/>
                                             </connections>
                                         </slider>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7">
+                                        <button toolTip="Use 1/Preferred FPS instead of real dt." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7">
                                             <rect key="frame" x="198" y="41" width="75" height="18"/>
                                             <buttonCell key="cell" type="check" title="Fixed ⊿t" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gZi-pT-fBE">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
