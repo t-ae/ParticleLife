@@ -55,9 +55,8 @@ class ControlViewController: NSViewController {
         let count = particleCountField.integerValue
         let colorCount = Int(colorCountButton.selectedItem!.title)!
         
-        let rng: RandomNumberGenerator = fixSeedsCheck.state == .on ? Xorshift64() : SystemRandomNumberGenerator()
         let generatorType = ParticleGenerators.get(for: particleGeneratorTypeButton.titleOfSelectedItem!)!
-        let generator = generatorType.init(colorCountToUse: colorCount, particleCount: count, rng: rng)
+        let generator = generatorType.init(colorCountToUse: colorCount, particleCount: count, fixed: fixSeedsCheck.state == .on)
         
         delegate?.controlViewControllerGenerateParticles(generator: generator)
         attractionMatrixView.colorCount = colorCount

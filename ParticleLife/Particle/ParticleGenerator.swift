@@ -4,10 +4,28 @@ protocol ParticleGenerator {
     static var label: String { get }
     var colorCountToUse: Int { get }
     var particleCount: Int { get }
-    var rng: RandomNumberGenerator { get }
-    init(colorCountToUse: Int, particleCount: Int, rng: any RandomNumberGenerator)
+    var fixed: Bool { get }
+    init(colorCountToUse: Int, particleCount: Int, fixed: Bool)
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>)
+}
+
+extension ParticleGenerator {
+    var rng: RandomNumberGenerator {
+        if fixed {
+            Xorshift64()
+        } else {
+            SystemRandomNumberGenerator()
+        }
+    }
+    
+    fileprivate func colorPalette() -> ColorPalette {
+        if fixed {
+            ColorPalette(noReplacement: colorCountToUse)
+        } else {
+            ColorPalette(random: colorCountToUse)
+        }
+    }
 }
 
 enum ParticleGenerators {
@@ -30,7 +48,7 @@ struct UniformParticleGenerator: ParticleGenerator {
     static let label: String = "uniform"
     var colorCountToUse: Int
     var particleCount: Int
-    var rng: RandomNumberGenerator
+    var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rng
@@ -45,14 +63,17 @@ struct PartitionParticleGenerator: ParticleGenerator {
     static let label: String = "partition"
     var colorCountToUse: Int
     var particleCount: Int
-    var rng: RandomNumberGenerator
+    var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rng
+        let palette = colorPalette()
+        
         let volume: Float = 1 / Float(colorCountToUse)
         for i in 0..<particleCount {
-            let color = Color(intValue: i % colorCountToUse)!
-            let xrange = volume*Float(color.rawValue) ..< volume*Float(color.rawValue + 1)
+            let c = i % colorCountToUse
+            let color = palette.get(i)
+            let xrange = volume*Float(c) ..< volume*Float(c + 1)
             buffer[i] = Particle(color: color, position: .random(in: xrange, 0..<1, using: &rng))
         }
     }
@@ -62,16 +83,19 @@ struct RingParticleGenerator: ParticleGenerator {
     static let label: String = "ring"
     var colorCountToUse: Int
     var particleCount: Int
-    var rng: RandomNumberGenerator
+    var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rng
+        let palette = colorPalette()
+        
         let volume: Float = 2 * .pi / Float(colorCountToUse)
         let rRange: Range<Float> = 0.5..<0.7
         for i in 0..<particleCount {
-            let color = Color(intValue: i % colorCountToUse)!
+            let c = i % colorCountToUse
+            let color = palette.get(i)
             
-            let thetaRange = volume*Float(color.rawValue) ..< volume*Float(color.rawValue + 1)
+            let thetaRange = volume*Float(c) ..< volume*Float(c + 1)
             
             let r = Float.random(in: rRange, using: &rng)
             let theta = Float.random(in: thetaRange, using: &rng)
@@ -86,15 +110,15 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
     static let label: String = "imbalance"
     var colorCountToUse: Int
     var particleCount: Int
-    var rng: RandomNumberGenerator
+    var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rng
-        let replacement = (0..<colorCountToUse).shuffled(using: &rng)
+        let palette = colorPalette()
+        
         for i in 0..<particleCount {
             let cc = Int.random(in: 0..<colorCountToUse*colorCountToUse, using: &rng) + 1
-            let c = replacement[Int(sqrt(Float(cc)))-1]
-            let color = Color(intValue: c)!
+            let color = palette.get(Int(sqrt(Float(cc)))-1)
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
         }
     }
@@ -104,18 +128,16 @@ struct GridParticleGenerator: ParticleGenerator {
     static let label: String = "grid"
     var colorCountToUse: Int
     var particleCount: Int
-    var rng: RandomNumberGenerator
+    var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
-        var rng = rng
+        let palette = colorPalette()
         
         let rows = Int(ceil(sqrt(Float(particleCount))))
         let gap = 1 / Float(rows)
         
-        let replacement = (0..<colorCountToUse).shuffled(using: &rng)
         for i in 0..<particleCount {
-            let c = replacement[i%colorCountToUse]
-            let color = Color(intValue: c)!
+            let color = palette.get(i)
             
             let (row, col) = i.quotientAndRemainder(dividingBy: rows)
             let x = Float(col)*gap + gap/2
@@ -123,6 +145,22 @@ struct GridParticleGenerator: ParticleGenerator {
             
             buffer[i] = Particle(color: color, position: .init(x: x, y: y))
         }
+    }
+}
+
+fileprivate struct ColorPalette {
+    private var replacement: [Int]
+    
+    init(random count: Int) {
+        self.replacement = (0..<count).shuffled()
+    }
+    
+    init(noReplacement count: Int) {
+        self.replacement = [Int](0..<count)
+    }
+    
+    func get(_ i: Int) -> Color {
+        Color(intValue: replacement[i % replacement.count])!
     }
 }
 
