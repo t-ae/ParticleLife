@@ -262,7 +262,14 @@ extension Renderer {
         for color in Color.allCases {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }
+        
+        let rmax = velocityUpdateSetting.rmax
+        let circleArea = rmax * rmax * .pi
+        let particleCountInCircle = Float(particleCount) * circleArea
+        
         strs.append("""
+        
+        E[particle count in circle with radius rmax]: \(particleCountInCircle)
         
         NaN: \(nanCout)
         Infinite: \(infiniteCount)
