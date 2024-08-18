@@ -1,6 +1,11 @@
 # Particle Life
 
-Particle Life on macOS/Metal.
+Particle Life on macOS.
+
+- Using Metal shader
+- Various distance functions
+
+[![Demo](https://img.youtube.com/vi/JvV9PbZSY-8/0.jpg)](https://www.youtube.com/watch?v=JvV9PbZSY-8)
 
 ## Force functions
 
