@@ -70,7 +70,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             
             renderPipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = .add
             renderPipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
-            renderPipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .destinationAlpha
+            renderPipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = .one
             
             renderPipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = .add
             renderPipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = .one

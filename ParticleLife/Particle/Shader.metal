@@ -199,7 +199,7 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
     out.position.xy *= 2;
     out.position.xy -= 1;
     
-    out.size = *particleSize * viewportSize->x / renderingRect->width / 700;
+    out.size = *particleSize * viewportSize->x / renderingRect->width / 500;
     out.color = rgb[particles[vid].color];
     return out;
 }
@@ -209,9 +209,14 @@ fragmentFunc(Point in [[stage_in]],
              float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
-    if(distance > 0.5) {
+    if(distance < 0.2) {
+        float alpha = 0.9;
+        return float4(in.color, alpha);
+    } if(distance < 0.5) {
+        float alpha = 1.0 - smoothstep(0, 0.5, distance);
+        return float4(in.color, alpha);
+    } else {
         discard_fragment();
+        return float4();
     }
-    float alpha = 1 - smoothstep(0.2, 0.5, distance);
-    return float4(in.color, alpha);
 };
