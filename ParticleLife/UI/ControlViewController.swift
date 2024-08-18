@@ -28,6 +28,9 @@ class ControlViewController: NSViewController {
         colorCountButton.addItems(withTitles: (1...Color.allCases.count).map(String.init))
         colorCountButton.selectItem(at: Color.allCases.count - 1)
         
+        particleGeneratorTypeButton.removeAllItems()
+        particleGeneratorTypeButton.addItems(withTitles: ParticleGenerators.allTypes.map { $0.label })
+        
         attractionMatrixUpdateButton.menu.removeAllItems()
         for attractionSetup in AttractionUpdate.allCases {
             attractionMatrixUpdateButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionUpdateItem), keyEquivalent: ""))
@@ -53,19 +56,8 @@ class ControlViewController: NSViewController {
         let colorCount = Int(colorCountButton.selectedItem!.title)!
         
         let rng: RandomNumberGenerator = fixSeedsCheck.state == .on ? Xorshift64() : SystemRandomNumberGenerator()
-        
-        let generator: ParticleGenerator
-        switch particleGeneratorTypeButton.titleOfSelectedItem {
-        case "uniform":
-            generator = UniformParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
-        case "partition":
-            generator = PartitionParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
-        case "ring":
-            generator = RingParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
-        case "imbalance":
-            generator = ImbalanceParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
-        default: return
-        }
+        let generatorType = ParticleGenerators.get(for: particleGeneratorTypeButton.titleOfSelectedItem!)!
+        let generator = generatorType.init(colorCountToUse: colorCount, particleCount: count, rng: rng)
         
         delegate?.controlViewControllerGenerateParticles(generator: generator)
         attractionMatrixView.colorCount = colorCount

@@ -1,13 +1,32 @@
 import Foundation
 
 protocol ParticleGenerator {
+    static var label: String { get }
     var colorCountToUse: Int { get }
     var particleCount: Int { get }
+    var rng: RandomNumberGenerator { get }
+    init(colorCountToUse: Int, particleCount: Int, rng: any RandomNumberGenerator)
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>)
 }
 
+enum ParticleGenerators {
+    static var allTypes: [ParticleGenerator.Type] {
+        [
+            UniformParticleGenerator.self,
+            PartitionParticleGenerator.self,
+            RingParticleGenerator.self,
+            ImbalanceParticleGenerator.self,
+        ]
+    }
+    
+    static func get(for label: String) -> ParticleGenerator.Type? {
+        allTypes.first { $0.label == label }
+    }
+}
+
 struct UniformParticleGenerator: ParticleGenerator {
+    static let label: String = "uniform"
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
@@ -22,6 +41,7 @@ struct UniformParticleGenerator: ParticleGenerator {
 }
 
 struct PartitionParticleGenerator: ParticleGenerator {
+    static let label: String = "partition"
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
@@ -38,6 +58,7 @@ struct PartitionParticleGenerator: ParticleGenerator {
 }
 
 struct RingParticleGenerator: ParticleGenerator {
+    static let label: String = "ring"
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
@@ -61,6 +82,7 @@ struct RingParticleGenerator: ParticleGenerator {
 }
 
 struct ImbalanceParticleGenerator: ParticleGenerator {
+    static let label: String = "imbalance"
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator

@@ -216,9 +216,6 @@
                                                 <menu key="menu" id="LKN-ws-Q9Y">
                                                     <items>
                                                         <menuItem title="uniform" state="on" id="OEK-vg-J4n"/>
-                                                        <menuItem title="partition" id="gOi-Rr-lja"/>
-                                                        <menuItem title="ring" id="HN4-7L-5tv"/>
-                                                        <menuItem title="imbalance" id="tg6-qU-e2t"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
