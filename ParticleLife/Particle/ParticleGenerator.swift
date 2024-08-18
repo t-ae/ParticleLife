@@ -7,18 +7,13 @@ protocol ParticleGenerator {
     func generate(buffer: UnsafeMutableBufferPointer<Particle>)
 }
 
-final class UniformParticleGenerator: ParticleGenerator {
+struct UniformParticleGenerator: ParticleGenerator {
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
     
-    init(colorCount: Int, particleCount: Int, rng: RandomNumberGenerator = SystemRandomNumberGenerator()) {
-        self.colorCountToUse = colorCount
-        self.particleCount = particleCount
-        self.rng = rng
-    }
-    
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rng
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
@@ -26,18 +21,13 @@ final class UniformParticleGenerator: ParticleGenerator {
     }
 }
 
-final class PartitionParticleGenerator: ParticleGenerator {
+struct PartitionParticleGenerator: ParticleGenerator {
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
     
-    init(colorCount: Int, particleCount: Int, rng: RandomNumberGenerator = SystemRandomNumberGenerator()) {
-        self.colorCountToUse = colorCount
-        self.particleCount = particleCount
-        self.rng = rng
-    }
-    
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rng
         let volume: Float = 1 / Float(colorCountToUse)
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
@@ -47,18 +37,13 @@ final class PartitionParticleGenerator: ParticleGenerator {
     }
 }
 
-final class RingParticleGenerator: ParticleGenerator {
+struct RingParticleGenerator: ParticleGenerator {
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
     
-    init(colorCount: Int, particleCount: Int, rng: RandomNumberGenerator = SystemRandomNumberGenerator()) {
-        self.colorCountToUse = colorCount
-        self.particleCount = particleCount
-        self.rng = rng
-    }
-    
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rng
         let volume: Float = 2 * .pi / Float(colorCountToUse)
         let rRange: Range<Float> = 0.5..<0.7
         for i in 0..<particleCount {
@@ -75,18 +60,13 @@ final class RingParticleGenerator: ParticleGenerator {
     }
 }
 
-final class ImbalanceParticleGenerator: ParticleGenerator {
+struct ImbalanceParticleGenerator: ParticleGenerator {
     var colorCountToUse: Int
     var particleCount: Int
     var rng: RandomNumberGenerator
     
-    init(colorCount: Int, particleCount: Int, rng: RandomNumberGenerator = SystemRandomNumberGenerator()) {
-        self.colorCountToUse = colorCount
-        self.particleCount = particleCount
-        self.rng = rng
-    }
-    
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rng
         let replacement = (0..<colorCountToUse).shuffled(using: &rng)
         for i in 0..<particleCount {
             let cc = Int.random(in: 0..<colorCountToUse*colorCountToUse, using: &rng) + 1

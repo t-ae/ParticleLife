@@ -49,7 +49,7 @@ class ControlViewController: NSViewController {
     
     // MARK: Particle setting
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
-        let count = particleCountField.intValue
+        let count = particleCountField.integerValue
         let colorCount = Int(colorCountButton.selectedItem!.title)!
         
         let rng: RandomNumberGenerator = fixSeedsCheck.state == .on ? Xorshift64() : SystemRandomNumberGenerator()
@@ -57,13 +57,13 @@ class ControlViewController: NSViewController {
         let generator: ParticleGenerator
         switch particleGeneratorTypeButton.titleOfSelectedItem {
         case "uniform":
-            generator = UniformParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
+            generator = UniformParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
         case "partition":
-            generator = PartitionParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
+            generator = PartitionParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
         case "ring":
-            generator = RingParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
+            generator = RingParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
         case "imbalance":
-            generator = ImbalanceParticleGenerator(colorCount: colorCount, particleCount: Int(count), rng: rng)
+            generator = ImbalanceParticleGenerator(colorCountToUse: colorCount, particleCount: count, rng: rng)
         default: return
         }
         
