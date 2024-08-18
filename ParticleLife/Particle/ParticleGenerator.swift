@@ -90,7 +90,11 @@ struct RingParticleGenerator: ParticleGenerator {
         let palette = colorPalette()
         
         let volume: Float = 2 * .pi / Float(colorCountToUse)
-        let rRange: Range<Float> = 0.5..<0.7
+        
+        let r0 = fixed ? 0.5 : Float.random(in: 0.2..<0.6)
+        let rd = fixed ? 0.2 : Float.random(in: 0.05..<0.3)
+        let rRange: Range<Float> = r0..<r0+rd
+        
         for i in 0..<particleCount {
             let c = i % colorCountToUse
             let color = palette.get(i)
