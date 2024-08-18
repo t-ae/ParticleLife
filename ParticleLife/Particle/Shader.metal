@@ -51,6 +51,7 @@ float linfDistance(vector_float2 vector) {
     return max(abs(vector.x), abs(vector.y));
 }
 
+// https://qiita.com/7CIT/items/fe33b9b341b9918b6c3d
 float triangleDistance(vector_float2 vector) {
     float a = atan2(vector.x, vector.y);
     float r = M_PI_F * 2 / 3;
@@ -127,7 +128,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         }
         
         if(!(linfDistance(vector) < rmax)) {
-            // early continue. Ignore too large distance and NaN.
+            // Ignore too large distance and NaN.
             continue;
         }
         
