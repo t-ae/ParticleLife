@@ -248,12 +248,18 @@ extension Renderer {
         var nanCout = 0
         var infiniteCount = 0
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
+        var sumOfAttractorCount: UInt32 = 0
+        
         let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
         for particle in buffer {
             if particle.hasNaN { nanCout += 1 }
             if particle.hasInfinite { infiniteCount += 1 }
             colorCounts[Int(particle.color)] += 1
+            if !particle.hasNaN && !particle.hasInfinite {
+                sumOfAttractorCount += particle.attractorCount
+            }
         }
+        
         var strs = [String]()
         strs.append("""
         # Statistics:
@@ -263,13 +269,17 @@ extension Renderer {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }
         
+        let validParticleCount = particleCount - nanCout - infiniteCount
+        
         let rmax = velocityUpdateSetting.rmax
-        let circleArea = rmax * rmax * .pi
-        let particleCountInCircle = Float(particleCount) * circleArea
+        let area = rmax * rmax * velocityUpdateSetting.distanceFunction.areaOfDistance1
+        let expectedAttractorCount = max(Float(validParticleCount-1), 0) * area
+        let meanAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
         
         strs.append("""
         
-        E[particle count in circle with radius rmax]: \(particleCountInCircle)
+        Expected attractor count: \(expectedAttractorCount)
+        Mean of attractor count: \(meanAttractorCount)
         
         NaN: \(nanCout)
         Infinite: \(infiniteCount)

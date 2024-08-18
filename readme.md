@@ -50,6 +50,14 @@ force2(distance, attraction) & (attraction \lt 0)
 \right.
 ```
 
+## Attractor count
+
+Attractor count of particle means the count of particles that attracting target particle.
+The larger attractor count is, the more unstable the particle gets.
+`Particle count`, `Rmax`, and `Distance function` affect that value. You can also stabilize particles by reducing force factor.
+
+You can check expectation and mean of attractor counts in statistics window (hit `S` key).
+
 # Reference 
 - https://particle-life.com/
 - [The code behind Particle Life](https://youtu.be/scvuli-zcRc?si=QMxci6VO3pppf4lN)

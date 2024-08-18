@@ -2,7 +2,7 @@ import Foundation
 
 extension Particle {
     init(color: Color, position: SIMD2<Float>, velocity: SIMD2<Float> = .zero) {
-        self.init(color: color.rawValue, position: position, velocity: velocity)
+        self.init(color: color.rawValue, position: position, velocity: velocity, attractorCount: 0)
     }
     
     static func random() -> Particle {

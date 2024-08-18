@@ -112,6 +112,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     constant float* attractionRow = attraction + particles[gid].color * *colorCount;
     
     vector_float2 accel(0, 0);
+    uint attractorCount = 0;
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
@@ -137,10 +138,14 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         
         float f = forceFunction(distance/rmax, attr);
         accel += vector / distance * f;
+        if(distance < rmax) {
+            attractorCount++;
+        }
     }
     
     particles[gid].velocity *= pow(0.5, *dt/velocityHalfLife); // friction
     particles[gid].velocity += rmax * accel * velocityUpdateSetting->forceFactor * *dt;
+    particles[gid].attractorCount = attractorCount;
 }
 
 float wrappedZeroOneRange(float value) {
