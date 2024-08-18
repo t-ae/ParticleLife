@@ -95,7 +95,7 @@ class AttractionMatrixView: NSView {
                     steps[j, i] = v
                 }
             }
-        case .invert:
+        case .negate:
             steps.modifyElements { _, value in -value }
         case .zeroToOne:
             steps.modifyElements { _, value in value == 0 ? 10 : value }
@@ -205,7 +205,7 @@ extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
 enum AttractionUpdate: String, CaseIterable {
     case randomize = "Randomize"
     case symmetricRandom = "Symmetric random"
-    case invert = "Invert"
+    case negate = "Negate"
     case zeroToOne = "Zero to one"
     case zeroToMinusOne = "Zero to minus one"
 }
