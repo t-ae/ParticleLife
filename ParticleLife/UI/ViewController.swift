@@ -88,14 +88,22 @@ class ViewController: NSViewController {
     override func keyDown(with event: NSEvent) {
         switch event.characters {
         case "p":
-            renderer.dumpParameters()
+            dumpAlert(renderer.dumpParameters())
         case "s":
-            renderer.dumpStatistics()
+            dumpAlert(renderer.dumpStatistics())
         case "i":
             renderer.induceInvalid()
         default:
             break
         }
+    }
+    
+    func dumpAlert(_ string: String) {
+        let alert = NSAlert()
+        let view = NSTextView(frame: .init(x: 0, y: 0, width: 500, height: 100))
+        view.string = string
+        alert.accessoryView = view
+        alert.runModal()
     }
 }
 

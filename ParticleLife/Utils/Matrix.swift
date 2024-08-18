@@ -38,21 +38,13 @@ struct Matrix<Element> {
     }
 }
 
-extension Matrix: CustomDebugStringConvertible {
-    var debugDescription: String {
-        func stringifyEleemnt(_ element: Element) -> String {
-            if let e = element as? Float {
-                String(format: "%.3f", e)
-            } else {
-                "\(element)"
-            }
-        }
-        
+extension Matrix {
+    func stringify(elementFormat: String) -> String {
         var strs = [String]()
         for r in 0..<rows {
             var line = ""
             for c in 0..<cols {
-                line += stringifyEleemnt(self[r, c]) + " "
+                line += String(format: elementFormat, self[r, c] as! CVarArg) + " "
             }
             strs.append(line)
         }

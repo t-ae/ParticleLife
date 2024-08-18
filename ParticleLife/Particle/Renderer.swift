@@ -231,18 +231,20 @@ extension Renderer {
         return particleBuffer[i]
     }
     
-    func dumpParameters() {
-        print("# Parameters:")
-        print("particleCount:", particleCount)
-        print("attraction:")
-        print(attraction)
-        print("velocityUpdateSetting:", velocityUpdateSetting)
-        print("fixedDt:", fixedDt)
-        print("particleSize:", particleSize)
-        print("")
+    func dumpParameters() -> String {
+        """
+        # Parameters:
+        particleCount: \(particleCount)
+        attraction:
+        \(attraction.stringify(elementFormat: "%+.1f"))
+        
+        velocityUpdateSetting: \(velocityUpdateSetting)
+        fixedDt: \(fixedDt)
+        particleSize: \(particleSize)
+        """
     }
     
-    func dumpStatistics() {
+    func dumpStatistics() -> String {
         var nanCout = 0
         var infiniteCount = 0
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
@@ -252,15 +254,21 @@ extension Renderer {
             if particle.hasInfinite { infiniteCount += 1 }
             colorCounts[Int(particle.color)] += 1
         }
-        
-        print("# Statistics:")
-        print("particleCount:", particleCount)
+        var strs = [String]()
+        strs.append("""
+        # Statistics:
+        particleCount: \(particleCount)
+        """)
         for color in Color.allCases {
-            print("- \(color):", colorCounts[color.intValue])
+            strs.append("- \(color): \(colorCounts[color.intValue])")
         }
-        print("NaN:", nanCout)
-        print("Inf:", infiniteCount)
-        print("")
+        strs.append("""
+        
+        NaN: \(nanCout)
+        Infinite: \(infiniteCount)
+        """)
+        
+        return strs.joined(separator: "\n")
     }
     
     func induceInvalid() {
