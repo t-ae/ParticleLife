@@ -114,35 +114,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Window Controller-->
-        <scene sceneID="1Nq-9z-XIl">
-            <objects>
-                <windowController storyboardIdentifier="ControlWindowController" id="ThY-zR-gCz" sceneMemberID="viewController">
-                    <window key="window" title="Control - Particle Life" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="tJ9-4k-a0S">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="270" y="342" width="480" height="270"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1800" height="1125"/>
-                        <view key="contentView" id="7rY-Ul-cxz">
-                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </view>
-                        <connections>
-                            <outlet property="delegate" destination="ThY-zR-gCz" id="LHi-DO-2R9"/>
-                        </connections>
-                    </window>
-                    <connections>
-                        <segue destination="3gE-1T-kfi" kind="relationship" relationship="window.shadowedContentViewController" id="Gqd-ym-ShN"/>
-                    </connections>
-                </windowController>
-                <customObject id="pfn-O4-mzJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="747" y="166"/>
-        </scene>
         <!--Control View Controller-->
         <scene sceneID="3IF-wZ-yVg">
             <objects>
-                <viewController id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ControlViewController" id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VM6-R2-6ON">
                         <rect key="frame" x="0.0" y="0.0" width="324" height="860"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -342,12 +317,12 @@
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function">
                                             <rect key="frame" x="125" y="118" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
+                                            <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="4m1-im-Tnu">
                                                     <items>
-                                                        <menuItem title="force1" tag="1" id="HD5-zQ-DWx"/>
+                                                        <menuItem title="force1" state="on" tag="1" id="HD5-zQ-DWx"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
@@ -368,12 +343,12 @@
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function">
                                             <rect key="frame" x="125" y="90" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
+                                            <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="y7c-g6-4ia">
                                                     <items>
-                                                        <menuItem title="L2" tag="-3" id="mkJ-pA-dD9"/>
+                                                        <menuItem title="L2" state="on" tag="-3" id="mkJ-pA-dD9"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>

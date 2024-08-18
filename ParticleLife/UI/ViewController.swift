@@ -49,12 +49,12 @@ class ViewController: NSViewController {
             return
         }
         
-        let window = (storyboard!.instantiateController(withIdentifier: "ControlWindowController") as! NSWindowController)
-        self.controlWindow = window
-        let vc = controlWindow?.contentViewController as! ControlViewController
+        let vc = (storyboard!.instantiateController(withIdentifier: "ControlViewController") as! ControlViewController)
         vc.delegate = self
-        window.showWindow(nil)
-        window.window?.styleMask.remove(.closable)
+        let window = NSWindow(contentViewController: vc)
+        window.styleMask.remove(.closable)
+        let wc = NSWindowController(window: window)
+        wc.showWindow(self)
     }
     
     override func mouseUp(with event: NSEvent) {
