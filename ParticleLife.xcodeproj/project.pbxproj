@@ -31,6 +31,7 @@
 		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
 		A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944B2C70669F0070148A /* IntRepresentable.swift */; };
 		A73194562C713CBC0070148A /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194552C713CBC0070148A /* Matrix.swift */; };
+		A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
 		A731944B2C70669F0070148A /* IntRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntRepresentable.swift; sourceTree = "<group>"; };
 		A73194552C713CBC0070148A /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 				A73194432C6E95100070148A /* AttractionMatrixValueView.swift */,
 				A73194452C6E9E040070148A /* AttractionMatrixView.swift */,
 				A73194472C6EA45C0070148A /* AttractionMatrixHeaderView.swift */,
+				A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				A73194272C6C6FC00070148A /* Renderer.swift in Sources */,
 				A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */,
 				A73194372C6D881A0070148A /* MessageError.swift in Sources */,
+				A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */,
 				A73194482C6EA45C0070148A /* AttractionMatrixHeaderView.swift in Sources */,
 				A731942D2C6C7C010070148A /* Particle.swift in Sources */,
 				A73194252C6C40C30070148A /* Shader.metal in Sources */,

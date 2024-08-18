@@ -233,7 +233,6 @@ extension Renderer {
     
     func dumpParameters() -> String {
         """
-        # Parameters:
         particleCount: \(particleCount)
         attraction:
         \(attraction.stringify(elementFormat: "%+.1f"))
@@ -261,10 +260,7 @@ extension Renderer {
         }
         
         var strs = [String]()
-        strs.append("""
-        # Statistics:
-        particleCount: \(particleCount)
-        """)
+        strs.append("particleCount: \(particleCount)")
         for color in Color.allCases {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }

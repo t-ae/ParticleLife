@@ -88,9 +88,9 @@ class ViewController: NSViewController {
     override func keyDown(with event: NSEvent) {
         switch event.characters {
         case "p":
-            dumpAlert(renderer.dumpParameters())
+            showDumpModal(title: "Parameters", content: renderer.dumpParameters())
         case "s":
-            dumpAlert(renderer.dumpStatistics())
+            showDumpModal(title: "Statistics", content: renderer.dumpStatistics())
         case "i":
             renderer.induceInvalid()
         default:
@@ -98,12 +98,11 @@ class ViewController: NSViewController {
         }
     }
     
-    func dumpAlert(_ string: String) {
-        let alert = NSAlert()
-        let view = NSTextView(frame: .init(x: 0, y: 0, width: 500, height: 100))
-        view.string = string
-        alert.accessoryView = view
-        alert.runModal()
+    func showDumpModal(title: String, content: String) {
+        let vc = storyboard!.instantiateController(withIdentifier: "DumpViewController") as! DumpViewController
+        vc.title = title
+        vc.content = content
+        presentAsModalWindow(vc)
     }
 }
 
