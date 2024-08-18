@@ -16,6 +16,7 @@ enum ParticleGenerators {
             UniformParticleGenerator.self,
             PartitionParticleGenerator.self,
             RingParticleGenerator.self,
+            GridParticleGenerator.self,
             ImbalanceParticleGenerator.self,
         ]
     }
@@ -95,6 +96,32 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
             let c = replacement[Int(sqrt(Float(cc)))-1]
             let color = Color(intValue: c)!
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
+        }
+    }
+}
+
+struct GridParticleGenerator: ParticleGenerator {
+    static let label: String = "grid"
+    var colorCountToUse: Int
+    var particleCount: Int
+    var rng: RandomNumberGenerator
+    
+    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rng
+        
+        let rows = Int(ceil(sqrt(Float(particleCount))))
+        let gap = 1 / Float(rows)
+        
+        let replacement = (0..<colorCountToUse).shuffled(using: &rng)
+        for i in 0..<particleCount {
+            let c = replacement[i%colorCountToUse]
+            let color = Color(intValue: c)!
+            
+            let (row, col) = i.quotientAndRemainder(dividingBy: rows)
+            let x = Float(col)*gap + gap/2
+            let y = Float(rows-row-1)*gap + gap/2
+            
+            buffer[i] = Particle(color: color, position: .init(x: x, y: y))
         }
     }
 }
