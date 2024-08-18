@@ -11,7 +11,7 @@ protocol ParticleGenerator {
 }
 
 extension ParticleGenerator {
-    var rng: RandomNumberGenerator {
+    func rangomNumberGenerator() -> RandomNumberGenerator {
         if fixed {
             Xorshift64()
         } else {
@@ -51,7 +51,7 @@ struct UniformParticleGenerator: ParticleGenerator {
     var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
-        var rng = rng
+        var rng = rangomNumberGenerator()
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
@@ -66,7 +66,7 @@ struct PartitionParticleGenerator: ParticleGenerator {
     var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
-        var rng = rng
+        var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
         let volume: Float = 1 / Float(colorCountToUse)
@@ -86,7 +86,7 @@ struct RingParticleGenerator: ParticleGenerator {
     var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
-        var rng = rng
+        var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
         let volume: Float = 2 * .pi / Float(colorCountToUse)
@@ -117,7 +117,7 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
     var fixed: Bool
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
-        var rng = rng
+        var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
         for i in 0..<particleCount {
