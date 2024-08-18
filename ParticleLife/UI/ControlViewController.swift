@@ -63,6 +63,24 @@ class ControlViewController: NSViewController {
     }
     
     // MARK: Attracion
+    private var attractionAutoUpdateTask: Task<Void, Error>? = nil
+    @IBAction func onSwitchAttractionAutoUpdateButton(_ sender: NSButton) {
+        let on = sender.state == .on
+        print("onSwitchAttractionAutoUpdateButton: \(on)")
+        attractionAutoUpdateTask?.cancel()
+        if on {
+            attractionAutoUpdateTask = Task {
+                while true {
+                    print("Auto randomize attraction")
+                    attractionMatrixView.updateAttraction(update: .randomize)
+                    try await Task.sleep(seconds: 30)
+                }
+            }
+        } else {
+            attractionAutoUpdateTask = nil
+        }
+    }
+    
     @objc func onClickAttractionUpdateItem(_ sender: NSMenuItem) {
         let update = AttractionUpdate(rawValue: sender.title)!
         attractionMatrixView.updateAttraction(update: update)

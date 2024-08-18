@@ -144,11 +144,11 @@
             <objects>
                 <viewController id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VM6-R2-6ON">
-                        <rect key="frame" x="0.0" y="0.0" width="324" height="858"/>
+                        <rect key="frame" x="0.0" y="0.0" width="324" height="860"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box title="Particle setting" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-zC-dyS">
-                                <rect key="frame" x="9" y="698" width="306" height="148"/>
+                                <rect key="frame" x="9" y="700" width="306" height="148"/>
                                 <view key="contentView" id="czC-Pt-JhJ">
                                     <rect key="frame" x="4" y="5" width="298" height="128"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -267,7 +267,7 @@
                                 </constraints>
                             </box>
                             <box title="Attraction" translatesAutoresizingMaskIntoConstraints="NO" id="Goo-8Y-qmM">
-                                <rect key="frame" x="10" y="346" width="304" height="348"/>
+                                <rect key="frame" x="10" y="348" width="304" height="348"/>
                                 <view key="contentView" id="uRI-GH-At4">
                                     <rect key="frame" x="4" y="5" width="296" height="328"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -278,6 +278,16 @@
                                                 <constraint firstAttribute="width" secondItem="VBU-da-5gg" secondAttribute="height" multiplier="1:1" id="Z6S-pi-Kfa"/>
                                             </constraints>
                                         </customView>
+                                        <button toolTip="Randomize attractions every 30 seconds." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uEs-eK-xiM">
+                                            <rect key="frame" x="1" y="5" width="63" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Auto" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="9YM-98-jAe">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="onSwitchAttractionAutoUpdateButton:" target="3gE-1T-kfi" id="PVT-ez-0Mt"/>
+                                            </connections>
+                                        </button>
                                         <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Update" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-A2-901">
                                             <rect key="frame" x="173" y="10" width="61" height="24"/>
                                             <menu key="menu" id="LDS-3E-AgY">
@@ -300,10 +310,12 @@
                                         </comboButton>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="RmV-CS-md8" secondAttribute="bottom" constant="12" id="0bo-Vq-tMQ"/>
-                                        <constraint firstItem="RmV-CS-md8" firstAttribute="top" secondItem="VBU-da-5gg" secondAttribute="bottom" constant="8" id="14q-i3-nL1"/>
                                         <constraint firstItem="VBU-da-5gg" firstAttribute="leading" secondItem="uRI-GH-At4" secondAttribute="leading" constant="8" id="4uI-nR-mX8"/>
+                                        <constraint firstItem="3Ak-A2-901" firstAttribute="centerY" secondItem="uEs-eK-xiM" secondAttribute="centerY" id="6v2-h8-JiJ"/>
+                                        <constraint firstItem="uEs-eK-xiM" firstAttribute="top" secondItem="VBU-da-5gg" secondAttribute="bottom" constant="8" id="8n6-zx-CI4"/>
+                                        <constraint firstAttribute="bottom" secondItem="uEs-eK-xiM" secondAttribute="bottom" constant="12" id="95g-iz-TZw"/>
                                         <constraint firstItem="RmV-CS-md8" firstAttribute="leading" secondItem="3Ak-A2-901" secondAttribute="trailing" constant="8" id="MHh-2I-J5A"/>
+                                        <constraint firstItem="uEs-eK-xiM" firstAttribute="leading" secondItem="VBU-da-5gg" secondAttribute="leading" id="OYB-4H-BcH"/>
                                         <constraint firstAttribute="trailing" secondItem="VBU-da-5gg" secondAttribute="trailing" constant="8" id="SCI-0b-Wxg"/>
                                         <constraint firstItem="RmV-CS-md8" firstAttribute="trailing" secondItem="VBU-da-5gg" secondAttribute="trailing" id="iqr-Bo-cSK"/>
                                         <constraint firstItem="3Ak-A2-901" firstAttribute="centerY" secondItem="RmV-CS-md8" secondAttribute="centerY" id="q3D-2u-uIW"/>
@@ -312,7 +324,7 @@
                                 </view>
                             </box>
                             <box title="Velocity update rule" translatesAutoresizingMaskIntoConstraints="NO" id="wSm-jq-enh">
-                                <rect key="frame" x="11" y="170" width="304" height="172"/>
+                                <rect key="frame" x="11" y="172" width="304" height="172"/>
                                 <view key="contentView" id="FGG-dr-vFy">
                                     <rect key="frame" x="4" y="5" width="296" height="152"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -492,7 +504,7 @@
                                 </constraints>
                             </box>
                             <box title="Other" translatesAutoresizingMaskIntoConstraints="NO" id="XbP-Lb-uGx">
-                                <rect key="frame" x="12" y="76" width="302" height="90"/>
+                                <rect key="frame" x="12" y="78" width="302" height="90"/>
                                 <view key="contentView" id="8WL-dt-aMO">
                                     <rect key="frame" x="4" y="5" width="294" height="70"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -541,7 +553,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="192" id="P8A-PO-cEO"/>
                                             </constraints>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="15" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="15" doubleValue="3" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                             <connections>
@@ -577,7 +589,7 @@
                                 </constraints>
                             </box>
                             <box title="Control" translatesAutoresizingMaskIntoConstraints="NO" id="00z-vB-JRj">
-                                <rect key="frame" x="13" y="8" width="300" height="64"/>
+                                <rect key="frame" x="13" y="10" width="300" height="64"/>
                                 <view key="contentView" id="aOu-GA-mhH">
                                     <rect key="frame" x="4" y="5" width="292" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

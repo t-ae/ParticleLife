@@ -93,9 +93,9 @@ class AttractionMatrixValueView: NSControl {
         _ = f() // immediately
         
         mouseHoldTask = Task { @MainActor in
-            try await Task.sleep(nanoseconds: 500*1000*1000)
+            try await Task.sleep(milliseconds: 500)
             while f() {
-                try await Task.sleep(nanoseconds: 100*1000*1000)
+                try await Task.sleep(milliseconds: 100)
             }
         }
     }
