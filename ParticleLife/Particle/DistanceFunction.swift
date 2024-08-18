@@ -15,7 +15,7 @@ extension DistanceFunction: CaseIterable {
 }
 
 extension DistanceFunction {
-    var areaOfDistance1: Float {
+    var areaOfDistance1: Float? {
         switch self {
         case DistanceFunction_l1:
             return 2
@@ -25,7 +25,7 @@ extension DistanceFunction {
             return 4
         default:
             // Undefined
-            return .nan
+            return nil
         }
     }
 }

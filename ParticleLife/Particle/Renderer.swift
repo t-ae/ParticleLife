@@ -272,13 +272,19 @@ extension Renderer {
         let validParticleCount = particleCount - nanCout - infiniteCount
         
         let rmax = velocityUpdateSetting.rmax
-        let area = rmax * rmax * velocityUpdateSetting.distanceFunction.areaOfDistance1
-        let expectedAttractorCount = max(Float(validParticleCount-1), 0) * area
+        
+        let expectedAttractorCountLabel: String
+        if let area = velocityUpdateSetting.distanceFunction.areaOfDistance1 {
+            let expectedAttractorCount = max(Float(validParticleCount-1), 0) * area * rmax * rmax
+            expectedAttractorCountLabel = "\(expectedAttractorCount)"
+        } else {
+            expectedAttractorCountLabel = "area of distance function is unavailable"
+        }
         let meanAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
         
         strs.append("""
         
-        Expected attractor count: \(expectedAttractorCount)
+        Expected attractor count: \(expectedAttractorCountLabel)
         Mean of attractor count: \(meanAttractorCount)
         
         NaN: \(nanCout)
