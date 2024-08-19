@@ -381,7 +381,6 @@
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="nyN-fE-rp0">
                                                     <items>
-                                                        <menuItem title="0.001" tag="1" id="n5S-Rb-Ea6"/>
                                                         <menuItem title="0.01" tag="10" id="9al-y8-8lN"/>
                                                         <menuItem title="0.03" tag="30" id="PtU-BB-vIW"/>
                                                         <menuItem title="0.05" state="on" tag="50" id="Mdg-0a-eya"/>
