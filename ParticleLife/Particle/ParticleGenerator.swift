@@ -32,6 +32,7 @@ enum ParticleGenerators {
     static var allTypes: [ParticleGenerator.Type] {
         [
             UniformParticleGenerator.self,
+            CircleParticleGenerator.self,
             PartitionParticleGenerator.self,
             RainbowRingParticleGenerator.self,
             GridParticleGenerator.self,
@@ -75,6 +76,30 @@ struct PartitionParticleGenerator: ParticleGenerator {
             let color = palette.get(i)
             let xrange = volume*Float(c) ..< volume*Float(c + 1)
             buffer[i] = Particle(color: color, position: .random(in: xrange, 0..<1, using: &rng))
+        }
+    }
+}
+
+struct CircleParticleGenerator: ParticleGenerator {
+    static let label: String = "circle"
+    var colorCountToUse: Int
+    var particleCount: Int
+    var fixed: Bool
+    
+    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+        var rng = rangomNumberGenerator()
+        
+        let r = Float.random(in: 0.05 ..< 0.4, using: &rng)
+        for i in 0..<particleCount {
+            let color = Color(intValue: i % colorCountToUse)!
+            
+            var (x, y): (Float, Float)
+            repeat {
+                x = Float.random(in: -r ... r, using: &rng)
+                y = Float.random(in: -r ... r, using: &rng)
+            } while x*x + y*y > r*r
+            
+            buffer[i] = Particle(color: color, position: .init(x: x+0.5, y: y+0.5))
         }
     }
 }
