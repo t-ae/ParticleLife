@@ -673,7 +673,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="395" height="224"/>
-                                            <size key="maxSize" width="395" height="10000000"/>
+                                            <size key="maxSize" width="410" height="10000000"/>
                                         </textView>
                                     </subviews>
                                 </clipView>

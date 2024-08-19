@@ -51,13 +51,8 @@ float linfDistance(vector_float2 vector) {
     return max(abs(vector.x), abs(vector.y));
 }
 
-// https://qiita.com/7CIT/items/fe33b9b341b9918b6c3d
-float triangleDistance(vector_float2 vector) {
-    float a = atan2(vector.x, vector.y);
-    float r = M_PI_F * 2 / 3;
-    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
-}
-
+/// Referred https://qiita.com/7CIT/items/fe33b9b341b9918b6c3d
+/// Modified to return 1 when (x,y) = (0, -1).
 float triangularDistance(vector_float2 vector) {
     float a = atan2(vector.x, vector.y);
     float r = M_PI_F * 2 / 3;
