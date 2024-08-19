@@ -270,12 +270,12 @@ extension Renderer {
         let rmax = velocityUpdateSetting.rmax
         let attractionArea = velocityUpdateSetting.distanceFunction.areaOfDistance1 * rmax * rmax
         let expectedAttractorCount = max(Float(validParticleCount-1), 0) * attractionArea
-        let meanAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
+        let averageAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
         
         strs.append("""
         
         Expected attractor count: \(expectedAttractorCount)
-        Mean of attractor count: \(meanAttractorCount)
+        Average attractor count: \(averageAttractorCount)
         
         NaN: \(nanCout)
         Infinite: \(infiniteCount)
