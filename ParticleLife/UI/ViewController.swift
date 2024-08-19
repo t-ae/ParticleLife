@@ -56,6 +56,7 @@ class ViewController: NSViewController {
         window.styleMask.remove(.closable)
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
+        controlWindow = wc
     }
     
     override func mouseUp(with event: NSEvent) {
