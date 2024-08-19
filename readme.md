@@ -2,7 +2,7 @@
 
 Particle Life on macOS.
 
-- Using Metal shader
+- Using Metal shader (10000Particles, 120FPS on M3 Pro MBP)
 - Various distance functions
 
 [![Demo](https://img.youtube.com/vi/JvV9PbZSY-8/0.jpg)](https://www.youtube.com/watch?v=JvV9PbZSY-8)
