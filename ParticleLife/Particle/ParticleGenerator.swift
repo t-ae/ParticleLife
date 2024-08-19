@@ -33,7 +33,7 @@ enum ParticleGenerators {
         [
             UniformParticleGenerator.self,
             PartitionParticleGenerator.self,
-            RingParticleGenerator.self,
+            RainbowRingParticleGenerator.self,
             GridParticleGenerator.self,
             ImbalanceParticleGenerator.self,
         ]
@@ -79,8 +79,8 @@ struct PartitionParticleGenerator: ParticleGenerator {
     }
 }
 
-struct RingParticleGenerator: ParticleGenerator {
-    static let label: String = "ring"
+struct RainbowRingParticleGenerator: ParticleGenerator {
+    static let label: String = "rainbow ring"
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
