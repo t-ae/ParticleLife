@@ -120,9 +120,11 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
         var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
+        let ps = (1 << colorCountToUse) - 1
+        
         for i in 0..<particleCount {
-            let cc = Int.random(in: 0..<colorCountToUse*colorCountToUse, using: &rng) + 1
-            let color = palette.get(Int(sqrt(Float(cc)))-1)
+            let cc = (1...ps).randomElement()!
+            let color = palette.get(Int(log2(Float(cc))))
             buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
         }
     }
