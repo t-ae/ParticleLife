@@ -145,6 +145,12 @@ class AttractionMatrixView: NSView {
                 }
             }
             setSteps(matrix)
+        case .region:
+            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
+            for i in 0..<matrix.rows {
+                matrix[i, i] = 1
+            }
+            setSteps(matrix)
         }
     }
     
@@ -216,4 +222,5 @@ enum AttractionPreset: String, CaseIterable {
     case exclusive = "Exclusive"
     case chain = "Chain"
     case snake = "Snake"
+    case region = "Region"
 }
