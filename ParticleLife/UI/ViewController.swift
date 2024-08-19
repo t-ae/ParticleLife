@@ -52,6 +52,7 @@ class ViewController: NSViewController {
         let vc = (storyboard!.instantiateController(withIdentifier: "ControlViewController") as! ControlViewController)
         vc.delegate = self
         let window = NSWindow(contentViewController: vc)
+        window.title = "Particle Life - Control"
         window.styleMask.remove(.closable)
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
