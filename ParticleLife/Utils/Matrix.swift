@@ -36,6 +36,17 @@ struct Matrix<Element> {
             self[r, c] = transform((r, c), self[r, c])
         }
     }
+    
+    mutating func transpose() {
+        precondition(rows == cols)
+        for r in 0..<rows {
+            for c in r..<cols {
+                let temp = self[r, c]
+                self[r, c] = self[c, r]
+                self[c, r] = temp
+            }
+        }
+    }
 }
 
 extension Matrix {
