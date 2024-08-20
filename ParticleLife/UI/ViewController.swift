@@ -135,6 +135,8 @@ class ViewController: NSViewController {
         switch event.characters {
         case "a":
             viewModel.autoUpdateAttraction.toggle()
+        case "r":
+            viewModel.updateAttraction(.randomize)
         case "p":
             showDumpModal(title: "Parameters", content: renderer.dumpParameters())
         case "s":
