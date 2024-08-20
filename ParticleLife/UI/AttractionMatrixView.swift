@@ -81,81 +81,6 @@ class AttractionMatrixView: NSView {
         }
     }
     
-    func updateAttraction(update: AttractionUpdate) {
-        var steps = steps
-        
-        switch update {
-        case .randomize:
-            steps.modifyElements { _, _  in .random(in: -10...10) }
-        case .symmetricRandom:
-            for i in 0..<Color.allCases.count {
-                for j in i..<Color.allCases.count {
-                    let v = Int.random(in: -10...10)
-                    steps[i, j] = v
-                    steps[j, i] = v
-                }
-            }
-        case .negate:
-            steps.modifyElements { _, value in -value }
-        case .transpose:
-            steps.transpose()
-        case .zeroToOne:
-            steps.modifyElements { _, value in value == 0 ? 10 : value }
-        case .zeroToMinusOne:
-            steps.modifyElements { _, value in value == 0 ? -10 : value }
-        }
-        
-        setSteps(steps)
-    }
-    
-    func setAttraction(preset: AttractionPreset) {
-        switch preset {
-        case .zero:
-            setSteps(.colorMatrix(filledWith: 0))
-        case .identity:
-            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<matrix.rows {
-                matrix[i, i] = 10
-            }
-            setSteps(matrix)
-        case .exclusive:
-            var matrix = Matrix<Int>.colorMatrix(filledWith: -10)
-            for i in 0..<matrix.rows {
-                matrix[i, i] = 10
-            }
-            setSteps(matrix)
-        case .chain:
-            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<colorCount {
-                let prev = (i - 1 + colorCount) % colorCount
-                let next = (i + 1) % colorCount
-                for j in 0..<colorCount {
-                    matrix[i, j] = i == j ? 10 :
-                    j == prev || j == next ? 2 :
-                    -10
-                }
-            }
-            setSteps(matrix)
-        case .snake:
-            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<colorCount {
-                let next = (i + 1) % colorCount
-                for j in 0..<colorCount {
-                    matrix[i, j] = i == j ? 10 :
-                    j == next ? 2 :
-                    0
-                }
-            }
-            setSteps(matrix)
-        case .region:
-            var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<matrix.rows {
-                matrix[i, i] = 1
-            }
-            setSteps(matrix)
-        }
-    }
-    
     override func layout() {
         let w = (bounds.width - CGFloat(colorCount)*gap) / CGFloat(colorCount+1)
         let h = (bounds.height - CGFloat(colorCount)*gap) / CGFloat(colorCount+1)
@@ -210,20 +135,3 @@ extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
     }
 }
 
-enum AttractionUpdate: String, OptionConvertible {
-    case randomize = "Randomize"
-    case symmetricRandom = "Symmetric random"
-    case negate = "Negate"
-    case transpose = "Transpose"
-    case zeroToOne = "Zero to one"
-    case zeroToMinusOne = "Zero to minus one"
-}
-
-enum AttractionPreset: String, OptionConvertible {
-    case zero = "Zero fill"
-    case identity = "Identity"
-    case exclusive = "Exclusive"
-    case chain = "Chain"
-    case snake = "Snake"
-    case region = "Region"
-}

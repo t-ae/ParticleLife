@@ -57,12 +57,12 @@ class ControlViewController: NSViewController {
             self.attractionMatrixView.setSteps($0)
         }.store(in: &cancellables)
         
-        attractionMatrixUpdateButton.menu.setItems(AttractionUpdate.allCases, action: #selector(onClickAttractionUpdateItem))
-        attractionMatrixPresetButton.menu.setItems(AttractionPreset.allCases, action: #selector(onClickAttractionPresetItem))
-        
         viewModel.$autoUpdateAttraction.sink {
             self.onChangeAttractionAutoUpdate($0)
         }.store(in: &cancellables)
+        
+        attractionMatrixUpdateButton.menu.setItems(AttractionUpdate.allCases, action: #selector(onClickAttractionUpdateItem))
+        attractionMatrixPresetButton.menu.setItems(AttractionPreset.allCases, action: #selector(onClickAttractionPresetItem))
         
         // Velocity update rule
         forceFunctionButton.setItems(ForceFunction.allCases)
@@ -133,9 +133,9 @@ class ControlViewController: NSViewController {
     }
     
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
-        viewModel.particleCountString = particleCountField.stringValue // Assing latest value
+        viewModel.particleCountString = particleCountField.stringValue // Assign latest value
         
-        attractionMatrixView.colorCount = viewModel.colorCountToUse
+        attractionMatrixView.colorCount = viewModel.colorCountToUse // Not updated until generate
         viewModel.generateParticles()
     }
     
@@ -156,7 +156,7 @@ class ControlViewController: NSViewController {
             attractionAutoUpdateTask = Task {
                 while true {
                     print("Auto randomize attraction")
-                    attractionMatrixView.updateAttraction(update: .randomize)
+                    viewModel.updateAttraction(.randomize)
                     try await Task.sleep(seconds: 30)
                 }
             }
@@ -167,13 +167,11 @@ class ControlViewController: NSViewController {
     
     
     @objc func onClickAttractionUpdateItem(_ sender: NSMenuItem) {
-        let update = AttractionUpdate(rawValue: sender.title)!
-        attractionMatrixView.updateAttraction(update: update)
+        viewModel.updateAttraction(sender.option()!)
     }
     
     @objc func onClickAttractionPresetItem(_ sender: NSMenuItem) {
-        let preset = AttractionPreset(rawValue: sender.title)!
-        attractionMatrixView.setAttraction(preset: preset)
+        viewModel.setAttractionPreset(sender.option()!)
     }
     
     // MARK: Velocity update rule

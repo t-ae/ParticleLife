@@ -34,6 +34,8 @@
 		A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */; };
 		A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */; };
 		A78DB8B52C74D123006A3E5E /* OptionConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */; };
+		A78DB8B72C74E346006A3E5E /* AttractionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */; };
+		A78DB8B92C74E392006A3E5E /* AttractionPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpViewController.swift; sourceTree = "<group>"; };
 		A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionConvertible.swift; sourceTree = "<group>"; };
+		A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionUpdate.swift; sourceTree = "<group>"; };
+		A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionPreset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +207,8 @@
 				A73194472C6EA45C0070148A /* AttractionMatrixHeaderView.swift */,
 				A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */,
 				A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */,
+				A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */,
+				A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -347,8 +353,10 @@
 				A73194252C6C40C30070148A /* Shader.metal in Sources */,
 				A73194322C6C81CC0070148A /* Extension.swift in Sources */,
 				A73194392C6DB5150070148A /* ForceFunction.swift in Sources */,
+				A78DB8B72C74E346006A3E5E /* AttractionUpdate.swift in Sources */,
 				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
+				A78DB8B92C74E392006A3E5E /* AttractionPreset.swift in Sources */,
 				A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */,
 				A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,

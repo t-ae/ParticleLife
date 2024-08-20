@@ -39,3 +39,9 @@ extension NSMenu {
         }
     }
 }
+
+extension NSMenuItem {
+    func option<T: OptionConvertible>() -> T? {
+        T(title)
+    }
+}
