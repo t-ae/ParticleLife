@@ -104,6 +104,7 @@ class ViewController: NSViewController {
         )
         do {
             try renderer.generateParticles(generator)
+            viewModel.renderingColorCount = viewModel.colorCountToUse
         } catch {
             showErrorAlert(error)
         }

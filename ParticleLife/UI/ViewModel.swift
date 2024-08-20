@@ -7,6 +7,9 @@ final class ViewModel {
     var colorCountToUse: Int = Color.allCases.count
     
     @Published
+    var renderingColorCount: Int = Color.allCases.count
+    
+    @Published
     var particleCountString: String = "10000"
     
     @Published

@@ -55,9 +55,13 @@ class ControlViewController: NSViewController {
         }.store(in: &cancellables)
         
         // Attraction
+        
         attractionMatrixView.setMaxStep(viewModel.attractionMaxStep)
         attractionMatrixView.setValueFormatter(viewModel.attractionValueFormatter)
         attractionMatrixView.delegate = self
+        viewModel.$renderingColorCount.sink {
+            self.attractionMatrixView.colorCount = $0
+        }.store(in: &cancellables)
         viewModel.$attractionSteps.sink {
             self.attractionMatrixView.setSteps($0)
         }.store(in: &cancellables)
@@ -138,9 +142,7 @@ class ControlViewController: NSViewController {
     }
     
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
-        viewModel.particleCountString = particleCountField.stringValue // Assign latest value
-        
-        attractionMatrixView.colorCount = viewModel.colorCountToUse // Not updated until generate
+        viewModel.particleCountString = particleCountField.stringValue // Assign editing value
         viewModel.generateParticles()
     }
     
