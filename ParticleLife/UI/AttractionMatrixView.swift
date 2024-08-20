@@ -118,25 +118,12 @@ class AttractionMatrixView: NSView {
 
 protocol AttractionMatrixViewDelegate {
     func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>)
+    func attractionMatrixValueViewUpdateLine(_ update: AttractionLineUpdate, step: Int)
 }
 
 extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
     func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, step: Int) {
-        let cells = attractionMatrixCells
-        switch view.fillTarget {
-        case .row(let color):
-            for i in 0..<colorCount {
-                cells[color.intValue * Color.allCases.count + i].setStep(step)
-            }
-        case .column(let color):
-            for i in 0..<colorCount {
-                cells[i * Color.allCases.count + color.intValue].setStep(step)
-            }
-        case .diagonal:
-            for i in 0..<colorCount {
-                cells[i * Color.allCases.count + i].setStep(step)
-            }
-        }
+        delegate?.attractionMatrixValueViewUpdateLine(view.fillTarget, step: step)
     }
 }
 

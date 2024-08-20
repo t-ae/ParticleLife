@@ -2,15 +2,9 @@ import Foundation
 import Cocoa
 
 class AttractionMatrixHeaderView: AttractionMatrixChildView {
-    enum FillTarget {
-        case row(Color)
-        case column(Color)
-        case diagonal
-    }
-    
     var delegate: AttractionMatrixHeaderViewDelegate?
     
-    var fillTarget: FillTarget = .diagonal {
+    var fillTarget: AttractionLineUpdate = .diagonal {
         didSet {
             toolTip = switch fillTarget {
             case .row:

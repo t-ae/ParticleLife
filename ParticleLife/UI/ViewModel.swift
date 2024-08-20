@@ -41,11 +41,15 @@ final class ViewModel {
     var autoUpdateAttraction: Bool = false
     
     func updateAttraction(_ update: AttractionUpdate) {
-        update.apply(&attractionSteps)
+        update.apply(&attractionSteps, maxStep: attractionMaxStep, colorCount: renderingColorCount)
+    }
+    
+    func updateAttractionLine(_ update: AttractionLineUpdate, step: Int) {
+        update.apply(&attractionSteps, step: step, colorCount: renderingColorCount)
     }
     
     func setAttractionPreset(_ preset: AttractionPreset) {
-        attractionSteps = preset.steps(colorCountToUse: colorCountToUse)
+        attractionSteps = preset.steps(colorCouunt: renderingColorCount)
     }
     
     // MARK: Velocity update rule

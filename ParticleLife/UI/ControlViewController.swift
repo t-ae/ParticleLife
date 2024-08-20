@@ -228,4 +228,8 @@ extension ControlViewController: AttractionMatrixViewDelegate {
     func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>) {
         viewModel.attractionSteps = steps
     }
+    
+    func attractionMatrixValueViewUpdateLine(_ update: AttractionLineUpdate, step: Int) {
+        viewModel.updateAttractionLine(update, step: step)
+    }
 }
