@@ -28,6 +28,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     var particleSize: Float = 5
     var viewportSize: SIMD2<Float> = .zero
     
+    let rgbs = Color.allCases.map { $0.rgb }
     var renderingRect: Rect2 = .init(x: 0, y: 0, width: 1, height: 1)
     
     init(
@@ -202,7 +203,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         
         renderEncoder.setRenderPipelineState(renderPipelineState)
         renderEncoder.setVertexBuffer(particleBuffer, offset: 0, index: 0)
-        renderEncoder.setVertexBytes(Color.rgb, length: MemoryLayout<SIMD3<Float>>.size * Color.rgb.count, index: 1)
+        renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&renderingRect, length: MemoryLayout<Rect2>.size, index: 3)
         renderEncoder.setVertexBytes(&viewportSize, length: MemoryLayout<SIMD2<Float>>.size, index: 5)

@@ -14,18 +14,21 @@ enum Color: UInt32, CaseIterable, IntRepresentable {
 
 extension Color {
     static let rgb: [SIMD3<Float>] = [
-        .init(1, 0, 0),
-        .init(0, 1, 0),
-        .init(0, 0, 1),
-        .init(0, 1, 1),
-        .init(1, 0, 1),
-        .init(1, 1, 0),
+        
+        
 //        .init(1, 1, 1),
 //        .init(0.7, 0.7, 0.7),
     ]
     
     var rgb: SIMD3<Float> {
-        Color.rgb[intValue]
+        switch self {
+        case .red: .init(1, 0, 0)
+        case .green: .init(0, 1, 0)
+        case .blue: .init(0, 0, 1)
+        case .cyan: .init(0, 1, 1)
+        case .magenta: .init(1, 0, 1)
+        case .yellow: .init(1, 1, 0)
+        }
     }
     
     var nsColor: NSColor {
