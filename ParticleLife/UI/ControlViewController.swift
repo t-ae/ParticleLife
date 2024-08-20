@@ -29,7 +29,10 @@ class ControlViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        bindViewModel()
+    }
+    
+    func bindViewModel() {
         // Particle setting
         colorCountButton.removeAllItems()
         colorCountButton.addItems(withTitles: (1...Color.allCases.count).map(String.init))
