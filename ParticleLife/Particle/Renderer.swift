@@ -20,8 +20,8 @@ final class Renderer: NSObject, MTKViewDelegate {
     var velocityUpdateSetting: VelocityUpdateSetting = .init(
         forceFunction: ForceFunction.default,
         distanceFunction: DistanceFunction.default,
-        velocityHalfLife: 0.1,
         rmax: 0.05,
+        velocityHalfLife: 0.1,
         forceFactor: 1
     )
     var fixedDt: Bool = false
@@ -88,12 +88,9 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
     }
     
-    func generateParticles(_ generator: ParticleGenerator) throws {
-        guard generator.particleCount >= 0 else {
-            throw MessageError("particleCount must be greater than 0.")
-        }
-        guard generator.particleCount <= Self.maxParticleCount else {
-            throw MessageError("particleCount must be less than \(Self.maxParticleCount).")
+    func generateParticles(_ generator: ParticleGeneratorProtocol) throws {
+        guard 0...Self.maxParticleCount ~= generator.particleCount else {
+            throw MessageError("particleCount must be in range [0, \(Self.maxParticleCount)].")
         }
         particleCount = generator.particleCount
         let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)

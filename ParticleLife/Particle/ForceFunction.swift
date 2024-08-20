@@ -11,7 +11,7 @@ extension ForceFunction: CaseIterable {
 }
 
 
-extension ForceFunction: LosslessStringConvertible {
+extension ForceFunction: LabelConvertible {
     public var description: String {
         switch self {
         case ForceFunction_force1: "force1"
@@ -19,13 +19,6 @@ extension ForceFunction: LosslessStringConvertible {
         case ForceFunction_force3: "force3"
         default: fatalError("description is not defined for: \(self)")
         }
-    }
-    
-    public init?(_ description: String) {
-        guard let ff = ForceFunction.allCases.first(where: { $0.description == description }) else {
-            return nil
-        }
-        self = ff
     }
 }
 

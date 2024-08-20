@@ -1,7 +1,6 @@
 import Foundation
 
-protocol ParticleGenerator {
-    static var label: String { get }
+protocol ParticleGeneratorProtocol {
     var colorCountToUse: Int { get }
     var particleCount: Int { get }
     var fixed: Bool { get }
@@ -10,7 +9,7 @@ protocol ParticleGenerator {
     func generate(buffer: UnsafeMutableBufferPointer<Particle>)
 }
 
-extension ParticleGenerator {
+extension ParticleGeneratorProtocol {
     func rangomNumberGenerator() -> RandomNumberGenerator {
         if fixed {
             Xorshift64()
@@ -28,25 +27,29 @@ extension ParticleGenerator {
     }
 }
 
-enum ParticleGenerators {
-    static var allTypes: [ParticleGenerator.Type] {
-        [
-            UniformParticleGenerator.self,
-            CircleParticleGenerator.self,
-            PartitionParticleGenerator.self,
-            RainbowRingParticleGenerator.self,
-            GridParticleGenerator.self,
-            ImbalanceParticleGenerator.self,
-        ]
-    }
-    
-    static func get(for label: String) -> ParticleGenerator.Type? {
-        allTypes.first { $0.label == label }
+enum ParticleGeneratorType: String, CaseIterable {
+    case uniform = "Uniform"
+    case circle = "Circle"
+    case partition = "Partition"
+    case rainbowRing = "Rainbow ring"
+    case grid = "Grid"
+    case imbalance = "Imbalance"
+}
+
+extension ParticleGeneratorType {
+    var generator: ParticleGeneratorProtocol.Type {
+        switch self {
+        case .uniform: UniformParticleGenerator.self
+        case .circle: CircleParticleGenerator.self
+        case .partition: PartitionParticleGenerator.self
+        case .rainbowRing: RainbowRingParticleGenerator.self
+        case .grid: GridParticleGenerator.self
+        case .imbalance: ImbalanceParticleGenerator.self
+        }
     }
 }
 
-struct UniformParticleGenerator: ParticleGenerator {
-    static let label: String = "uniform"
+struct UniformParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
@@ -60,8 +63,7 @@ struct UniformParticleGenerator: ParticleGenerator {
     }
 }
 
-struct PartitionParticleGenerator: ParticleGenerator {
-    static let label: String = "partition"
+struct PartitionParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
@@ -80,8 +82,7 @@ struct PartitionParticleGenerator: ParticleGenerator {
     }
 }
 
-struct CircleParticleGenerator: ParticleGenerator {
-    static let label: String = "circle"
+struct CircleParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
@@ -104,8 +105,7 @@ struct CircleParticleGenerator: ParticleGenerator {
     }
 }
 
-struct RainbowRingParticleGenerator: ParticleGenerator {
-    static let label: String = "rainbow ring"
+struct RainbowRingParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
@@ -135,8 +135,7 @@ struct RainbowRingParticleGenerator: ParticleGenerator {
     }
 }
 
-struct ImbalanceParticleGenerator: ParticleGenerator {
-    static let label: String = "imbalance"
+struct ImbalanceParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool
@@ -155,8 +154,7 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
     }
 }
 
-struct GridParticleGenerator: ParticleGenerator {
-    static let label: String = "grid"
+struct GridParticleGenerator: ParticleGeneratorProtocol {
     var colorCountToUse: Int
     var particleCount: Int
     var fixed: Bool

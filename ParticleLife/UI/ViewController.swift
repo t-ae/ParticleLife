@@ -1,15 +1,20 @@
 import Cocoa
 import MetalKit
+import Combine
 
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
     private var renderer: Renderer!
 
+    let viewModel = ViewModel()
+    private var cancellables = Set<AnyCancellable>()
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         doWithErrorTerminate {
             try setupMetalView()
         }
+        bindViewModel()
         openControlWindow()
         
         metalView.isPaused = false
@@ -42,6 +47,33 @@ class ViewController: NSViewController {
         metalView.delegate = renderer
     }
     
+    func bindViewModel() {
+        viewModel.generateParticles = self.generateParticles
+        
+        viewModel.attraction.sink {
+            self.renderer.attraction = $0
+        }.store(in: &cancellables)
+        
+        viewModel.velocityUpdateSetting.sink {
+            self.renderer.velocityUpdateSetting = $0
+        }.store(in: &cancellables)
+        
+        viewModel.$preferredFPS.sink {
+            self.metalView.preferredFramesPerSecond = $0.rawValue
+        }.store(in: &cancellables)
+        
+        viewModel.$fixDt.sink {
+            self.renderer.fixedDt = $0
+        }.store(in: &cancellables)
+        
+        viewModel.$particleSize.sink {
+            self.renderer.particleSize = $0
+        }.store(in: &cancellables)
+        
+        viewModel.play = { self.metalView.isPaused = false }
+        viewModel.pause = { self.metalView.isPaused = true }
+    }
+    
     private var controlWindow: NSWindowController?
     
     func openControlWindow() {
@@ -50,13 +82,25 @@ class ViewController: NSViewController {
         }
         
         let vc = (storyboard!.instantiateController(withIdentifier: "ControlViewController") as! ControlViewController)
-        vc.delegate = self
+        vc.viewModel = viewModel
         let window = NSWindow(contentViewController: vc)
         window.title = "Particle Life - Control"
         window.styleMask.remove(.closable)
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
         controlWindow = wc
+    }
+    
+    func generateParticles() {
+        let particleCount = Int(viewModel.particleCountString) ?? -1
+        let generator = viewModel.particleGenerator.generator.init(
+            colorCountToUse: viewModel.colorCountToUse,
+            particleCount: particleCount,
+            fixed: viewModel.fixSeeds
+        )
+        doWithErrorNotify {
+            try renderer.generateParticles(generator)
+        }
     }
     
     override func mouseUp(with event: NSEvent) {
@@ -141,42 +185,5 @@ extension ViewController {
 extension ViewController: RendererDelegate {
     func rendererOnUpdateFPS(_ fps: Float) {
         self.view.window?.title = String(format: "Particle Life (%.1ffps)", fps)
-    }
-}
-
-extension ViewController: ControlViewControllerDelegate {
-    func controlViewControllerGenerateParticles(generator: any ParticleGenerator) {
-        print("generate:", generator)
-        doWithErrorNotify {
-            try renderer.generateParticles(generator)
-        }
-    }
-    
-    func controlViewControllerOnChangeAttraction(_ attraction: Matrix<Float>) {
-        renderer.attraction = attraction
-    }
-    
-    func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting) {
-        renderer.velocityUpdateSetting = setting
-    }
-    
-    func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int) {
-        metalView.preferredFramesPerSecond = preferredFPS
-    }
-    
-    func controlViewControllerOnChangeFixedDt(_ fixedDt: Bool) {
-        renderer.fixedDt = fixedDt
-    }
-    
-    func controlViewControllerOnChangeParticleSize(_ particleSize: Float) {
-        renderer.particleSize = particleSize
-    }
-    
-    func controlViewControllerOnClickPlayButton() {
-        renderer.isPaused = false
-    }
-    
-    func controlViewControllerOnClickPauseButton() {
-        renderer.isPaused = true
     }
 }

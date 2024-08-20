@@ -9,7 +9,9 @@ class AttractionMatrixValueView: NSControl {
         didSet {
             label.stringValue = String(format: "%.1f", Float(step)/10)
             needsLayout = true
-            delegate?.attractionMatrixValueViewOnUpdateValue()
+            if step != oldValue {
+                delegate?.attractionMatrixValueViewOnUpdateValue()
+            }
         }
     }
     

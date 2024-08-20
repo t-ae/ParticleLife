@@ -181,7 +181,7 @@ class AttractionMatrixView: NSView {
 }
 
 protocol AttractionMatrixViewDelegate {
-    func attractionMatrixViewOnChangeAttraction(_ attraction: Matrix<Float>)
+    func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>)
 }
 
 extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
@@ -206,11 +206,11 @@ extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
 
 extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
     func attractionMatrixValueViewOnUpdateValue() {
-        delegate?.attractionMatrixViewOnChangeAttraction(attraction)
+        delegate?.attractionMatrixViewOnChangeAttractionSteps(steps)
     }
 }
 
-enum AttractionUpdate: String, CaseIterable {
+enum AttractionUpdate: String, LabelConvertible {
     case randomize = "Randomize"
     case symmetricRandom = "Symmetric random"
     case negate = "Negate"
@@ -219,7 +219,7 @@ enum AttractionUpdate: String, CaseIterable {
     case zeroToMinusOne = "Zero to minus one"
 }
 
-enum AttractionPreset: String, CaseIterable {
+enum AttractionPreset: String, LabelConvertible {
     case zero = "Zero fill"
     case identity = "Identity"
     case exclusive = "Exclusive"

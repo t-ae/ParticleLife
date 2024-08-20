@@ -1,8 +1,10 @@
 import Foundation
 import Cocoa
+import Combine
 
 class ControlViewController: NSViewController {
-    var delegate: ControlViewControllerDelegate?
+    var viewModel: ViewModel!
+    private var cancellables = Set<AnyCancellable>()
     
     @IBOutlet var colorCountButton: NSPopUpButton!
     @IBOutlet var particleCountField: NSTextField!
@@ -10,6 +12,7 @@ class ControlViewController: NSViewController {
     @IBOutlet var fixSeedsCheck: NSButton!
     
     @IBOutlet var attractionMatrixView: AttractionMatrixView!
+    @IBOutlet var attractionAutoUpdateSwitch: NSButton!
     @IBOutlet var attractionMatrixUpdateButton: NSComboButton!
     @IBOutlet var attractionMatrixPresetButton: NSComboButton!
     
@@ -19,54 +22,135 @@ class ControlViewController: NSViewController {
     @IBOutlet var velocityHalfLifeButton: NSPopUpButton!
     @IBOutlet var forceFactorSlider: NSSlider!
     
+    @IBOutlet var preferredFPSButton: NSPopUpButton!
+    @IBOutlet var fixDtCheck: NSButton!
+    @IBOutlet var particleSizeSlider: NSSlider!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        attractionMatrixView.delegate = self
-        
+        // Particle setting
         colorCountButton.removeAllItems()
         colorCountButton.addItems(withTitles: (1...Color.allCases.count).map(String.init))
-        colorCountButton.selectItem(at: Color.allCases.count - 1)
+        viewModel.$colorCountToUse.sink {
+            self.colorCountButton.selectItem(by: "\($0)")
+        }.store(in: &cancellables)
+        
+        viewModel.$particleCountString.sink {
+            self.particleCountField.stringValue = $0
+        }.store(in: &cancellables)
         
         particleGeneratorTypeButton.removeAllItems()
-        particleGeneratorTypeButton.addItems(withTitles: ParticleGenerators.allTypes.map { $0.label })
+        particleGeneratorTypeButton.addItems(withTitles: ParticleGeneratorType.allCases.map { $0.rawValue })
+        viewModel.$particleGenerator.sink {
+            self.particleGeneratorTypeButton.selectItem(by: $0.rawValue)
+        }.store(in: &cancellables)
         
-        attractionMatrixUpdateButton.menu.removeAllItems()
-        for attractionSetup in AttractionUpdate.allCases {
-            attractionMatrixUpdateButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionUpdateItem), keyEquivalent: ""))
-        }
+        viewModel.$fixSeeds.sink {
+            self.fixSeedsCheck.state = $0 ? .on : .off
+        }.store(in: &cancellables)
         
-        attractionMatrixPresetButton.menu.removeAllItems()
-        for attractionSetup in AttractionPreset.allCases {
-            attractionMatrixPresetButton.menu.addItem(.init(title: attractionSetup.rawValue, action: #selector(onClickAttractionPresetItem), keyEquivalent: ""))
-        }
+        // Attraction
+        attractionMatrixView.delegate = self
+        viewModel.$attractionSteps.sink {
+            self.attractionMatrixView.setSteps($0)
+        }.store(in: &cancellables)
         
-        forceFunctionButton.removeAllItems()
-        forceFunctionButton.addItems(withTitles: ForceFunction.allCases.map { $0.description })
-        forceFunctionButton.selectItem(by: ForceFunction.default.description)
+        attractionMatrixUpdateButton.menu.setItems(AttractionUpdate.allCases, action: #selector(onClickAttractionUpdateItem))
+        attractionMatrixPresetButton.menu.setItems(AttractionPreset.allCases, action: #selector(onClickAttractionPresetItem))
         
-        distanceFunctionButton.removeAllItems()
-        distanceFunctionButton.addItems(withTitles: DistanceFunction.allCases.map { $0.description })
-        distanceFunctionButton.selectItem(by: DistanceFunction.default.description)
+        viewModel.$autoUpdateAttraction.sink {
+            self.onChangeAttractionAutoUpdate($0)
+        }.store(in: &cancellables)
+        
+        // Velocity update rule
+        forceFunctionButton.setItems(ForceFunction.allCases)
+        viewModel.$forceFunction.sink {
+            self.forceFunctionButton.selectItem($0)
+        }.store(in: &cancellables)
+        
+        distanceFunctionButton.setItems(DistanceFunction.allCases)
+        viewModel.$distanceFunction.sink {
+            self.distanceFunctionButton.selectItem($0)
+        }.store(in: &cancellables)
+        
+        rmaxButton.setItems(Rmax.allCases)
+        viewModel.$rmax.sink {
+            self.rmaxButton.selectItem($0)
+        }.store(in: &cancellables)
+        
+        velocityHalfLifeButton.setItems(VelocityHalfLife.allCases)
+        viewModel.$velocityHalfLife.sink {
+            self.velocityHalfLifeButton.selectItem($0)
+        }.store(in: &cancellables)
+        
+        forceFactorSlider.minValue = Double(viewModel.forceFactorRange.lowerBound)
+        forceFactorSlider.maxValue = Double(viewModel.forceFactorRange.upperBound)
+        viewModel.$forceFactor.sink {
+            self.forceFactorSlider.floatValue = $0
+        }.store(in: &cancellables)
+        
+        // Other
+        preferredFPSButton.removeAllItems()
+        preferredFPSButton.addItems(withTitles: FPS.allCases.map { "\($0.rawValue)" })
+        viewModel.$preferredFPS.sink {
+            self.preferredFPSButton.selectItem(by: "\($0.rawValue)" )
+        }.store(in: &cancellables)
+        
+        viewModel.$fixDt.sink {
+            self.fixDtCheck.state = $0 ? .on : .off
+        }.store(in: &cancellables)
+        
+        particleSizeSlider.minValue = Double(viewModel.particleSizeRange.lowerBound)
+        particleSizeSlider.maxValue = Double(viewModel.particleSizeRange.upperBound)
+        viewModel.$particleSize.sink {
+            self.particleSizeSlider.floatValue = $0
+        }.store(in: &cancellables)
     }
     
     // MARK: Particle setting
+    @IBAction func onChangeColorsToUse(_ sender: NSPopUpButton) {
+        guard let title = sender.titleOfSelectedItem, let count = Int(title) else {
+            return
+        }
+        viewModel.colorCountToUse = count
+    }
+    
+    @IBAction func onChangeParticleCount(_ sender: NSTextField) {
+        viewModel.particleCountString = sender.stringValue
+    }
+    
+    @IBAction func onChangeParticleGeneratorType(_ sender: NSPopUpButton) {
+        guard let title = sender.titleOfSelectedItem, let type = ParticleGeneratorType(rawValue: title) else {
+            return
+        }
+        viewModel.particleGenerator = type
+    }
+    
+    @IBAction func onChangeFixSeeds(_ sender: NSButton) {
+        viewModel.fixSeeds = sender.state == .on
+    }
+    
     @IBAction func onClickGenerateParticlesButton(_ sender: Any) {
-        let count = particleCountField.integerValue
-        let colorCount = Int(colorCountButton.selectedItem!.title)!
+        viewModel.particleCountString = particleCountField.stringValue // Assing latest value
         
-        let generatorType = ParticleGenerators.get(for: particleGeneratorTypeButton.titleOfSelectedItem!)!
-        let generator = generatorType.init(colorCountToUse: colorCount, particleCount: count, fixed: fixSeedsCheck.state == .on)
-        
-        delegate?.controlViewControllerGenerateParticles(generator: generator)
-        attractionMatrixView.colorCount = colorCount
+        attractionMatrixView.colorCount = viewModel.colorCountToUse
+        viewModel.generateParticles()
     }
     
     // MARK: Attracion
-    private var attractionAutoUpdateTask: Task<Void, Error>? = nil
+    
     @IBAction func onSwitchAttractionAutoUpdateButton(_ sender: NSButton) {
-        let on = sender.state == .on
+        viewModel.autoUpdateAttraction = sender.state == .on
+    }
+    
+    private var attractionAutoUpdateTask: Task<Void, Error>? = nil
+    func onChangeAttractionAutoUpdate(_ on: Bool) {
         print("onSwitchAttractionAutoUpdateButton: \(on)")
+        
+        attractionAutoUpdateSwitch.state = on ? .on : .off
+        
         attractionAutoUpdateTask?.cancel()
         if on {
             attractionAutoUpdateTask = Task {
@@ -81,6 +165,7 @@ class ControlViewController: NSViewController {
         }
     }
     
+    
     @objc func onClickAttractionUpdateItem(_ sender: NSMenuItem) {
         let update = AttractionUpdate(rawValue: sender.title)!
         attractionMatrixView.updateAttraction(update: update)
@@ -92,25 +177,20 @@ class ControlViewController: NSViewController {
     }
     
     // MARK: Velocity update rule
-    @IBAction func updateVelocityUpdateSetting(_ sender: Any) {
-        guard let ff = ForceFunction(forceFunctionButton.selectedItem?.title ?? "") else {
-            return
-        }
-        guard let df = DistanceFunction(distanceFunctionButton.selectedItem?.title ?? "") else {
-            return
-        }
-        
-        let velocityHalfLife = Float(velocityHalfLifeButton.selectedTag()) / 1000
-        let rmax = Float(rmaxButton.selectedTag()) / 1000
-        let forceFactor = forceFactorSlider.floatValue
-        
-        delegate?.controlViewControllerUpdateVelocityUpdateSetting(.init(
-            forceFunction: ff,
-            distanceFunction: df,
-            velocityHalfLife: velocityHalfLife,
-            rmax: rmax,
-            forceFactor: forceFactor
-        ))
+    @IBAction func onChangeForceFunction(_ sender: NSPopUpButton) {
+        viewModel.forceFunction = sender.selectedItem()!
+    }
+    @IBAction func onChangeDistanceFunction(_ sender: NSPopUpButton) {
+        viewModel.distanceFunction = sender.selectedItem()!
+    }
+    @IBAction func onChangeRmax(_ sender: NSPopUpButton) {
+        viewModel.rmax = sender.selectedItem()!
+    }
+    @IBAction func onChangeVelocityHalfLife(_ sender: NSPopUpButton) {
+        viewModel.velocityHalfLife = sender.selectedItem()!
+    }
+    @IBAction func onChangeForceFactor(_ sender: NSSlider) {
+        viewModel.forceFactor = sender.floatValue
     }
     
     @IBAction func onForceFuctionClickHelpButton(_ sender: Any) {
@@ -118,44 +198,29 @@ class ControlViewController: NSViewController {
         NSWorkspace.shared.open(url)
     }
     
-    
     // MARK: Other
     @IBAction func onChangePreferredFPS(_ sender: NSPopUpButton) {
-        let fps = sender.selectedTag()
-        delegate?.controlViewControllerOnChangePreferredFPS(fps)
+        viewModel.preferredFPS = sender.selectedItem()!
     }
     @IBAction func onChangeFixedDt(_ sender: NSButton) {
-        delegate?.controlViewControllerOnChangeFixedDt(sender.state == .on)
+        viewModel.fixDt = sender.state == .on
     }
     @IBAction func onChangeParticleSizeSlider(_ sender: NSSlider) {
-        delegate?.controlViewControllerOnChangeParticleSize(sender.floatValue)
+        viewModel.particleSize = sender.floatValue
     }
     
     // MARK: Control
     @IBAction func onClickPlayButton(_ sender: Any) {
-        delegate?.controlViewControllerOnClickPlayButton()
+        viewModel.play()
     }
     
     @IBAction func onClickPauseButton(_ sender: Any) {
-        delegate?.controlViewControllerOnClickPauseButton()
+        viewModel.pause()
     }
 }
 
-protocol ControlViewControllerDelegate {
-    func controlViewControllerGenerateParticles(generator: ParticleGenerator)
-    func controlViewControllerOnChangeAttraction(_ attraction: Matrix<Float>)
-    func controlViewControllerUpdateVelocityUpdateSetting(_ setting: VelocityUpdateSetting)
-    
-    func controlViewControllerOnChangePreferredFPS(_ preferredFPS: Int)
-    func controlViewControllerOnChangeFixedDt(_ fixedDt: Bool)
-    func controlViewControllerOnChangeParticleSize(_ particleSize: Float)
-    
-    func controlViewControllerOnClickPauseButton()
-    func controlViewControllerOnClickPlayButton()
-}
-
 extension ControlViewController: AttractionMatrixViewDelegate {
-    func attractionMatrixViewOnChangeAttraction(_ attraction: Matrix<Float>) {
-        delegate?.controlViewControllerOnChangeAttraction(attraction)
+    func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>) {
+        viewModel.attractionSteps = steps
     }
 }

@@ -42,7 +42,7 @@ extension DistanceFunction {
     }
 }
 
-extension DistanceFunction: LosslessStringConvertible {
+extension DistanceFunction: LabelConvertible {
     public var description: String {
         switch self {
         case DistanceFunction_l1: "L1 norm"
@@ -54,12 +54,5 @@ extension DistanceFunction: LosslessStringConvertible {
         case DistanceFunction_pentagonal: "Pentagonal"
         default: fatalError("description is not defined for: \(self)")
         }
-    }
-    
-    public init?(_ description: String) {
-        guard let df = DistanceFunction.allCases.first(where: { $0.description == description }) else {
-            return nil
-        }
-        self = df
     }
 }

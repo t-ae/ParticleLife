@@ -29,8 +29,8 @@ enum DistanceFunction {
 typedef struct {
     enum ForceFunction forceFunction;
     enum DistanceFunction distanceFunction;
-    float velocityHalfLife;
     float rmax;
+    float velocityHalfLife;
     float forceFactor;
 } VelocityUpdateSetting;
 
