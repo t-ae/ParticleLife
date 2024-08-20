@@ -210,7 +210,7 @@ extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
     }
 }
 
-enum AttractionUpdate: String, LabelConvertible {
+enum AttractionUpdate: String, OptionConvertible {
     case randomize = "Randomize"
     case symmetricRandom = "Symmetric random"
     case negate = "Negate"
@@ -219,7 +219,7 @@ enum AttractionUpdate: String, LabelConvertible {
     case zeroToMinusOne = "Zero to minus one"
 }
 
-enum AttractionPreset: String, LabelConvertible {
+enum AttractionPreset: String, OptionConvertible {
     case zero = "Zero fill"
     case identity = "Identity"
     case exclusive = "Exclusive"

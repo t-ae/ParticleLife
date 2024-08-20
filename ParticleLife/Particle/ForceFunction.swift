@@ -11,7 +11,7 @@ extension ForceFunction: CaseIterable {
 }
 
 
-extension ForceFunction: LabelConvertible {
+extension ForceFunction: OptionConvertible {
     public var description: String {
         switch self {
         case ForceFunction_force1: "force1"

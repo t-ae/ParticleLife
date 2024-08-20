@@ -42,7 +42,7 @@ extension DistanceFunction {
     }
 }
 
-extension DistanceFunction: LabelConvertible {
+extension DistanceFunction: OptionConvertible {
     public var description: String {
         switch self {
         case DistanceFunction_l1: "L1 norm"

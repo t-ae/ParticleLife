@@ -85,7 +85,7 @@ final class ViewModel {
     var pause: ()->Void = {}
 }
 
-enum Rmax: Float, LabelConvertible {
+enum Rmax: Float, OptionConvertible {
     case r001 = 0.01
     case r003 = 0.03
     case r005 = 0.05
@@ -96,7 +96,7 @@ enum Rmax: Float, LabelConvertible {
     var description: String { String(format: "%.2f", rawValue) }
 }
 
-enum VelocityHalfLife: Float, LabelConvertible {
+enum VelocityHalfLife: Float, OptionConvertible {
     case l10 = 0.01
     case l50 = 0.05
     case l100 = 0.1
@@ -106,7 +106,7 @@ enum VelocityHalfLife: Float, LabelConvertible {
     var description: String { String(format: "%.3fms", rawValue) }
 }
 
-enum FPS: Int, LabelConvertible {
+enum FPS: Int, OptionConvertible {
     case fps30 = 30
     case fps60 = 60
     case fps120 = 120

@@ -33,7 +33,7 @@
 		A73194562C713CBC0070148A /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194552C713CBC0070148A /* Matrix.swift */; };
 		A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */; };
 		A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */; };
-		A78DB8B52C74D123006A3E5E /* LabelConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B42C74D123006A3E5E /* LabelConvertible.swift */; };
+		A78DB8B52C74D123006A3E5E /* OptionConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +85,7 @@
 		A73194552C713CBC0070148A /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpViewController.swift; sourceTree = "<group>"; };
 		A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		A78DB8B42C74D123006A3E5E /* LabelConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelConvertible.swift; sourceTree = "<group>"; };
+		A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionConvertible.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,7 +188,7 @@
 				A731943F2C6E83680070148A /* Xorshift64.swift */,
 				A731944B2C70669F0070148A /* IntRepresentable.swift */,
 				A73194552C713CBC0070148A /* Matrix.swift */,
-				A78DB8B42C74D123006A3E5E /* LabelConvertible.swift */,
+				A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -356,7 +356,7 @@
 				A731944A2C7025830070148A /* DistanceFunction.swift in Sources */,
 				A73194562C713CBC0070148A /* Matrix.swift in Sources */,
 				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,
-				A78DB8B52C74D123006A3E5E /* LabelConvertible.swift in Sources */,
+				A78DB8B52C74D123006A3E5E /* OptionConvertible.swift in Sources */,
 				A73194462C6E9E040070148A /* AttractionMatrixView.swift in Sources */,
 				A731943E2C6DFCC50070148A /* Types.swift in Sources */,
 			);

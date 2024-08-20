@@ -1,9 +1,9 @@
 import Foundation
 import Cocoa
 
-protocol LabelConvertible: RawRepresentable, LosslessStringConvertible, CaseIterable {}
+protocol OptionConvertible: RawRepresentable, LosslessStringConvertible, CaseIterable {}
 
-extension LabelConvertible {
+extension OptionConvertible {
     public init?(_ description: String) {
         guard let c = Self.allCases.first(where: { $0.description == description }) else {
             return nil
@@ -12,27 +12,27 @@ extension LabelConvertible {
     }
 }
 
-extension LabelConvertible where RawValue == String {
+extension OptionConvertible where RawValue == String {
     var description: String { rawValue }
 }
 
 extension NSPopUpButton {
-    func setItems<C: Collection>(_ items: C) where C.Element: LabelConvertible {
+    func setItems<C: Collection>(_ items: C) where C.Element: OptionConvertible {
         self.removeAllItems()
         self.addItems(withTitles: items.map { $0.description })
     }
     
-    func selectItem(_ c: any LabelConvertible) {
+    func selectItem(_ c: any OptionConvertible) {
         selectItem(by: c.description)
     }
     
-    func selectedItem<T: LabelConvertible>() -> T? {
+    func selectedItem<T: OptionConvertible>() -> T? {
         titleOfSelectedItem.flatMap(T.init)
     }
 }
 
 extension NSMenu {
-    func setItems<C: Collection>(_ items: C, action: Selector) where C.Element: LabelConvertible {
+    func setItems<C: Collection>(_ items: C, action: Selector) where C.Element: OptionConvertible {
         removeAllItems()
         for item in items {
             addItem(withTitle: item.description, action: action, keyEquivalent: "")
