@@ -9,27 +9,30 @@ class ViewController: NSViewController {
     let viewModel = ViewModel()
     private var cancellables = Set<AnyCancellable>()
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        doWithErrorTerminate {
-            try setupMetalView()
-        }
-        bindViewModel()
-        openControlWindow()
+    var setupError: Error? = nil
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        metalView.isPaused = false
+        do {
+            try setupMetalView()
+            bindViewModel()
+            openControlWindow()
+            metalView.isPaused = false
+        } catch {
+            setupError = error
+        }
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
         // Enable keyboard shortcuts
         view.window?.makeFirstResponder(self)
-    }
-    
-    override func viewWillDisappear() {
-        metalView.isPaused = true
-        controlWindow?.close()
-        super.viewWillDisappear()
+        
+        if let setupError {
+            showErrorAlert(setupError)
+            NSApplication.shared.terminate(self)
+        }
     }
     
     func setupMetalView() throws {
@@ -99,8 +102,10 @@ class ViewController: NSViewController {
             particleCount: particleCount,
             fixed: viewModel.fixSeeds
         )
-        doWithErrorNotify {
+        do {
             try renderer.generateParticles(generator)
+        } catch {
+            showErrorAlert(error)
         }
     }
     
@@ -160,32 +165,15 @@ class ViewController: NSViewController {
 }
 
 extension ViewController {
-    func doWithErrorNotify(_ f: () throws -> Void) {
-        do {
-            try f()
-        } catch let error as MessageError {
-            let alert = NSAlert()
+    func showErrorAlert(_ error: Error) {
+        let alert: NSAlert
+        if let error = error as? MessageError {
+            alert = NSAlert()
             alert.messageText = error.message
-            alert.runModal()
-        } catch {
-            let alert = NSAlert(error: error)
-            alert.runModal()
+        } else {
+            alert = NSAlert(error: error)
         }
-    }
-    
-    func doWithErrorTerminate(_ f: () throws -> Void) {
-        do {
-            try f()
-        } catch let error as MessageError {
-            let alert = NSAlert()
-            alert.messageText = error.message
-            alert.runModal()
-            NSApplication.shared.terminate(self)
-        } catch {
-            let alert = NSAlert(error: error)
-            alert.runModal()
-            NSApplication.shared.terminate(self)
-        }
+        alert.runModal()
     }
 }
 
