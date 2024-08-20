@@ -133,6 +133,8 @@ class ViewController: NSViewController {
     
     override func keyDown(with event: NSEvent) {
         switch event.characters {
+        case "a":
+            viewModel.autoUpdateAttraction.toggle()
         case "p":
             showDumpModal(title: "Parameters", content: renderer.dumpParameters())
         case "s":
