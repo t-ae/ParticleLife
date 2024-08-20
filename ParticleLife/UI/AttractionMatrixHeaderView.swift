@@ -1,7 +1,7 @@
 import Foundation
 import Cocoa
 
-class AttractionMatrixHeaderView: NSControl {
+class AttractionMatrixHeaderView: AttractionMatrixChildView {
     enum FillTarget {
         case row(Color)
         case column(Color)
@@ -61,16 +61,16 @@ class AttractionMatrixHeaderView: NSControl {
     
     override func menu(for event: NSEvent) -> NSMenu? {
         let menu = NSMenu()
-        for i in [0, -1, 1] {
-            let item = NSMenuItem(title: "Fill \(i)", action: #selector(menuItemClicked), keyEquivalent: "")
-            item.tag = i
+        for step in [0, -maxStep, maxStep] {
+            let item = NSMenuItem(title: "Fill \(valueFormatter(step))", action: #selector(menuItemClicked), keyEquivalent: "")
+            item.tag = step
             menu.addItem(item)
         }
         return menu
     }
     
     @objc func menuItemClicked(sender: NSMenuItem) {
-        delegate?.attractionMatrixHeaderViewOnClickFillMenu(self, value: sender.tag)
+        delegate?.attractionMatrixHeaderViewOnClickFillMenu(self, step: sender.tag)
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -80,5 +80,5 @@ class AttractionMatrixHeaderView: NSControl {
 }
 
 protocol AttractionMatrixHeaderViewDelegate {
-    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, value: Int)
+    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, step: Int)
 }

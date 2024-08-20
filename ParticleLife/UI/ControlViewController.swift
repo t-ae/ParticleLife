@@ -52,6 +52,8 @@ class ControlViewController: NSViewController {
         }.store(in: &cancellables)
         
         // Attraction
+        attractionMatrixView.setMaxStep(viewModel.attractionMaxStep)
+        attractionMatrixView.setValueFormatter(viewModel.attractionValueFormatter)
         attractionMatrixView.delegate = self
         viewModel.$attractionSteps.sink {
             self.attractionMatrixView.setSteps($0)

@@ -18,13 +18,18 @@ final class ViewModel {
     var generateParticles: (()->Void)!
     
     // MARK: Attraction
+    let attractionMaxStep = 10
+    var attractionValueFormatter: (Int)->String {
+        { [attractionMaxStep] in String(format: "%.1f", Float($0) / Float(attractionMaxStep)) }
+    }
+    
     @Published
     var attractionSteps: Matrix<Int> = Matrix(rows: Color.allCases.count, cols: Color.allCases.count, filledWith: 0)
     
     var attraction: any Publisher<Matrix<Float>, Never> {
         $attractionSteps.map {
             Matrix<Float>(rows: $0.rows, cols: $0.cols, elements: $0.elements.map {
-                Float($0) / Float(AttractionMatrixValueView.maxValue)
+                Float($0) / Float(self.attractionMaxStep)
             })
         }
     }

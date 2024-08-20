@@ -1,14 +1,12 @@
 import Foundation
 import Cocoa
 
-class AttractionMatrixValueView: NSControl {
+class AttractionMatrixValueView: AttractionMatrixChildView {
     var delegate: AttractionMatrixValueViewDelegate?
-    
-    static let maxValue = 10
     
     private(set) var step: Int = 0 {
         didSet {
-            label.stringValue = String(format: "%.1f", Float(step)/Float(Self.maxValue))
+            label.stringValue = valueFormatter(step)
             needsLayout = true
             if step != oldValue {
                 delegate?.attractionMatrixValueViewOnUpdateValue()
@@ -17,7 +15,7 @@ class AttractionMatrixValueView: NSControl {
     }
     
     var attractionValue: Float {
-        Float(step) / Float(Self.maxValue)
+        Float(step) / Float(maxStep)
     }
     
     required init?(coder: NSCoder) {
@@ -49,33 +47,33 @@ class AttractionMatrixValueView: NSControl {
     
     override func layout() {
         if step > 0 {
-            layer?.backgroundColor = .init(red: 0, green: sqrt(CGFloat(step)/CGFloat(Self.maxValue)), blue: 0, alpha: 1)
+            layer?.backgroundColor = .init(red: 0, green: sqrt(CGFloat(step)/CGFloat(maxStep)), blue: 0, alpha: 1)
         } else {
-            layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/CGFloat(Self.maxValue)), green: 0, blue: 0, alpha: 1)
+            layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/CGFloat(maxStep)), green: 0, blue: 0, alpha: 1)
         }
         label.frame = .init(x: 0, y: bounds.midY - label.bounds.midY, width: bounds.width, height: label.frame.height)
     }
     
     func increment() -> Bool {
-        if step >= Self.maxValue { return false }
+        if step >= maxStep { return false }
         step += 1
         return true
     }
     
     func decrement() -> Bool {
-        if step <= -Self.maxValue { return false }
+        if step <= -maxStep { return false }
         step -= 1
         return true
     }
     
     func setStep(_ step: Int) {
-        assert(-Self.maxValue <= step && step <= Self.maxValue)
+        assert(-maxStep <= step && step <= maxStep)
         self.step = step
     }
     
     override func mouseDown(with event: NSEvent) {
         if event.modifierFlags.contains(.shift) {
-            setStep(Self.maxValue)
+            setStep(maxStep)
         } else {
             startMouseHold(increment)
         }
@@ -87,7 +85,7 @@ class AttractionMatrixValueView: NSControl {
     
     override func rightMouseDown(with event: NSEvent) {
         if event.modifierFlags.contains(.shift) {
-            setStep(-Self.maxValue)
+            setStep(-maxStep)
         } else {
             startMouseHold(decrement)
         }

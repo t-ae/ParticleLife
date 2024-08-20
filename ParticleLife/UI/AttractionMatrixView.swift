@@ -16,7 +16,7 @@ class AttractionMatrixView: NSView {
         }
     }
     
-    private var views: [NSView] = []
+    private var views: [AttractionMatrixChildView]!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -29,6 +29,7 @@ class AttractionMatrixView: NSView {
     }
     
     func setup() {
+        var views: [AttractionMatrixChildView] = []
         // Header
         do {
             let view = AttractionMatrixHeaderView()
@@ -61,6 +62,16 @@ class AttractionMatrixView: NSView {
         for view in views {
             self.addSubview(view)
         }
+        
+        self.views = views
+    }
+    
+    func setMaxStep(_ maxStep: Int) {
+        views.forEach { $0.maxStep = maxStep }
+    }
+    
+    func setValueFormatter(_ formatter: @escaping (Int)->String) {
+        views.forEach { $0.valueFormatter = formatter }
     }
     
     var attractionMatrixCells: [AttractionMatrixValueView] {
@@ -110,20 +121,20 @@ protocol AttractionMatrixViewDelegate {
 }
 
 extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {
-    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, value: Int) {
+    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, step: Int) {
         let cells = attractionMatrixCells
         switch view.fillTarget {
         case .row(let color):
             for i in 0..<colorCount {
-                cells[color.intValue * Color.allCases.count + i].setStep(value*10)
+                cells[color.intValue * Color.allCases.count + i].setStep(step)
             }
         case .column(let color):
             for i in 0..<colorCount {
-                cells[i * Color.allCases.count + color.intValue].setStep(value*10)
+                cells[i * Color.allCases.count + color.intValue].setStep(step)
             }
         case .diagonal:
             for i in 0..<colorCount {
-                cells[i * Color.allCases.count + i].setStep(value*10)
+                cells[i * Color.allCases.count + i].setStep(step)
             }
         }
     }
@@ -135,3 +146,12 @@ extension AttractionMatrixView: AttractionMatrixValueViewDelegate {
     }
 }
 
+class AttractionMatrixChildView: NSControl {
+    var maxStep: Int = 10 {
+        didSet {
+            needsLayout = true
+        }
+    }
+    
+    var valueFormatter: (Int)->String = { "\($0)" }
+}
