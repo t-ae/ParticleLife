@@ -90,6 +90,9 @@ final class ViewModel {
     // MARK: Control
     var play: ()->Void = {}
     var pause: ()->Void = {}
+    
+    @Published
+    var isPaused: Bool = false
 }
 
 enum Rmax: Float, OptionConvertible {

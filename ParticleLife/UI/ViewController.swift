@@ -70,8 +70,9 @@ class ViewController: NSViewController {
             self.renderer.particleSize = $0
         }.store(in: &cancellables)
         
-        viewModel.play = { self.metalView.isPaused = false }
-        viewModel.pause = { self.metalView.isPaused = true }
+        viewModel.$isPaused.sink {
+            self.renderer.isPaused = $0
+        }.store(in: &cancellables)
     }
     
     private var controlWindow: NSWindowController?
@@ -143,6 +144,8 @@ class ViewController: NSViewController {
             showDumpModal(title: "Statistics", content: renderer.dumpStatistics())
         case "i":
             renderer.induceInvalid()
+        case " ":
+            viewModel.isPaused.toggle()
         default:
             break
         }

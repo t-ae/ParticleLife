@@ -209,11 +209,11 @@ class ControlViewController: NSViewController {
     
     // MARK: Control
     @IBAction func onClickPlayButton(_ sender: Any) {
-        viewModel.play()
+        viewModel.isPaused = false
     }
     
     @IBAction func onClickPauseButton(_ sender: Any) {
-        viewModel.pause()
+        viewModel.isPaused = true
     }
 }
 
