@@ -119,19 +119,13 @@ final class Renderer: NSObject, MTKViewDelegate {
         lastDrawDate = now
         
         let dt: Float
-        do {
-            if fixedDt {
-                dt = 1 / Float(view.preferredFramesPerSecond)
-            } else {
-                let avg = dtHistory.average()
-                if realDt < avg/2 || realDt > avg*1.5 { // ignore outlier
-                    dt =  1 / Float(view.preferredFramesPerSecond)
-                } else {
-                    dt = realDt
-                }
-            }
-            dtHistory.insert(dt)
+        let averageDt = dtHistory.average()
+        if fixedDt || realDt < averageDt/2 || realDt > averageDt*1.5 { // ignore outlier
+            dt =  1 / Float(view.preferredFramesPerSecond)
+        } else {
+            dt = realDt
         }
+        dtHistory.insert(dt)
         
         do { // Update velocity
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
