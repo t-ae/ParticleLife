@@ -104,7 +104,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     private var lastDrawDate = Date()
-    private var fpsHistory: RingBuffer = .init(count: 30, initialValue: 0)
+    private var fpsHistory: RingBuffer = .init(count: 60, initialValue: 0)
     private var dtHistory: RingBuffer = .init(count: 30, initialValue: 0)
     
     func draw(in view: MTKView) {
@@ -112,7 +112,8 @@ final class Renderer: NSObject, MTKViewDelegate {
         let realDt = Float(now.timeIntervalSince(lastDrawDate))
         let fps = 1/realDt
         fpsHistory.insert(fps)
-        if fpsHistory.head == 0 {
+        if fpsHistory.head % (view.preferredFramesPerSecond / 2)  == 0 {
+            // evenry 0.5sec
             delegate?.rendererOnUpdateFPS(fpsHistory.average())
         }
         lastDrawDate = now
