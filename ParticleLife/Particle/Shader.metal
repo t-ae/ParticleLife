@@ -2,6 +2,7 @@
 #include "Types.h"
 using namespace metal;
 
+// MARK: - Force functions
 /// The force function described in the reference video: https://youtu.be/scvuli-zcRc?si=2XnKp-vTtEUd9QE3
 float force1(float distance, float attraction) {
     float beta = 0.3;
@@ -34,6 +35,7 @@ float force3(float distance, float attraction) {
     }
 }
 
+// MARK: - Distance functions
 float l05Distance(vector_float2 vector) {
     return pow(pow(abs(vector.x), 0.5) + pow(abs(vector.y), 0.5), 2);
 }
@@ -65,6 +67,7 @@ float pentagonalDistance(vector_float2 vector) {
     return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
 }
 
+// MARK: - Kernel functions
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
@@ -164,6 +167,7 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
     particles[gid].position.y = wrappedZeroOneRange(particles[gid].position.y);
 }
 
+// MARK: - Particle vertex/fragment shader
 struct Point {
     float4 position [[position]];
     float size [[point_size]];
