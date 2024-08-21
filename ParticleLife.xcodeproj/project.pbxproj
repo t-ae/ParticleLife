@@ -38,6 +38,7 @@
 		A78DB8B92C74E392006A3E5E /* AttractionPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */; };
 		A78DB8BB2C755CC3006A3E5E /* AttractionLineUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8BA2C755CC3006A3E5E /* AttractionLineUpdate.swift */; };
 		A78DB8BD2C75B0C5006A3E5E /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8BC2C75B0C5006A3E5E /* Binding.swift */; };
+		A78DB8BF2C75F4DB006A3E5E /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8BE2C75F4DB006A3E5E /* RingBuffer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionPreset.swift; sourceTree = "<group>"; };
 		A78DB8BA2C755CC3006A3E5E /* AttractionLineUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionLineUpdate.swift; sourceTree = "<group>"; };
 		A78DB8BC2C75B0C5006A3E5E /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		A78DB8BE2C75F4DB006A3E5E /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 				A73194552C713CBC0070148A /* Matrix.swift */,
 				A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */,
 				A78DB8BC2C75B0C5006A3E5E /* Binding.swift */,
+				A78DB8BE2C75F4DB006A3E5E /* RingBuffer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,
 				A73194422C6E85D70070148A /* ParticleGeneratorProtocol.swift in Sources */,
+				A78DB8BF2C75F4DB006A3E5E /* RingBuffer.swift in Sources */,
 				A731944A2C7025830070148A /* DistanceFunction.swift in Sources */,
 				A73194562C713CBC0070148A /* Matrix.swift in Sources */,
 				A73194402C6E83680070148A /* Xorshift64.swift in Sources */,

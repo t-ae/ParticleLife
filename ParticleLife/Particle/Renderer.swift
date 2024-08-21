@@ -104,20 +104,33 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     private var lastDrawDate = Date()
-    private var fpsHistory: [Float] = []
+    private var fpsHistory: RingBuffer = .init(count: 30, initialValue: 0)
+    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 0)
     
     func draw(in view: MTKView) {
         let now = Date()
         let realDt = Float(now.timeIntervalSince(lastDrawDate))
         let fps = 1/realDt
-        fpsHistory.append(fps)
-        if fpsHistory.count == 30 {
-            delegate?.rendererOnUpdateFPS(fpsHistory.reduce(0, +) / 30)
-            fpsHistory = []
+        fpsHistory.insert(fps)
+        if fpsHistory.head == 0 {
+            delegate?.rendererOnUpdateFPS(fpsHistory.average())
         }
         lastDrawDate = now
         
-        let dt = fixedDt ? 1 / Float(view.preferredFramesPerSecond) : realDt
+        let dt: Float
+        do {
+            if fixedDt {
+                dt = 1 / Float(view.preferredFramesPerSecond)
+            } else {
+                let avg = dtHistory.average()
+                if realDt < avg/2 || realDt > avg*1.5 { // ignore outlier
+                    dt =  1 / Float(view.preferredFramesPerSecond)
+                } else {
+                    dt = realDt
+                }
+            }
+            dtHistory.insert(dt)
+        }
         
         do { // Update velocity
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
