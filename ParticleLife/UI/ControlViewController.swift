@@ -42,7 +42,7 @@ class ControlViewController: NSViewController {
             self.viewModel.colorCountToUse = $0
         }.store(in: &cancellables)
         
-        self.particleCountField.bind(viewModel.$particleCountString) {
+        particleCountField.bind(viewModel.$particleCountString) {
             self.viewModel.particleCountString = $0
         }.store(in: &cancellables)
         
@@ -109,6 +109,9 @@ class ControlViewController: NSViewController {
         forceFactorSlider.bind(viewModel.$forceFactor, range: viewModel.forceFactorRange) {
             self.viewModel.forceFactor = $0
         }.store(in: &cancellables)
+        viewModel.$forceFactor.sink {
+            self.forceFactorSlider.toolTip = String(format: "%.2f", $0)
+        }.store(in: &cancellables)
         
         // MARK: Other
         preferredFPSButton.bind(viewModel.$preferredFPS) {
@@ -121,6 +124,9 @@ class ControlViewController: NSViewController {
         
         particleSizeSlider.bind(viewModel.$particleSize, range: viewModel.particleSizeRange) {
             self.viewModel.particleSize = $0
+        }.store(in: &cancellables)
+        viewModel.$particleSize.sink {
+            self.particleSizeSlider.toolTip = String(format: "%.2f", $0)
         }.store(in: &cancellables)
         
         // MARK: Control
