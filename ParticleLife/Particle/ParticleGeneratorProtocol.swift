@@ -27,7 +27,7 @@ extension ParticleGeneratorProtocol {
     }
 }
 
-enum ParticleGeneratorType: String, CaseIterable {
+enum ParticleGeneratorType: String, OptionConvertible {
     case uniform = "Uniform"
     case circle = "Circle"
     case partition = "Partition"

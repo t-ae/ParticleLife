@@ -139,7 +139,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fP9-86-aTL">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fP9-86-aTL" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="94" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="6" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="6" imageScaling="proportionallyDown" inset="2" selectedItem="e5D-QY-Mgc" id="daz-xY-kkd">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -158,9 +158,6 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="128" id="2iA-WE-pBu"/>
                                             </constraints>
-                                            <connections>
-                                                <action selector="onChangeColorsToUse:" target="3gE-1T-kfi" id="2AE-it-NoJ"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C85-mf-RAV">
                                             <rect key="frame" x="10" y="72" width="112" height="16"/>
@@ -170,16 +167,13 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eqi-pt-0Bd">
+                                        <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Eqi-pt-0Bd" customClass="BindableTextField" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="128" y="70" width="128" height="21"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="10000" placeholderString="Partcle count" drawsBackground="YES" id="nsj-hT-mSB">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <connections>
-                                                <action selector="onChangeParticleCount:" target="3gE-1T-kfi" id="c5d-Gw-8U2"/>
-                                            </connections>
                                         </textField>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zeQ-af-Syj">
                                             <rect key="frame" x="10" y="44" width="112" height="16"/>
@@ -189,7 +183,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eId-Kc-m3w">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eId-Kc-m3w" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="38" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="uniform" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OEK-vg-J4n" id="C5c-X0-tVN">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -200,29 +194,20 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="onChangeParticleGeneratorType:" target="3gE-1T-kfi" id="wYu-yr-2vg"/>
-                                            </connections>
                                         </popUpButton>
-                                        <button toolTip="Fix the seeds of random number generator." allowsExpansionToolTips="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x1R-uf-ZXW">
+                                        <button toolTip="Fix the seeds of random number generator." allowsExpansionToolTips="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="x1R-uf-ZXW" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="37" y="11" width="83" height="18"/>
                                             <buttonCell key="cell" type="check" title="Fix seeds" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eWm-fS-DwJ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <connections>
-                                                <action selector="onChangeFixSeeds:" target="3gE-1T-kfi" id="eRr-Ru-nlK"/>
-                                            </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsy-Yp-elp">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsy-Yp-elp" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="203" y="3" width="90" height="32"/>
                                             <buttonCell key="cell" type="push" title="Generate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C7G-xd-6fN">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <connections>
-                                                <action selector="onClickGenerateParticlesButton:" target="3gE-1T-kfi" id="8Ht-nZ-xYP"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -265,17 +250,14 @@
                                                 <constraint firstAttribute="width" secondItem="VBU-da-5gg" secondAttribute="height" multiplier="1:1" id="Z6S-pi-Kfa"/>
                                             </constraints>
                                         </customView>
-                                        <button toolTip="Randomize attractions every 30 seconds." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uEs-eK-xiM">
+                                        <button toolTip="Randomize attractions every 30 seconds." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uEs-eK-xiM" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="1" y="5" width="63" height="32"/>
                                             <buttonCell key="cell" type="push" title="Auto" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="9YM-98-jAe">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <connections>
-                                                <action selector="onSwitchAttractionAutoUpdateButton:" target="3gE-1T-kfi" id="PVT-ez-0Mt"/>
-                                            </connections>
                                         </button>
-                                        <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Update" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-A2-901">
+                                        <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Update" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-A2-901" customClass="BindableComboButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="173" y="10" width="61" height="24"/>
                                             <menu key="menu" id="LDS-3E-AgY">
                                                 <items>
@@ -285,7 +267,7 @@
                                                 </items>
                                             </menu>
                                         </comboButton>
-                                        <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8">
+                                        <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8" customClass="BindableComboButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="236" y="10" width="55" height="24"/>
                                             <menu key="menu" id="91A-RG-Uwc">
                                                 <items>
@@ -327,7 +309,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="118" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -341,9 +323,6 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="128" id="mLU-w3-KBW"/>
                                             </constraints>
-                                            <connections>
-                                                <action selector="onChangeForceFunction:" target="3gE-1T-kfi" id="bMx-Ml-HRd"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0nx-v7-oKg">
                                             <rect key="frame" x="10" y="96" width="112" height="16"/>
@@ -353,7 +332,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="90" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -364,19 +343,13 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="onChangeDistanceFunction:" target="3gE-1T-kfi" id="EB5-ti-2UN"/>
-                                            </connections>
                                         </popUpButton>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="261" y="118" width="25" height="25"/>
                                             <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GLM-AQ-2z0">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <connections>
-                                                <action selector="onForceFuctionClickHelpButton:" target="3gE-1T-kfi" id="0En-L5-QCR"/>
-                                            </connections>
                                         </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-B9-nq6">
                                             <rect key="frame" x="10" y="68" width="112" height="16"/>
@@ -386,7 +359,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aar-TR-ARJ">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aar-TR-ARJ" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="62" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="0.05" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="50" imageScaling="proportionallyDown" inset="2" selectedItem="Mdg-0a-eya" id="WNv-qU-4mp">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -403,9 +376,6 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="onChangeRmax:" target="3gE-1T-kfi" id="mgQ-a0-0Iq"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-8H-i6c">
                                             <rect key="frame" x="10" y="40" width="112" height="16"/>
@@ -415,7 +385,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Alr-Aw-bew">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Alr-Aw-bew" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="34" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="100ms" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="100" imageScaling="proportionallyDown" inset="2" selectedItem="x6L-I4-Ujf" id="bWU-kP-lbp">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -430,9 +400,6 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="onChangeVelocityHalfLife:" target="3gE-1T-kfi" id="cfE-Si-NE3"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mfZ-VI-rxF">
                                             <rect key="frame" x="10" y="12" width="112" height="16"/>
@@ -442,14 +409,11 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn">
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="126" y="4" width="160" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="10" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="HAN-di-16a">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
-                                            <connections>
-                                                <action selector="onChangeForceFactor:" target="3gE-1T-kfi" id="Rct-lH-9Bo"/>
-                                            </connections>
                                         </slider>
                                     </subviews>
                                     <constraints>
@@ -506,7 +470,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-6R-SFa">
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-6R-SFa" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="125" y="36" width="71" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="60" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="60" imageScaling="proportionallyDown" inset="2" selectedItem="Rrg-yK-0uR" id="zYk-HN-inP">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -522,9 +486,6 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="64" id="Um3-2G-H9Z"/>
                                             </constraints>
-                                            <connections>
-                                                <action selector="onChangePreferredFPS:" target="3gE-1T-kfi" id="cs8-2i-df6"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wz9-5f-U8I">
                                             <rect key="frame" x="10" y="14" width="78" height="16"/>
@@ -534,7 +495,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz">
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="92" y="6" width="196" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="192" id="P8A-PO-cEO"/>
@@ -542,19 +503,13 @@
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="15" doubleValue="3" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
-                                            <connections>
-                                                <action selector="onChangeParticleSizeSlider:" target="3gE-1T-kfi" id="XDx-4z-MUL"/>
-                                            </connections>
                                         </slider>
-                                        <button toolTip="Use 1/Preferred FPS instead of real ⊿t." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7">
+                                        <button toolTip="Use 1/Preferred FPS instead of real ⊿t." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="198" y="41" width="75" height="18"/>
                                             <buttonCell key="cell" type="check" title="Fixed ⊿t" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gZi-pT-fBE">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <connections>
-                                                <action selector="onChangeFixedDt:" target="3gE-1T-kfi" id="68v-K5-I04"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -583,25 +538,19 @@
                                         <stackView distribution="equalSpacing" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DfH-er-Rkd">
                                             <rect key="frame" x="46" y="12" width="200" height="20"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FjC-ua-HJt">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FjC-ua-HJt" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                                     <rect key="frame" x="-7" y="-7" width="60" height="32"/>
                                                     <buttonCell key="cell" type="push" title="Play" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0tD-VH-cc7">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <connections>
-                                                        <action selector="onClickPlayButton:" target="3gE-1T-kfi" id="eQw-gX-iBQ"/>
-                                                    </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-dO-IeQ">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-dO-IeQ" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                                     <rect key="frame" x="136" y="-7" width="71" height="32"/>
                                                     <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JLc-iD-TVL">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <connections>
-                                                        <action selector="onClickPauseButton:" target="3gE-1T-kfi" id="pZc-J0-LZg"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -647,9 +596,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="attractionAutoUpdateSwitch" destination="uEs-eK-xiM" id="c9A-Av-1MA"/>
-                        <outlet property="attractionMatrixPresetButton" destination="RmV-CS-md8" id="aKf-CJ-tbR"/>
-                        <outlet property="attractionMatrixUpdateButton" destination="3Ak-A2-901" id="aEF-2E-VeX"/>
+                        <outlet property="attractionAutoUpdateSwitch" destination="uEs-eK-xiM" id="lGL-1N-6tR"/>
+                        <outlet property="attractionMatrixPresetButton" destination="RmV-CS-md8" id="W5T-eZ-EkA"/>
+                        <outlet property="attractionMatrixUpdateButton" destination="3Ak-A2-901" id="f1h-1N-ARK"/>
                         <outlet property="attractionMatrixView" destination="VBU-da-5gg" id="1hD-Rl-d9E"/>
                         <outlet property="colorCountButton" destination="fP9-86-aTL" id="5i5-86-mCi"/>
                         <outlet property="distanceFunctionButton" destination="8b7-TM-vHR" id="oGi-pT-2fq"/>
@@ -657,9 +606,13 @@
                         <outlet property="fixSeedsCheck" destination="x1R-uf-ZXW" id="PK6-vm-BzH"/>
                         <outlet property="forceFactorSlider" destination="pGo-2X-nUn" id="xLt-Yn-aqA"/>
                         <outlet property="forceFunctionButton" destination="lNS-yF-G5T" id="8Ag-HB-VWX"/>
+                        <outlet property="forceFunctionHelpButton" destination="4HC-nF-jTh" id="rNd-p5-3Tb"/>
+                        <outlet property="generateParticlesButton" destination="jsy-Yp-elp" id="JuM-X6-rNM"/>
                         <outlet property="particleCountField" destination="Eqi-pt-0Bd" id="kBk-TH-hWe"/>
                         <outlet property="particleGeneratorTypeButton" destination="eId-Kc-m3w" id="1RU-jf-bXl"/>
                         <outlet property="particleSizeSlider" destination="txD-IE-NLz" id="BfW-z7-bA8"/>
+                        <outlet property="pauseButton" destination="FG1-dO-IeQ" id="JeT-fK-64v"/>
+                        <outlet property="playButton" destination="FjC-ua-HJt" id="DPz-E2-qOT"/>
                         <outlet property="preferredFPSButton" destination="gZV-6R-SFa" id="8jp-jQ-s0F"/>
                         <outlet property="rmaxButton" destination="aar-TR-ARJ" id="xXb-vW-vOP"/>
                         <outlet property="velocityHalfLifeButton" destination="Alr-Aw-bew" id="8cg-VJ-cSh"/>

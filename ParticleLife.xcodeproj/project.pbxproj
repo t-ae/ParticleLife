@@ -37,6 +37,7 @@
 		A78DB8B72C74E346006A3E5E /* AttractionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */; };
 		A78DB8B92C74E392006A3E5E /* AttractionPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */; };
 		A78DB8BB2C755CC3006A3E5E /* AttractionLineUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8BA2C755CC3006A3E5E /* AttractionLineUpdate.swift */; };
+		A78DB8BD2C75B0C5006A3E5E /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8BC2C75B0C5006A3E5E /* Binding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionUpdate.swift; sourceTree = "<group>"; };
 		A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionPreset.swift; sourceTree = "<group>"; };
 		A78DB8BA2C755CC3006A3E5E /* AttractionLineUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionLineUpdate.swift; sourceTree = "<group>"; };
+		A78DB8BC2C75B0C5006A3E5E /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				A731944B2C70669F0070148A /* IntRepresentable.swift */,
 				A73194552C713CBC0070148A /* Matrix.swift */,
 				A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */,
+				A78DB8BC2C75B0C5006A3E5E /* Binding.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */,
 				A73194482C6EA45C0070148A /* AttractionMatrixHeaderView.swift in Sources */,
 				A731942D2C6C7C010070148A /* Particle.swift in Sources */,
+				A78DB8BD2C75B0C5006A3E5E /* Binding.swift in Sources */,
 				A73194252C6C40C30070148A /* Shader.metal in Sources */,
 				A73194322C6C81CC0070148A /* Extension.swift in Sources */,
 				A78DB8BB2C755CC3006A3E5E /* AttractionLineUpdate.swift in Sources */,

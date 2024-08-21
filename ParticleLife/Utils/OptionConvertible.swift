@@ -32,10 +32,12 @@ extension NSPopUpButton {
 }
 
 extension NSMenu {
-    func setItems<C: Collection>(_ items: C, action: Selector) where C.Element: OptionConvertible {
+    func setItems<C: Collection>(_ items: C, target: AnyObject, action: Selector) where C.Element: OptionConvertible {
         removeAllItems()
         for item in items {
-            addItem(withTitle: item.description, action: action, keyEquivalent: "")
+            let item = NSMenuItem(title: item.description, action: action, keyEquivalent: "")
+            item.target = target
+            addItem(item)
         }
     }
 }
