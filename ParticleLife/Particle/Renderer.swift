@@ -145,7 +145,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
                 fatalError("Failed to make command buffer.")
             }
-            render(in: view, commandBuffer: commandBuffer)
+            renderParticles(in: view, commandBuffer: commandBuffer)
             commandBuffer.commit()
         }
     }
@@ -197,7 +197,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         computeEncoder.endEncoding()
     }
     
-    func render(in view: MTKView, commandBuffer: MTLCommandBuffer) {
+    func renderParticles(in view: MTKView, commandBuffer: MTLCommandBuffer) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable?.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
