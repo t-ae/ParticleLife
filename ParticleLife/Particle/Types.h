@@ -5,8 +5,8 @@
 
 typedef struct {
     uint color;
-    vector_float2 position;
-    vector_float2 velocity;
+    simd_float2 position;
+    simd_float2 velocity;
     uint attractorCount;
 } Particle;
 

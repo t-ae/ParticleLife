@@ -36,32 +36,32 @@ float force3(float distance, float attraction) {
 }
 
 // MARK: - Distance functions
-float l05Distance(vector_float2 vector) {
+float l05Distance(float2 vector) {
     return pow(pow(abs(vector.x), 0.5) + pow(abs(vector.y), 0.5), 2);
 }
 
-float l02Distance(vector_float2 vector) {
+float l02Distance(float2 vector) {
     return pow(pow(abs(vector.x), 0.2) + pow(abs(vector.y), 0.2), 5);
 }
 
-float l1Distance(vector_float2 vector) {
+float l1Distance(float2 vector) {
     return abs(vector.x) + abs(vector.y);
 }
 
-float linfDistance(vector_float2 vector) {
+float linfDistance(float2 vector) {
     if(isnan(vector.x)) return NAN; // if vector.y is NaN, max returns NaN.
     return max(abs(vector.x), abs(vector.y));
 }
 
 /// Referred https://qiita.com/7CIT/items/fe33b9b341b9918b6c3d
 /// Modified to return 1 when (x,y) = (0, -1).
-float triangularDistance(vector_float2 vector) {
+float triangularDistance(float2 vector) {
     float a = atan2(vector.x, vector.y);
     float r = M_PI_F * 2 / 3;
     return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
 }
 
-float pentagonalDistance(vector_float2 vector) {
+float pentagonalDistance(float2 vector) {
     float a = atan2(vector.x, vector.y);
     float r = M_PI_F * 2 / 5;
     return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
@@ -89,7 +89,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         forceFunction = force3;
     }
     
-    float (*distanceFunction)(vector_float2);
+    float (*distanceFunction)(float2);
     if(velocityUpdateSetting->distanceFunction == DistanceFunction_l1) {
         distanceFunction = l1Distance;
     } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l2) {
@@ -106,15 +106,15 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         distanceFunction = pentagonalDistance;
     }
     
-    vector_float2 position = particles[gid].position;
+    float2 position = particles[gid].position;
     constant float* attractionRow = attraction + particles[gid].color * *colorCount;
     
-    vector_float2 accel(0, 0);
+    float2 accel(0, 0);
     uint attractorCount = 0;
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
-        vector_float2 vector = particles[i].position - position;
+        float2 vector = particles[i].position - position;
         if(vector.x < -0.5) {
             vector.x += 1;
         } else if(vector.x > 0.5) {
@@ -169,9 +169,9 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
 
 // MARK: - Particle vertex/fragment shader
 struct Point {
-    vector_float4 position [[position]];
+    float4 position [[position]];
     float size [[point_size]];
-    vector_float3 color;
+    float3 color;
 };
 
 float transform(float value, float origin, float size, float offset) {
@@ -185,43 +185,49 @@ float transform(float value, float origin, float size, float offset) {
     return value / size;
 }
 
+constant float4x3 projection = {
+    {2, 0, 0},
+    {0, 2, 0},
+    {0, 1, 0},
+    {-1, -1, 1}
+};
+
 vertex Point
 particleVertex(const device Particle* particles [[ buffer(0) ]],
-               constant vector_float3 *rgb [[ buffer(1) ]],
+               constant float3 *rgb [[ buffer(1) ]],
                constant float *particleSize [[ buffer(2) ]],
                constant Rect2 *renderingRect [[ buffer(3) ]],
-               constant vector_float2 *offset [[ buffer(4) ]],
-               constant vector_float2 *viewportSize [[ buffer(5) ]],
+               constant float2 *offset [[ buffer(4) ]],
+               constant float2 *viewportSize [[ buffer(5) ]],
                unsigned int vid [[ vertex_id ]])
 {
     Point out;
-    out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
+    out.position = float4(0.0f, 0.0f, 0.0f, 1.0f);
     out.position.xy = particles[vid].position;
     
     out.position.x = transform(out.position.x, renderingRect->x, renderingRect->width, offset->x);
     out.position.y = transform(out.position.y, renderingRect->y, renderingRect->height, offset->y);
     
-    out.position.xy *= 2;
-    out.position.xy -= 1;
+    out.position.xyz = projection * out.position;
     
     out.size = *particleSize * viewportSize->x / renderingRect->width / 500;
     out.color = rgb[particles[vid].color];
     return out;
 }
 
-fragment vector_float4
+fragment float4
 particleFragment(Point in [[stage_in]],
-                 vector_float2 pointCoord [[point_coord]])
+                 float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
     if(distance < 0.2) {
         float alpha = 0.9;
-        return vector_float4(in.color, alpha);
+        return float4(in.color, alpha);
     } if(distance < 0.5) {
         float alpha = 1.0 - smoothstep(0, 0.5, distance);
-        return vector_float4(in.color, alpha);
+        return float4(in.color, alpha);
     } else {
         discard_fragment();
-        return vector_float4();
+        return float4();
     }
 };
