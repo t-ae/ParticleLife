@@ -28,6 +28,7 @@ class ViewController: NSViewController {
         super.viewDidAppear()
         // Enable keyboard shortcuts
         view.window?.makeFirstResponder(self)
+        view.window?.delegate = self
         
         if let setupError {
             showErrorAlert(setupError)
@@ -181,5 +182,11 @@ extension ViewController {
 extension ViewController: RendererDelegate {
     func rendererOnUpdateFPS(_ fps: Float) {
         self.view.window?.title = String(format: "Particle Life (%.1ffps)", fps)
+    }
+}
+
+extension ViewController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        controlWindow?.close()
     }
 }
