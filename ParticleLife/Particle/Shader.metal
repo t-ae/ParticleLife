@@ -114,7 +114,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
-        float2 vector = particles[i].position - position;
+        vector_float2 vector = particles[i].position - position;
         if(vector.x < -0.5) {
             vector.x += 1;
         } else if(vector.x > 0.5) {
@@ -169,9 +169,9 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
 
 // MARK: - Particle vertex/fragment shader
 struct Point {
-    float4 position [[position]];
+    vector_float4 position [[position]];
     float size [[point_size]];
-    float3 color;
+    vector_float3 color;
 };
 
 float transform(float value, float origin, float size, float offset) {
@@ -209,19 +209,19 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
     return out;
 }
 
-fragment float4
+fragment vector_float4
 particleFragment(Point in [[stage_in]],
-                 float2 pointCoord [[point_coord]])
+                 vector_float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
     if(distance < 0.2) {
         float alpha = 0.9;
-        return float4(in.color, alpha);
+        return vector_float4(in.color, alpha);
     } if(distance < 0.5) {
         float alpha = 1.0 - smoothstep(0, 0.5, distance);
-        return float4(in.color, alpha);
+        return vector_float4(in.color, alpha);
     } else {
         discard_fragment();
-        return float4();
+        return vector_float4();
     }
 };
