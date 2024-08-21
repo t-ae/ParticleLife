@@ -57,13 +57,13 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
         
         do {
-            let vertexFunc = try library.makeFunction(name: "vertexFunc")
-                .orThrow("makeFunction failed: vertexFunc")
-            let fragmentFunc = try library.makeFunction(name: "fragmentFunc")
-                .orThrow("makeFunction failed: fragmentFunc")
+            let vertexFunc = try library.makeFunction(name: "particleVertex")
+                .orThrow("makeFunction failed: particleVertex")
+            let fragmentFunc = try library.makeFunction(name: "particleFragment")
+                .orThrow("makeFunction failed: particleFragment")
             
             let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
-            renderPipelineStateDescriptor.label = "render"
+            renderPipelineStateDescriptor.label = "renderParticles"
             renderPipelineStateDescriptor.vertexFunction = vertexFunc
             renderPipelineStateDescriptor.fragmentFunction = fragmentFunc
             renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = pixelFormat

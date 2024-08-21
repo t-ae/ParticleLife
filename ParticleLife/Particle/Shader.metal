@@ -182,13 +182,13 @@ float transform(float value, float origin, float size, float offset) {
 }
 
 vertex Point
-vertexFunc(const device Particle* particles [[ buffer(0) ]],
-           constant vector_float3 *rgb [[ buffer(1) ]],
-           constant float *particleSize [[ buffer(2) ]],
-           constant Rect2 *renderingRect [[ buffer(3) ]],
-           constant vector_float2 *offset [[ buffer(4) ]],
-           constant vector_float2 *viewportSize [[ buffer(5) ]],
-           unsigned int vid [[ vertex_id ]])
+particleVertex(const device Particle* particles [[ buffer(0) ]],
+               constant vector_float3 *rgb [[ buffer(1) ]],
+               constant float *particleSize [[ buffer(2) ]],
+               constant Rect2 *renderingRect [[ buffer(3) ]],
+               constant vector_float2 *offset [[ buffer(4) ]],
+               constant vector_float2 *viewportSize [[ buffer(5) ]],
+               unsigned int vid [[ vertex_id ]])
 {
     Point out;
     out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -206,8 +206,8 @@ vertexFunc(const device Particle* particles [[ buffer(0) ]],
 }
 
 fragment float4
-fragmentFunc(Point in [[stage_in]],
-             float2 pointCoord [[point_coord]])
+particleFragment(Point in [[stage_in]],
+                 float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
     if(distance < 0.2) {
