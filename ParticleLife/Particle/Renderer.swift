@@ -27,7 +27,6 @@ final class Renderer: NSObject, MTKViewDelegate {
     var particleSize: Float = 5
     var viewportSize: SIMD2<Float> = .zero
     
-    let rgbs = Color.allCases.map { $0.rgb }
     var transform = Transform(center: .zero, zoom: 1)
     
     init(
@@ -182,6 +181,8 @@ final class Renderer: NSObject, MTKViewDelegate {
         computeEncoder.endEncoding()
     }
     
+    let rgbs = Color.allCases.map { $0.rgb }
+    
     func renderParticles(in view: MTKView, commandBuffer: MTLCommandBuffer) {
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable?.texture
@@ -192,7 +193,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
             return
         }
-        renderEncoder.label = "Particle Rendering"
+        renderEncoder.label = "renderParticles"
         
         renderEncoder.setRenderPipelineState(renderPipelineState)
         renderEncoder.setVertexBuffer(particles.buffer, offset: 0, index: 0)

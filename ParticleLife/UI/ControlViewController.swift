@@ -46,8 +46,8 @@ class ControlViewController: NSViewController {
             self.viewModel.particleCountString = $0
         }.store(in: &cancellables)
         
-        particleGeneratorTypeButton.bind(viewModel.$particleGenerator) {
-            self.viewModel.particleGenerator = $0
+        particleGeneratorTypeButton.bind(viewModel.$particleGeneratorType) {
+            self.viewModel.particleGeneratorType = $0
         }.store(in: &cancellables)
         
         fixSeedsCheck.bind(viewModel.$fixSeeds) {
@@ -56,7 +56,7 @@ class ControlViewController: NSViewController {
         
         generateParticlesButton.bind { _ in
             self.viewModel.particleCountString = self.particleCountField.stringValue  // Assign editing value
-            self.viewModel.generateParticles()
+            self.viewModel.generateParticles.send(())
         }
         
         // MARK: Attraction

@@ -16,12 +16,23 @@ final class ViewModel {
     var renderingParticleCount: Int = 0
     
     @Published
-    var particleGenerator: ParticleGeneratorType = .uniform
+    var particleGeneratorType: ParticleGeneratorType = .uniform
     
     @Published
     var fixSeeds: Bool = false
     
-    var generateParticles: (()->Void)!
+    let generateParticles = PassthroughSubject<Void, Never>()
+    
+    var generateEvent: any Publisher<ParticleGeneratorProtocol, Never> {
+        generateParticles.map {
+            let particleCount = Int(self.particleCountString) ?? -1
+            return self.particleGeneratorType.generator(
+                colorCountToUse: self.colorCountToUse,
+                particleCount: particleCount,
+                fixed: self.fixSeeds
+            )
+        }
+    }
     
     // MARK: Attraction
     let attractionMaxStep = 10

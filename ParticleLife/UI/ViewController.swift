@@ -54,7 +54,9 @@ class ViewController: NSViewController {
     }
     
     func bindViewModel() {
-        viewModel.generateParticles = self.generateParticles
+        viewModel.generateEvent.sink {
+            self.generateParticles(generator: $0)
+        }.store(in: &cancellables)
         
         viewModel.attractionMatrix.sink {
             self.renderer.attractionMatrix = $0
@@ -108,13 +110,7 @@ class ViewController: NSViewController {
         window.orderFrontRegardless()
     }
     
-    func generateParticles() {
-        let particleCount = Int(viewModel.particleCountString) ?? -1
-        let generator = viewModel.particleGenerator.generator(
-            colorCountToUse: viewModel.colorCountToUse,
-            particleCount: particleCount,
-            fixed: viewModel.fixSeeds
-        )
+    func generateParticles(generator: any ParticleGeneratorProtocol) {
         do {
             try generator.generate(particles: renderer.particles)
             viewModel.renderingColorCount = viewModel.colorCountToUse
