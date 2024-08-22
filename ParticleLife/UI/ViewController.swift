@@ -110,7 +110,7 @@ class ViewController: NSViewController {
     
     func generateParticles() {
         let particleCount = Int(viewModel.particleCountString) ?? -1
-        let generator = viewModel.particleGenerator.generator.init(
+        let generator = viewModel.particleGenerator.generator(
             colorCountToUse: viewModel.colorCountToUse,
             particleCount: particleCount,
             fixed: viewModel.fixSeeds

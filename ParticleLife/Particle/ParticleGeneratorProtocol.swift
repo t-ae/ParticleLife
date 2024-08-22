@@ -37,14 +37,20 @@ enum ParticleGeneratorType: String, OptionConvertible {
 }
 
 extension ParticleGeneratorType {
-    var generator: ParticleGeneratorProtocol.Type {
+    func generator(colorCountToUse: Int, particleCount: Int, fixed: Bool) -> any ParticleGeneratorProtocol {
         switch self {
-        case .uniform: UniformParticleGenerator.self
-        case .circle: CircleParticleGenerator.self
-        case .partition: PartitionParticleGenerator.self
-        case .rainbowRing: RainbowRingParticleGenerator.self
-        case .grid: GridParticleGenerator.self
-        case .imbalance: ImbalanceParticleGenerator.self
+        case .uniform: 
+            UniformParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
+        case .circle:
+            CircleParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
+        case .partition: 
+            PartitionParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
+        case .rainbowRing: 
+            RainbowRingParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
+        case .grid: 
+            GridParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
+        case .imbalance: 
+            ImbalanceParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
         }
     }
 }
