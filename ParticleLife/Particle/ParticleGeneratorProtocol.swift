@@ -19,7 +19,7 @@ extension ParticleGeneratorProtocol {
     
     fileprivate func colorPalette() -> ColorPalette {
         if fixed {
-            ColorPalette(noReplacement: colorCountToUse)
+            ColorPalette(identity: colorCountToUse)
         } else {
             ColorPalette(random: colorCountToUse)
         }
@@ -199,7 +199,7 @@ fileprivate struct ColorPalette {
         self.replacement = (0..<count).shuffled()
     }
     
-    init(noReplacement count: Int) {
+    init(identity count: Int) {
         self.replacement = [Int](0..<count)
     }
     
