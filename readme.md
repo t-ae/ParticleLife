@@ -1,6 +1,6 @@
 # Particle Life
 
-Particle Life on macOS.
+Particle Life for macOS.
 
 - Using Metal shader (10000Particles, 120FPS on M3 Pro MBP)
 - Various distance functions
@@ -17,7 +17,7 @@ The force function described in [the reference video](https://youtu.be/scvuli-zc
 force1(distance, attraction) = \left\{
 \begin{array}{ll}
 -1 + \frac{distance}{beta} & (distance \le beta) \\
-attraction * \frac{1-|2*distance-1-beta|}{1-beta} & (beta \lt distance \le 1))
+attraction * \frac{1-|2*distance-1-beta|}{1-beta} & (beta \lt distance \le 1)
 \end{array}
 \right.
 \\
