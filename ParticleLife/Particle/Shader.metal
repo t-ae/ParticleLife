@@ -175,7 +175,7 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
                unsigned int vid [[ vertex_id ]])
 {
     Point out;
-    out.position = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    out.position = float4(0.0, 0.0, 0.0, 1.0);
     out.position.xy = particles[vid].position + *offset - transform->center;
     out.position.xy = wrap(out.position.xy, 3);
     out.position.xy *= transform->zoom;
@@ -186,16 +186,16 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
 }
 
 fragment float4
-particleFragment(Point in [[stage_in]],
+particleFragment(Point point [[stage_in]],
                  float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
     if(distance < 0.15) {
-        float alpha = 0.9;
-        return float4(in.color, alpha);
+        float alpha = 1.0;
+        return float4(point.color, alpha);
     } if(distance < 0.5) {
         float alpha = 1.0 - smoothstep(0.0, 0.5, distance);
-        return float4(in.color, alpha);
+        return float4(point.color, alpha);
     } else {
         discard_fragment();
         return float4();
