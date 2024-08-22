@@ -83,7 +83,7 @@ kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
                constant uint *particleCount [[ buffer(1) ]],
                constant uint *colorCount [[ buffer(2) ]],
-               constant float* attraction [[ buffer(3) ]],
+               constant float* attractionMatrix [[ buffer(3) ]],
                constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(4) ]],
                constant float *dt [[ buffer(5) ]],
                const uint gid [[ thread_position_in_grid ]])
@@ -118,7 +118,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     }
     
     float2 position = particles[gid].position;
-    constant float* attractionRow = attraction + particles[gid].color * *colorCount;
+    constant float* attractionRow = attractionMatrix + particles[gid].color * *colorCount;
     
     float2 accel(0, 0);
     uint attractorCount = 0;
@@ -132,10 +132,10 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
             continue;
         }
         
-        float attr = attractionRow[particles[i].color];
+        float attraction = attractionRow[particles[i].color];
         float distance = distanceFunction(vector);
         
-        float f = forceFunction(distance/rmax, attr);
+        float f = forceFunction(distance/rmax, attraction);
         accel += vector / distance * f;
         if(distance < rmax) {
             attractorCount++;

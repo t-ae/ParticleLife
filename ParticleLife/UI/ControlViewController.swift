@@ -70,18 +70,18 @@ class ControlViewController: NSViewController {
             self.attractionMatrixView.setSteps($0)
         }.store(in: &cancellables)
         
-        attractionAutoUpdateSwitch.bind(viewModel.$autoUpdateAttraction) {
-            self.viewModel.autoUpdateAttraction = $0
+        attractionAutoUpdateSwitch.bind(viewModel.$autoUpdateAttractionMatrix) {
+            self.viewModel.autoUpdateAttractionMatrix = $0
         }.store(in: &cancellables)
-        viewModel.$autoUpdateAttraction.sink {
+        viewModel.$autoUpdateAttractionMatrix.sink {
             self.onChangeAttractionAutoUpdate($0)
         }.store(in: &cancellables)
         
         attractionMatrixUpdateButton.bindMenu(AttractionUpdate.self) {
-            self.viewModel.updateAttraction($0)
+            self.viewModel.updateAttractionMatrix($0)
         }
         attractionMatrixPresetButton.bindMenu(AttractionPreset.self) {
-            self.viewModel.setAttractionPreset($0)
+            self.viewModel.setAttractionMatrixPreset($0)
         }
         
         // MARK: Velocity update rule
@@ -138,6 +138,12 @@ class ControlViewController: NSViewController {
         }
     }
     
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        becomeFirstResponder()
+    }
+    
     private var attractionAutoUpdateTask: Task<Void, Error>? = nil
     func onChangeAttractionAutoUpdate(_ on: Bool) {
         print("onSwitchAttractionAutoUpdateButton: \(on)")
@@ -149,7 +155,7 @@ class ControlViewController: NSViewController {
             attractionAutoUpdateTask = Task {
                 while true {
                     print("Auto randomize attraction")
-                    viewModel.updateAttraction(.randomize)
+                    viewModel.updateAttractionMatrix(.randomize)
                     try await Task.sleep(seconds: 30)
                 }
             }
@@ -165,6 +171,6 @@ extension ControlViewController: AttractionMatrixViewDelegate {
     }
     
     func attractionMatrixValueViewUpdateLine(_ update: AttractionLineUpdate, step: Int) {
-        viewModel.updateAttractionLine(update, step: step)
+        viewModel.updateAttractionMatrixLine(update, step: step)
     }
 }

@@ -14,10 +14,6 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
         }
     }
     
-    var attractionValue: Float {
-        Float(step) / Float(maxStep)
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()

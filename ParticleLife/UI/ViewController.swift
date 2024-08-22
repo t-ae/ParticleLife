@@ -56,8 +56,8 @@ class ViewController: NSViewController {
     func bindViewModel() {
         viewModel.generateParticles = self.generateParticles
         
-        viewModel.attraction.sink {
-            self.renderer.attraction = $0
+        viewModel.attractionMatrix.sink {
+            self.renderer.attractionMatrix = $0
         }.store(in: &cancellables)
         
         viewModel.velocityUpdateSetting.sink {
@@ -160,9 +160,9 @@ class ViewController: NSViewController {
     override func keyDown(with event: NSEvent) {
         switch event.characters {
         case "a":
-            viewModel.autoUpdateAttraction.toggle()
+            viewModel.autoUpdateAttractionMatrix.toggle()
         case "r":
-            viewModel.updateAttraction(.randomize)
+            viewModel.updateAttractionMatrix(.randomize)
         case "p":
             showDumpModal(title: "Parameters", content: renderer.dumpParameters())
         case "s":

@@ -78,10 +78,6 @@ class AttractionMatrixView: NSView {
         views.compactMap { $0 as? AttractionMatrixValueView }
     }
     
-    var attraction: Matrix<Float> {
-        .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.attractionValue })
-    }
-    
     var steps: Matrix<Int> {
         .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.step })
     }

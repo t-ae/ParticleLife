@@ -32,7 +32,7 @@ final class ViewModel {
     @Published
     var attractionSteps: Matrix<Int> = Matrix(rows: Color.allCases.count, cols: Color.allCases.count, filledWith: 0)
     
-    var attraction: any Publisher<Matrix<Float>, Never> {
+    var attractionMatrix: any Publisher<Matrix<Float>, Never> {
         $attractionSteps.map {
             Matrix<Float>(rows: $0.rows, cols: $0.cols, elements: $0.elements.map {
                 Float($0) / Float(self.attractionMaxStep)
@@ -41,17 +41,17 @@ final class ViewModel {
     }
     
     @Published
-    var autoUpdateAttraction: Bool = false
+    var autoUpdateAttractionMatrix: Bool = false
     
-    func updateAttraction(_ update: AttractionUpdate) {
+    func updateAttractionMatrix(_ update: AttractionUpdate) {
         update.apply(&attractionSteps, maxStep: attractionMaxStep, colorCount: renderingColorCount)
     }
     
-    func updateAttractionLine(_ update: AttractionLineUpdate, step: Int) {
+    func updateAttractionMatrixLine(_ update: AttractionLineUpdate, step: Int) {
         update.apply(&attractionSteps, step: step, colorCount: renderingColorCount)
     }
     
-    func setAttractionPreset(_ preset: AttractionPreset) {
+    func setAttractionMatrixPreset(_ preset: AttractionPreset) {
         attractionSteps = preset.steps(colorCouunt: renderingColorCount)
     }
     
