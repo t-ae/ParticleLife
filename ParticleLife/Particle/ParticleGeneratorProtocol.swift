@@ -4,7 +4,6 @@ protocol ParticleGeneratorProtocol {
     var colorCountToUse: Int { get }
     var particleCount: Int { get }
     var fixed: Bool { get }
-    init(colorCountToUse: Int, particleCount: Int, fixed: Bool)
     
     func generate(buffer: UnsafeMutableBufferPointer<Particle>)
 }
@@ -30,6 +29,7 @@ extension ParticleGeneratorProtocol {
 enum ParticleGeneratorType: String, OptionConvertible {
     case uniform = "Uniform"
     case circle = "Circle"
+    case unitCircle = "Unit circle"
     case partition = "Partition"
     case rainbowRing = "Rainbow ring"
     case grid = "Grid"
@@ -43,7 +43,9 @@ extension ParticleGeneratorType {
             UniformParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
         case .circle:
             CircleParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
-        case .partition: 
+        case .unitCircle:
+            CircleParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed, r: 1)
+        case .partition:
             PartitionParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
         case .rainbowRing: 
             RainbowRingParticleGenerator(colorCountToUse: colorCountToUse, particleCount: particleCount, fixed: fixed)
@@ -93,10 +95,12 @@ struct CircleParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
+    var r: Float? = nil
+    
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         
-        let r = Float.random(in: 0.1 ..< 0.8, using: &rng)
+        let r = self.r ?? Float.random(in: 0.1 ..< 0.8, using: &rng)
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
             
