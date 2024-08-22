@@ -13,6 +13,9 @@ final class ViewModel {
     var particleCountString: String = "10000"
     
     @Published
+    var renderingParticleCount: Int = 0
+    
+    @Published
     var particleGenerator: ParticleGeneratorType = .uniform
     
     @Published
@@ -126,6 +129,12 @@ final class ViewModel {
     func resetTransform() {
         zoom = 1
         center = .zero
+    }
+    
+    var showCoordinateView: any Publisher<Bool, Never> {
+        $renderingParticleCount.combineLatest($zoom, $center) {
+            $0 == 0 && $1 == 1 && $2 == .zero
+        }
     }
 }
 

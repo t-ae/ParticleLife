@@ -28,17 +28,9 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
         setup()
     }
     
-    var label: NSTextField!
+    var label: NSTextField = .label(title: "0.0", textColor: .white)
     
     func setup() {
-        label = NSTextField(string: "0.0")
-        label.textColor = .white
-        label.alignment = .center
-        label.isBezeled = false
-        label.isEditable = false
-        label.isSelectable = false
-        label.drawsBackground = false
-        label.backgroundColor = .clear
         addSubview(label)
         
         self.step = 0

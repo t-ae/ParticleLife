@@ -4,6 +4,8 @@ import Combine
 
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
+    @IBOutlet var coordinateView: CoordinateView!
+    
     private var renderer: Renderer!
 
     let viewModel = ViewModel()
@@ -81,6 +83,10 @@ class ViewController: NSViewController {
         viewModel.transform.sink {
             self.renderer.transform = $0
         }.store(in: &cancellables)
+        
+        viewModel.showCoordinateView.sink {
+            self.coordinateView.isHidden = !$0
+        }.store(in: &cancellables)
     }
     
     private var controlWindow: NSWindowController?
@@ -112,6 +118,7 @@ class ViewController: NSViewController {
         do {
             try renderer.generateParticles(generator)
             viewModel.renderingColorCount = viewModel.colorCountToUse
+            viewModel.renderingParticleCount = generator.particleCount
         } catch {
             showErrorAlert(error)
         }

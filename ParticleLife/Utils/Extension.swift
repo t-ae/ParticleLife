@@ -31,3 +31,28 @@ extension NSPopUpButton {
         selectItem(at: index)
     }
 }
+
+extension NSTextField {
+    static func label(title: String, textColor: NSColor) -> NSTextField {
+        let label = NSTextField(string: title)
+        label.textColor = textColor
+        label.alignment = .center
+        label.isBezeled = false
+        label.isEditable = false
+        label.isSelectable = false
+        label.drawsBackground = false
+        label.backgroundColor = .clear
+        return label
+    }
+}
+
+extension NSRect {
+    var center: CGPoint {
+        get {
+            .init(x: origin.x + size.width/2, y: origin.y + size.height/2)
+        }
+        set {
+            origin = .init(x: newValue.x - size.width/2 , y: newValue.y - size.height/2)
+        }
+    }
+}
