@@ -5,7 +5,7 @@ protocol ParticleGeneratorProtocol {
     var particleCount: Int { get }
     var fixed: Bool { get }
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>)
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>)
 }
 
 extension ParticleGeneratorProtocol {
@@ -23,6 +23,11 @@ extension ParticleGeneratorProtocol {
         } else {
             ColorPalette(random: colorCountToUse)
         }
+    }
+    
+    func generate(particles: Particles) throws {
+        try particles.setCount(particleCount)
+        generateBody(buffer: particles.bufferPointer)
     }
 }
 
@@ -62,9 +67,9 @@ struct UniformParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let color = Color(intValue: i % colorCountToUse)!
             buffer[i] = Particle(color: color, position: .random(in: -1..<1, using: &rng))
         }
@@ -76,12 +81,12 @@ struct PartitionParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
         let volume: Float = 2 / Float(colorCountToUse)
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let c = i % colorCountToUse
             let color = palette.get(i)
             let xrange = volume*Float(c) ..< volume*Float(c + 1)
@@ -97,11 +102,11 @@ struct CircleParticleGenerator: ParticleGeneratorProtocol {
     
     var r: Float? = nil
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         
         let r = self.r ?? Float.random(in: 0.1 ..< 0.8, using: &rng)
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let color = Color(intValue: i % colorCountToUse)!
             
             var (x, y): (Float, Float)
@@ -120,7 +125,7 @@ struct RainbowRingParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
@@ -130,7 +135,7 @@ struct RainbowRingParticleGenerator: ParticleGeneratorProtocol {
         let rd = fixed ? 0.2 : Float.random(in: 0.05..<0.3)
         let rRange: Range<Float> = r0..<r0+rd
         
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let c = i % colorCountToUse
             let color = palette.get(i)
             
@@ -150,13 +155,13 @@ struct ImbalanceParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
         let ps = (1 << colorCountToUse) - 1
         
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let cc = (1...ps).randomElement()!
             let color = palette.get(Int(log2(Float(cc))))
             buffer[i] = Particle(color: color, position: .random(in: -1..<1, using: &rng))
@@ -169,13 +174,13 @@ struct GridParticleGenerator: ParticleGeneratorProtocol {
     var particleCount: Int
     var fixed: Bool
     
-    func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>) {
         let palette = colorPalette()
         
         let rows = Int(ceil(sqrt(Float(particleCount))))
         let gap = 2 / Float(rows)
         
-        for i in 0..<particleCount {
+        for i in buffer.indices {
             let color = palette.get(i)
             
             let (row, col) = i.quotientAndRemainder(dividingBy: rows)

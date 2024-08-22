@@ -116,7 +116,7 @@ class ViewController: NSViewController {
             fixed: viewModel.fixSeeds
         )
         do {
-            try renderer.generateParticles(generator)
+            try generator.generate(particles: renderer.particles)
             viewModel.renderingColorCount = viewModel.colorCountToUse
             viewModel.renderingParticleCount = generator.particleCount
         } catch {
@@ -199,7 +199,7 @@ extension ViewController {
 
 extension ViewController: RendererDelegate {
     func rendererOnUpdateFPS(_ fps: Float) {
-        self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particleCount, fps)
+        self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particles.count, fps)
     }
 }
 

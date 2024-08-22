@@ -13,8 +13,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     let updatePositionState: MTLComputePipelineState
     let renderPipelineState: MTLRenderPipelineState
     
-    var particleCount: Int = 0
-    let particleBuffer: MTLBuffer
+    let particles: Particles
     
     var attractionMatrix: Matrix<Float> = .colorMatrix(filledWith: 0)
     var velocityUpdateSetting: VelocityUpdateSetting = .init(
@@ -80,22 +79,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             self.renderPipelineState = try device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
         }
         
-        do {
-            let length: Int = MemoryLayout<Particle>.size * Self.maxParticleCount
-            let buffer = try device.makeBuffer(length: length, options: .storageModeShared)
-                .orThrow("Failed to make buffer")
-            buffer.label = "particle_buffer"
-            self.particleBuffer = buffer
-        }
-    }
-    
-    func generateParticles(_ generator: ParticleGeneratorProtocol) throws {
-        guard 0...Self.maxParticleCount ~= generator.particleCount else {
-            throw MessageError("particleCount must be in range [0, \(Self.maxParticleCount)].")
-        }
-        particleCount = generator.particleCount
-        let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
-        generator.generate(buffer: buffer)
+        particles = try Particles(device: device)
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -154,17 +138,18 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     func updateVelocity(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
         guard !isPaused else { return }
-        if particleCount == 0 { return }
+        if particles.isEmpty { return }
         guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
             return
         }
         computeEncoder.label = "updateVelocity"
 
-        let dispatchThreads = MTLSize(width: particleCount, height: 1, depth: 1)
+        let dispatchThreads = MTLSize(width: particles.count, height: 1, depth: 1)
         let threadsPerThreadgroup = MTLSize(width: updateVelocityState.threadExecutionWidth, height: 1, depth: 1)
 
         computeEncoder.setComputePipelineState(updateVelocityState)
-        computeEncoder.setBuffer(particleBuffer, offset: 0, index: 0)
+        computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
+        var particleCount = particles.count
         computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
         var colorCount = Color.allCases.count
         computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
@@ -179,17 +164,17 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     func updatePosition(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
         guard !isPaused else { return }
-        if particleCount == 0 { return }
+        if particles.isEmpty { return }
         guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
             return
         }
         computeEncoder.label = "updatePosition"
 
-        let dispatchThreads = MTLSize(width: particleCount, height: 1, depth: 1)
+        let dispatchThreads = MTLSize(width: particles.count, height: 1, depth: 1)
         let threadsPerThreadgroup = MTLSize(width: updatePositionState.threadExecutionWidth, height: 1, depth: 1)
 
         computeEncoder.setComputePipelineState(updatePositionState)
-        computeEncoder.setBuffer(particleBuffer, offset: 0, index: 0)
+        computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
         computeEncoder.setThreadgroupMemoryLength(updatePositionState.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
         var dt = dt
         computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
@@ -210,7 +195,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         renderEncoder.label = "Particle Rendering"
         
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particleBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particles.buffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
@@ -219,7 +204,7 @@ final class Renderer: NSObject, MTKViewDelegate {
             for x: Float in [-2, 0, 2] {
                 var offsets = SIMD2<Float>(x: x, y: y)
                 renderEncoder.setVertexBytes(&offsets, length: MemoryLayout<SIMD2<Float>>.size, index: 4)
-                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleCount)
+                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particles.count)
             }
         }
         
@@ -232,14 +217,9 @@ final class Renderer: NSObject, MTKViewDelegate {
 }
 
 extension Renderer {
-    func particle(_ i: Int) -> Particle {
-        let particleBuffer = particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount)
-        return particleBuffer[i]
-    }
-    
     func dumpParameters() -> String {
         """
-        particleCount: \(particleCount)
+        particleCount: \(particles.count)
         attraction:
         \(attractionMatrix.stringify(elementFormat: "%+.1f"))
         
@@ -255,7 +235,7 @@ extension Renderer {
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
         var sumOfAttractorCount: UInt32 = 0
         
-        let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
+        let buffer = particles.bufferPointer
         for particle in buffer {
             if particle.hasNaN { nanCout += 1 }
             if particle.hasInfinite { infiniteCount += 1 }
@@ -266,12 +246,12 @@ extension Renderer {
         }
         
         var strs = [String]()
-        strs.append("particleCount: \(particleCount)")
+        strs.append("particleCount: \(particles.count)")
         for color in Color.allCases {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }
         
-        let validParticleCount = particleCount - nanCout - infiniteCount
+        let validParticleCount = particles.count - nanCout - infiniteCount
         
         let rmax = velocityUpdateSetting.rmax
         let fieldSize: Float = 2*2
@@ -292,9 +272,9 @@ extension Renderer {
     }
     
     func induceInvalid() {
-        guard particleCount > 0 else { return }
-        let buffer = UnsafeMutableBufferPointer(start: particleBuffer.contents().bindMemory(to: Particle.self, capacity: particleCount), count: particleCount)
-        let index = Int.random(in: 0..<particleCount)
+        guard !particles.isEmpty else { return }
+        let buffer = particles.bufferPointer
+        let index = buffer.indices.randomElement()!
         
         let target = ["x", "y", "vx", "vy"].randomElement()!
         let value = [Float.nan, .infinity].randomElement()!

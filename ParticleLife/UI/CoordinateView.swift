@@ -33,25 +33,13 @@ final class CoordinateView: NSView {
     override func layout() {
         super.layout()
         
-        print("#")
-        print("bounds:", bounds)
-        
         oLabel.frame.center = bounds.center
-        
-        print("center:", oLabel.frame.center)
         
         xPlusLabel.frame.origin.x = bounds.width
         xPlusLabel.frame.origin.y = oLabel.frame.center.y - xPlusLabel.frame.width/2
         
-        print("xPlus:", xPlusLabel.frame)
-        
-        xMinusLabel.frame = xPlusLabel.frame
-        
         xMinusLabel.frame.origin.x = 0
         xMinusLabel.frame.origin.y = oLabel.frame.center.y + xMinusLabel.frame.width/2
-        
-        
-        print("xMinus:", xMinusLabel.frame)
         
         yPlusLabel.frame.center.x = oLabel.frame.center.x
         yPlusLabel.frame.origin.y = bounds.height - yPlusLabel.frame.height
