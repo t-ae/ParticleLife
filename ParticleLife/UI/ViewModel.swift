@@ -67,7 +67,6 @@ final class ViewModel {
     }
     
     // MARK: Velocity update rule
-    
     @Published
     var forceFunction: ForceFunction = .default
     
@@ -81,6 +80,7 @@ final class ViewModel {
     var velocityHalfLife: VelocityHalfLife = .l100
     
     let forceFactorRange: ClosedRange<Float> = 0...10
+    
     @Published
     var forceFactor: Float = 1
     
@@ -101,22 +101,18 @@ final class ViewModel {
     
     
     // MARK: Other
-    
     @Published
     var preferredFPS: FPS = .fps60
     
     @Published
     var fixDt: Bool = false
     
-    var particleSizeRange: ClosedRange<Float> = 1...15
+    let particleSizeRange: ClosedRange<Float> = 1...15
     
     @Published
     var particleSize: Float = 5
     
     // MARK: Control
-    var play: ()->Void = {}
-    var pause: ()->Void = {}
-    
     @Published
     var isPaused: Bool = false
     
