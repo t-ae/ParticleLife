@@ -58,7 +58,7 @@ struct UniformParticleGenerator: ParticleGeneratorProtocol {
         var rng = rangomNumberGenerator()
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
-            buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
+            buffer[i] = Particle(color: color, position: .random(in: -1..<1, using: &rng))
         }
     }
 }
@@ -72,12 +72,12 @@ struct PartitionParticleGenerator: ParticleGeneratorProtocol {
         var rng = rangomNumberGenerator()
         let palette = colorPalette()
         
-        let volume: Float = 1 / Float(colorCountToUse)
+        let volume: Float = 2 / Float(colorCountToUse)
         for i in 0..<particleCount {
             let c = i % colorCountToUse
             let color = palette.get(i)
             let xrange = volume*Float(c) ..< volume*Float(c + 1)
-            buffer[i] = Particle(color: color, position: .random(in: xrange, 0..<1, using: &rng))
+            buffer[i] = Particle(color: color, position: .random(in: xrange, 0..<2, using: &rng) - .init(1, 0))
         }
     }
 }
@@ -90,7 +90,7 @@ struct CircleParticleGenerator: ParticleGeneratorProtocol {
     func generate(buffer: UnsafeMutableBufferPointer<Particle>) {
         var rng = rangomNumberGenerator()
         
-        let r = Float.random(in: 0.05 ..< 0.4, using: &rng)
+        let r = Float.random(in: 0.1 ..< 0.8, using: &rng)
         for i in 0..<particleCount {
             let color = Color(intValue: i % colorCountToUse)!
             
@@ -100,7 +100,7 @@ struct CircleParticleGenerator: ParticleGeneratorProtocol {
                 y = Float.random(in: -r ... r, using: &rng)
             } while x*x + y*y > r*r
             
-            buffer[i] = Particle(color: color, position: .init(x: x+0.5, y: y+0.5))
+            buffer[i] = Particle(color: color, position: .init(x: x, y: y))
         }
     }
 }
@@ -129,8 +129,8 @@ struct RainbowRingParticleGenerator: ParticleGeneratorProtocol {
             let r = Float.random(in: rRange, using: &rng)
             let theta = Float.random(in: thetaRange, using: &rng)
             
-            let position0 = SIMD2<Float>(x: r * cos(theta), y: r * sin(theta))
-            buffer[i] = Particle(color: color, position: (position0 + 1) / 2)
+            let position = SIMD2<Float>(x: r * cos(theta), y: r * sin(theta))
+            buffer[i] = Particle(color: color, position: position)
         }
     }
 }
@@ -149,7 +149,7 @@ struct ImbalanceParticleGenerator: ParticleGeneratorProtocol {
         for i in 0..<particleCount {
             let cc = (1...ps).randomElement()!
             let color = palette.get(Int(log2(Float(cc))))
-            buffer[i] = Particle(color: color, position: .random(in: 0..<1, using: &rng))
+            buffer[i] = Particle(color: color, position: .random(in: -1..<1, using: &rng))
         }
     }
 }
@@ -163,14 +163,14 @@ struct GridParticleGenerator: ParticleGeneratorProtocol {
         let palette = colorPalette()
         
         let rows = Int(ceil(sqrt(Float(particleCount))))
-        let gap = 1 / Float(rows)
+        let gap = 2 / Float(rows)
         
         for i in 0..<particleCount {
             let color = palette.get(i)
             
             let (row, col) = i.quotientAndRemainder(dividingBy: rows)
-            let x = Float(col)*gap + gap/2
-            let y = Float(rows-row-1)*gap + gap/2
+            let x = Float(col)*gap + gap/2 - 1
+            let y = Float(rows-row-1)*gap + gap/2 - 1
             
             buffer[i] = Particle(color: color, position: .init(x: x, y: y))
         }

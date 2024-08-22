@@ -29,7 +29,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     var viewportSize: SIMD2<Float> = .zero
     
     let rgbs = Color.allCases.map { $0.rgb }
-    var renderingRect: Rect2 = .init(x: 0, y: 0, width: 1, height: 1)
+    var transform = Transform(center: .zero, zoom: 1)
     
     init(
         device: MTLDevice,
@@ -105,7 +105,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     private var lastDrawDate = Date()
     private var fpsHistory: RingBuffer = .init(count: 60, initialValue: 0)
-    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 0)
+    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 1.0/60)
     
     func draw(in view: MTKView) {
         let now = Date()
@@ -213,10 +213,10 @@ final class Renderer: NSObject, MTKViewDelegate {
         renderEncoder.setVertexBuffer(particleBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
-        renderEncoder.setVertexBytes(&renderingRect, length: MemoryLayout<Rect2>.size, index: 3)
+        renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
         renderEncoder.setVertexBytes(&viewportSize, length: MemoryLayout<SIMD2<Float>>.size, index: 5)
-        for y: Float in [-1, 0, 1] {
-            for x: Float in [-1, 0, 1] {
+        for y: Float in [-2, 0, 2] {
+            for x: Float in [-2, 0, 2] {
                 var offsets = SIMD2<Float>(x: x, y: y)
                 renderEncoder.setVertexBytes(&offsets, length: MemoryLayout<SIMD2<Float>>.size, index: 4)
                 renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleCount)
@@ -274,8 +274,9 @@ extension Renderer {
         let validParticleCount = particleCount - nanCout - infiniteCount
         
         let rmax = velocityUpdateSetting.rmax
+        let fieldSize: Float = 2*2
         let attractionArea = velocityUpdateSetting.distanceFunction.areaOfDistance1 * rmax * rmax
-        let expectedAttractorCount = max(Float(validParticleCount-1), 0) * attractionArea
+        let expectedAttractorCount = max(Float(validParticleCount-1), 0) / fieldSize * attractionArea
         let averageAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
         
         strs.append("""

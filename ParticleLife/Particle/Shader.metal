@@ -2,6 +2,17 @@
 #include "Types.h"
 using namespace metal;
 
+// wrap value into [-max, max) range
+float wrap(float value, float max) {
+    return value - floor((value+max) / (2*max)) * (2*max);
+}
+
+float2 wrap(float2 vector, float max) {
+    vector.x = wrap(vector.x, max);
+    vector.y = wrap(vector.y, max);
+    return vector;
+}
+
 // MARK: - Force functions
 /// The force function described in the reference video: https://youtu.be/scvuli-zcRc?si=2XnKp-vTtEUd9QE3
 float force1(float distance, float attraction) {
@@ -114,17 +125,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
-        float2 vector = particles[i].position - position;
-        if(vector.x < -0.5) {
-            vector.x += 1;
-        } else if(vector.x > 0.5) {
-            vector.x -= 1;
-        }
-        if(vector.y < -0.5) {
-            vector.y += 1;
-        } else if(vector.y > 0.5) {
-            vector.y -= 1;
-        }
+        float2 vector = wrap(particles[i].position - position, 1);
         
         if(!(linfDistance(vector) < rmax)) {
             // Ignore too large distance and NaN.
@@ -146,15 +147,6 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
     particles[gid].attractorCount = attractorCount;
 }
 
-float wrappedZeroOneRange(float value) {
-    if(value < 0) {
-        value += ceil(abs(value));
-    } else if(value > 1) {
-        value -= floor(value);
-    }
-    return value;
-}
-
 kernel void
 updatePosition(device Particle* particles [[ buffer(0) ]],
                constant float *dt [[ buffer(1) ]],
@@ -163,8 +155,7 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
     float2 velocity = particles[gid].velocity;
     
     particles[gid].position += velocity * *dt;
-    particles[gid].position.x = wrappedZeroOneRange(particles[gid].position.x);
-    particles[gid].position.y = wrappedZeroOneRange(particles[gid].position.y);
+    particles[gid].position = wrap(particles[gid].position, 1);
 }
 
 // MARK: - Particle vertex/fragment shader
@@ -174,43 +165,22 @@ struct Point {
     float3 color;
 };
 
-float transform(float value, float origin, float size, float offset) {
-    value -= origin;
-    if(value < 0) {
-        value += ceil(abs(value));
-    } else if(value > size) {
-        value -= ceil(value - size);
-    }
-    value += offset;
-    return value / size;
-}
-
-constant float4x3 projection = {
-    {2, 0, 0},
-    {0, 2, 0},
-    {0, 1, 0},
-    {-1, -1, 1}
-};
-
 vertex Point
 particleVertex(const device Particle* particles [[ buffer(0) ]],
                constant float3 *rgb [[ buffer(1) ]],
                constant float *particleSize [[ buffer(2) ]],
-               constant Rect2 *renderingRect [[ buffer(3) ]],
+               constant Transform *transform [[ buffer(3) ]],
                constant float2 *offset [[ buffer(4) ]],
                constant float2 *viewportSize [[ buffer(5) ]],
                unsigned int vid [[ vertex_id ]])
 {
     Point out;
     out.position = float4(0.0f, 0.0f, 0.0f, 1.0f);
-    out.position.xy = particles[vid].position;
+    out.position.xy = particles[vid].position + *offset - transform->center;
+    out.position.xy = wrap(out.position.xy, 3);
+    out.position.xy *= transform->zoom;
     
-    out.position.x = transform(out.position.x, renderingRect->x, renderingRect->width, offset->x);
-    out.position.y = transform(out.position.y, renderingRect->y, renderingRect->height, offset->y);
-    
-    out.position.xyz = projection * out.position;
-    
-    out.size = *particleSize * viewportSize->x / renderingRect->width / 500;
+    out.size = *particleSize * viewportSize->x * transform->zoom / 1000;
     out.color = rgb[particles[vid].color];
     return out;
 }
@@ -220,11 +190,11 @@ particleFragment(Point in [[stage_in]],
                  float2 pointCoord [[point_coord]])
 {
     float distance = length(pointCoord - float2(0.5));
-    if(distance < 0.2) {
+    if(distance < 0.15) {
         float alpha = 0.9;
         return float4(in.color, alpha);
     } if(distance < 0.5) {
-        float alpha = 1.0 - smoothstep(0, 0.5, distance);
+        float alpha = 1.0 - smoothstep(0.0, 0.5, distance);
         return float4(in.color, alpha);
     } else {
         discard_fragment();

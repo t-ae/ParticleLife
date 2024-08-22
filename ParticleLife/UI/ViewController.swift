@@ -77,6 +77,10 @@ class ViewController: NSViewController {
         viewModel.$isPaused.sink {
             self.renderer.isPaused = $0
         }.store(in: &cancellables)
+        
+        viewModel.transform.sink {
+            self.renderer.transform = $0
+        }.store(in: &cancellables)
     }
     
     private var controlWindow: NSWindowController?
@@ -94,6 +98,8 @@ class ViewController: NSViewController {
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
         controlWindow = wc
+        
+        window.orderFrontRegardless()
     }
     
     func generateParticles() {
@@ -114,29 +120,34 @@ class ViewController: NSViewController {
     override func mouseUp(with event: NSEvent) {
         switch event.clickCount {
         case 2:
-            // Reset
-            renderer.renderingRect = .init(x: 0, y: 0, width: 1, height: 1)
+            viewModel.resetTransform()
         default:
             break
         }
     }
     
     override func mouseDragged(with event: NSEvent) {
-        renderer.renderingRect.x -= Float(event.deltaX / metalView.bounds.width) * renderer.renderingRect.width
-        renderer.renderingRect.y += Float(event.deltaY / metalView.bounds.height) * renderer.renderingRect.height
+        var center = viewModel.center
+        center.x -= 2 * Float(event.deltaX / metalView.bounds.width) / viewModel.zoom
+        center.y += 2 * Float(event.deltaY / metalView.bounds.height) / viewModel.zoom
+        viewModel.center = center
     }
     
     override func magnify(with event: NSEvent) {
         let factor = Float(event.magnification) + 1
-        var size = renderer.renderingRect.width / factor
-        size = min(max(size, 0.2), 2)
-        let center = renderer.renderingRect.center
-        renderer.renderingRect = .init(centerX: center.x, centerY: center.y, width: size, height: size)
+        viewModel.zoom(factor: factor)
     }
     
     override func scrollWheel(with event: NSEvent) {
-        renderer.renderingRect.x -= Float(event.scrollingDeltaX) / Float(metalView.bounds.width) * renderer.renderingRect.width
-        renderer.renderingRect.y += Float(event.scrollingDeltaY) / Float(metalView.bounds.height) * renderer.renderingRect.height
+        if event.modifierFlags.contains(.shift) {
+            let factor = exp2(-event.scrollingDeltaY / 100)
+            viewModel.zoom(factor: Float(factor))
+        } else {
+            var center = viewModel.center
+            center.x -= 2 * Float(event.scrollingDeltaX) / Float(metalView.bounds.width) / viewModel.zoom
+            center.y += 2 * Float(event.scrollingDeltaY) / Float(metalView.bounds.height) / viewModel.zoom
+            viewModel.center = center
+        }
     }
     
     override func keyDown(with event: NSEvent) {
@@ -181,7 +192,7 @@ extension ViewController {
 
 extension ViewController: RendererDelegate {
     func rendererOnUpdateFPS(_ fps: Float) {
-        self.view.window?.title = String(format: "Particle Life (%.1ffps)", fps)
+        self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particleCount, fps)
     }
 }
 

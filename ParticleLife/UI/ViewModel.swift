@@ -61,7 +61,7 @@ final class ViewModel {
     var distanceFunction: DistanceFunction = .default
     
     @Published
-    var rmax: Rmax = .r005
+    var rmax: Rmax = .r010
     
     @Published
     var velocityHalfLife: VelocityHalfLife = .l100
@@ -97,7 +97,7 @@ final class ViewModel {
     var particleSizeRange: ClosedRange<Float> = 1...15
     
     @Published
-    var particleSize: Float = 3
+    var particleSize: Float = 5
     
     // MARK: Control
     var play: ()->Void = {}
@@ -105,6 +105,28 @@ final class ViewModel {
     
     @Published
     var isPaused: Bool = false
+    
+    // MARK: Transform
+    @Published
+    private(set) var zoom: Float = 1
+    
+    func zoom(factor: Float) {
+        zoom = min(max(zoom * factor, 1.0/3), 100)
+    }
+    
+    @Published
+    var center: SIMD2<Float> = .zero
+    
+    var transform: any Publisher<Transform, Never> {
+        $zoom.combineLatest($center) { zoom, center in
+            Transform(center: center, zoom: zoom)
+        }
+    }
+    
+    func resetTransform() {
+        zoom = 1
+        center = .zero
+    }
 }
 
 enum Rmax: Float, OptionConvertible {
@@ -114,6 +136,7 @@ enum Rmax: Float, OptionConvertible {
     case r010 = 0.10
     case r030 = 0.30
     case r050 = 0.50
+    case r100 = 1.00
     
     var description: String { String(format: "%.2f", rawValue) }
 }

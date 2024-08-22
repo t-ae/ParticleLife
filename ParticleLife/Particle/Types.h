@@ -35,10 +35,8 @@ typedef struct {
 } VelocityUpdateSetting;
 
 typedef struct {
-    float x;
-    float y;
-    float width;
-    float height;
-} Rect2;
+    simd_float2 center;
+    float zoom;
+} Transform;
 
 #endif /* particle_h */
