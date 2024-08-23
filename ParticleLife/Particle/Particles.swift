@@ -35,12 +35,4 @@ final class Particles {
         UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * count)
             .bindMemory(to: Particle.self)
     }
-    
-    func addParticle(_ particle: Particle) {
-        guard count < Self.maxCount-1 else {
-            return
-        }
-        count += 1
-        bufferPointer[count-1] = particle
-    }
 }

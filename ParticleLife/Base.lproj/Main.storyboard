@@ -699,14 +699,6 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="VCw-OG-8MD" customClass="CoordinateView" customModule="ParticleLife" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="768"/>
                             </customView>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YRI-yU-fBW">
-                                <rect key="frame" x="619" y="20" width="129" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="truncatingTail" title="Click to put particles" drawsBackground="YES" id="vhj-8p-TnZ">
-                                    <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="backgroundColor" red="0.99019607843137258" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="VCw-OG-8MD" firstAttribute="trailing" secondItem="cnB-fI-SfS" secondAttribute="trailing" id="7S6-Z6-nta"/>
@@ -716,15 +708,12 @@
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="RKC-xT-nmG"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" priority="900" id="Stq-0y-9xH"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="VpY-g3-avC"/>
-                            <constraint firstAttribute="bottom" secondItem="YRI-yU-fBW" secondAttribute="bottom" constant="20" symbolic="YES" id="WiJ-Lw-sbw"/>
-                            <constraint firstAttribute="trailing" secondItem="YRI-yU-fBW" secondAttribute="trailing" constant="20" symbolic="YES" id="s0m-Q5-KOv"/>
                             <constraint firstItem="VCw-OG-8MD" firstAttribute="bottom" secondItem="cnB-fI-SfS" secondAttribute="bottom" id="sdN-xr-EBm"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="coordinateView" destination="VCw-OG-8MD" id="WDH-rT-Evs"/>
                         <outlet property="metalView" destination="cnB-fI-SfS" id="n1f-yH-ES6"/>
-                        <outlet property="putParticlesLabel" destination="YRI-yU-fBW" id="lKA-AG-Q7I"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
