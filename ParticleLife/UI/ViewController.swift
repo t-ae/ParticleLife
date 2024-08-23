@@ -101,6 +101,13 @@ class ViewController: NSViewController {
     
     override func mouseUp(with event: NSEvent) {
         switch event.clickCount {
+        case 1:
+            let location0 = metalView.convert(event.locationInWindow, from: nil)
+            let location1 = SIMD2<Float>(
+                Float(location0.x / metalView.bounds.width) * 2 - 1,
+                Float(location0.y / metalView.bounds.height) * 2 - 1
+            )
+            print("Clicked point:", location1 / viewModel.zoom + viewModel.center)
         case 2:
             viewModel.resetTransform()
         default:
