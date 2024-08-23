@@ -52,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func openManual(_ sender: Any) {
-        let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md")!
+        let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/manual.md")!
         NSWorkspace.shared.open(url)
     }
 }

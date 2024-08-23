@@ -19,6 +19,11 @@
 
 ### Attraction
 
-- Left/Right click value: ±0.1
-- Shift+Left/Right click value: Set 1/-1
+#### Headers
+- Click: Fill corresponding row/column/diagonal elements
+
+#### Value
+
+- Left/Right click: ±0.1
+- Shift+Left/Right click: Set 1/-1
 
