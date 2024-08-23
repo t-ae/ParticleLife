@@ -55,8 +55,7 @@ class ViewController: NSViewController {
     }
     
     func bindViewModel(renderer: Renderer) {
-        let appDelegate = appDelegate
-        let viewModel = appDelegate.viewModel
+        let viewModel = self.viewModel
         
         renderer.particles.$count
             .subscribe(viewModel.renderingParticleCountUpdate)
@@ -88,15 +87,6 @@ class ViewController: NSViewController {
         viewModel.hideCoordinateView
             .assign(to: \.isHidden, on: coordinateView)
             .store(in: &cancellables)
-        
-        viewModel.dumpParametersEvent.sink {
-            let content = renderer.dumpParameters()
-            appDelegate.openDumpModal(title: "Parameters", content: content)
-        }.store(in: &cancellables)
-        viewModel.dumpStatisticsEvent.sink {
-            let content = renderer.dumpStatistics()
-            appDelegate.openDumpModal(title: "Statistics", content: content)
-        }.store(in: &cancellables)
     }
     
     func openControlWindow() {
@@ -143,9 +133,20 @@ class ViewController: NSViewController {
     }
     
     override func keyDown(with event: NSEvent) {
-        switch event.characters {
-        case " ":
+        let command = event.modifierFlags.contains(.command)
+        switch (event.characters, command) {
+        case (" ", _):
             viewModel.isPaused.toggle()
+        case ("a", true):
+            viewModel.autoUpdateAttractionMatrix.toggle()
+        case ("r", true):
+            viewModel.updateAttractionMatrix(.randomize)
+        case ("p", true):
+            let content = renderer.dumpParameters()
+            appDelegate.openDumpModal(title: "Parameters", content: content)
+        case ("s", true):
+            let content = renderer.dumpStatistics()
+            appDelegate.openDumpModal(title: "Statistics", content: content)
         default:
             break
         }

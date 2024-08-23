@@ -6,19 +6,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let viewModel = ViewModel()
     private var cancellables = Set<AnyCancellable>()
     
-    private var keyEventMonitor: Any?
-    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         bindViewModel()
-        
-        keyEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: handleShortcut(event:))
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        if let keyEventMonitor {
-            NSEvent.removeMonitor(keyEventMonitor)
-        }
-        
         cancellables.removeAll()
     }
 
@@ -34,27 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         viewModel.errorNotifyEvent.sink { [ unowned self] in
             showErrorAlert($0)
         }.store(in: &cancellables)
-    }
-    
-    func handleShortcut(event: NSEvent) -> NSEvent? {
-        guard event.modifierFlags.contains(.command) else {
-            return event
-        }
-        
-        switch event.characters {
-        case "a":
-            viewModel.autoUpdateAttractionMatrix.toggle()
-        case "r":
-            viewModel.updateAttractionMatrix(.randomize)
-        case "p":
-            viewModel.dumpParametersEvent.send()
-        case "s":
-            viewModel.dumpStatisticsEvent.send()
-        default:
-            return event
-        }
-        
-        return nil
     }
     
     func showErrorAlert(_ error: Error) {
