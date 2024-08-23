@@ -134,9 +134,9 @@ final class ViewModel {
         center = .zero
     }
     
-    var showCoordinateView: any Publisher<Bool, Never> {
+    var hideCoordinateView: any Publisher<Bool, Never> {
         renderingParticleCountUpdate.combineLatest($zoom, $center) {
-            $0 == 0 && $1 == 1 && $2 == .zero
+            $0 > 0 || $1 != 1 || $2 != .zero
         }
     }
 }

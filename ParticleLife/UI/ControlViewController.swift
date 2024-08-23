@@ -53,8 +53,8 @@ class ControlViewController: NSViewController {
         fixSeedsCheck.bind(&viewModel.$fixSeeds)
             .store(in: &cancellables)
         
-        generateParticlesButton.bind { _ in
-            self.viewModel.particleCountString = self.particleCountField.stringValue  // Assign editing value
+        generateParticlesButton.bind { [particleCountField] in
+            self.viewModel.particleCountString = particleCountField!.stringValue  // Assign editing value
             self.viewModel.generateParticles.send(())
         }.store(in: &cancellables)
         
@@ -62,12 +62,12 @@ class ControlViewController: NSViewController {
         attractionMatrixView.setMaxStep(viewModel.attractionMaxStep)
         attractionMatrixView.setValueFormatter(viewModel.attractionValueFormatter)
         attractionMatrixView.delegate = self
-        viewModel.$renderingColorCount.sink {
-            self.attractionMatrixView.colorCount = $0
-        }.store(in: &cancellables)
-        viewModel.$attractionSteps.sink {
-            self.attractionMatrixView.setSteps($0)
-        }.store(in: &cancellables)
+        viewModel.$renderingColorCount
+            .assign(to: \.colorCount, on: attractionMatrixView)
+            .store(in: &cancellables)
+        viewModel.$attractionSteps
+            .assign(to: \.steps, on: attractionMatrixView)
+            .store(in: &cancellables)
         
         attractionAutoUpdateSwitch.bind(&viewModel.$autoUpdateAttractionMatrix)
             .store(in: &cancellables)
@@ -86,7 +86,7 @@ class ControlViewController: NSViewController {
         forceFunctionButton.bind(&viewModel.$forceFunction)
             .store(in: &cancellables)
         
-        forceFunctionHelpButton.bind { _ in
+        forceFunctionHelpButton.bind {
             let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md#force-functions")!
             NSWorkspace.shared.open(url)
         }.store(in: &cancellables)
@@ -102,9 +102,10 @@ class ControlViewController: NSViewController {
         
         forceFactorSlider.bind(&viewModel.$forceFactor, range: viewModel.forceFactorRange)
             .store(in: &cancellables)
-        viewModel.$forceFactor.sink {
-            self.forceFactorSlider.toolTip = String(format: "%.2f", $0)
-        }.store(in: &cancellables)
+        viewModel.$forceFactor
+            .map { String(format: "%.2f", $0) }
+            .assign(to: \.toolTip, on: forceFactorSlider)
+            .store(in: &cancellables)
         
         // MARK: Other
         preferredFPSButton.bind(&viewModel.$preferredFPS)
@@ -115,15 +116,16 @@ class ControlViewController: NSViewController {
         
         particleSizeSlider.bind(&viewModel.$particleSize, range: viewModel.particleSizeRange)
             .store(in: &cancellables)
-        viewModel.$particleSize.sink {
-            self.particleSizeSlider.toolTip = String(format: "%.2f", $0)
-        }.store(in: &cancellables)
+        viewModel.$particleSize
+            .map { String(format: "%.2f", $0) }
+            .assign(to: \.toolTip, on: particleSizeSlider)
+            .store(in: &cancellables)
         
         // MARK: Control
-        playButton.bind { _ in
+        playButton.bind {
             self.viewModel.isPaused = false
         }.store(in: &cancellables)
-        pauseButton.bind { _ in
+        pauseButton.bind {
             self.viewModel.isPaused = true
         }.store(in: &cancellables)
     }

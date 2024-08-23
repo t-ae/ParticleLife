@@ -146,6 +146,12 @@ class BindableButton: NSButton {
 }
 
 extension BindableButton {
+    func bind(onClick: @escaping ()->Void) -> Cancellable {
+        return actionSubject.sink { _ in
+            onClick()
+        }
+    }
+    
     func bind(onClick: @escaping (NSButton)->Void) -> Cancellable {
         return actionSubject.sink {
             onClick($0)

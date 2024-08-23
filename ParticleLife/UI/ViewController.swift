@@ -73,18 +73,19 @@ class ViewController: NSViewController {
         viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)
         viewModel.velocityUpdateSetting.assign(to: &renderer.$velocityUpdateSetting)
          
-        viewModel.$preferredFPS.sink { [unowned self] in
-            self.metalView.preferredFramesPerSecond = $0.rawValue
-        }.store(in: &cancellables)
+        viewModel.$preferredFPS
+            .map { $0.rawValue }
+            .assign(to: \.preferredFramesPerSecond, on: metalView)
+            .store(in: &cancellables)
         
         viewModel.$fixDt.assign(to: &renderer.$fixedDt)
         viewModel.$particleSize.assign(to: &renderer.$particleSize)
         viewModel.$isPaused.assign(to: &renderer.$isPaused)
         viewModel.transform.assign(to: &renderer.$transform)
         
-        viewModel.showCoordinateView.sink { [unowned self] in
-            self.coordinateView.isHidden = !$0
-        }.store(in: &cancellables)
+        viewModel.hideCoordinateView
+            .assign(to: \.isHidden, on: coordinateView)
+            .store(in: &cancellables)
     }
     
     private var controlWindow: NSWindowController?

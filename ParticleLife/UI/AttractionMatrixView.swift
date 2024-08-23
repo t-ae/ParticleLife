@@ -79,12 +79,13 @@ class AttractionMatrixView: NSView {
     }
     
     var steps: Matrix<Int> {
-        .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.step })
-    }
-    
-    func setSteps(_ steps: Matrix<Int>) {
-        for (cell, step) in zip(attractionMatrixCells, steps.elements) {
-            cell.setStep(step)
+        get {
+            .init(rows: Color.allCases.count, cols: Color.allCases.count, elements: attractionMatrixCells.map { $0.step })
+        }
+        set {
+            for (cell, step) in zip(attractionMatrixCells, newValue.elements) {
+                cell.setStep(step)
+            }
         }
     }
     
