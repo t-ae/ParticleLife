@@ -12,8 +12,7 @@ final class ViewModel {
     @Published
     var particleCountString: String = "10000"
     
-    @Published
-    var renderingParticleCount: Int = 0
+    let renderingParticleCountUpdate = PassthroughSubject<Int, Never>()
     
     @Published
     var particleGeneratorType: ParticleGeneratorType = .uniform
@@ -23,14 +22,11 @@ final class ViewModel {
     
     let generateParticles = PassthroughSubject<Void, Never>()
     
-    var generateEvent: any Publisher<ParticleGeneratorProtocol, Never> {
+    var generateEvent: any Publisher<(ParticleGenerator, Int, Int), Never> {
         generateParticles.map {
             let particleCount = Int(self.particleCountString) ?? -1
-            return self.particleGeneratorType.generator(
-                colorCountToUse: self.colorCountToUse,
-                particleCount: particleCount,
-                fixed: self.fixSeeds
-            )
+            let generator = self.particleGeneratorType.generator(fixed: self.fixSeeds)
+            return (generator, particleCount, self.colorCountToUse)
         }
     }
     
@@ -139,7 +135,7 @@ final class ViewModel {
     }
     
     var showCoordinateView: any Publisher<Bool, Never> {
-        $renderingParticleCount.combineLatest($zoom, $center) {
+        renderingParticleCountUpdate.combineLatest($zoom, $center) {
             $0 == 0 && $1 == 1 && $2 == .zero
         }
     }

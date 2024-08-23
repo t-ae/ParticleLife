@@ -3,11 +3,8 @@ import Metal
 import MetalKit
 
 final class Renderer: NSObject, MTKViewDelegate {
-    static let maxParticleCount = 65536
-    
     var delegate: RendererDelegate?
     
-    let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let updateVelocityState: MTLComputePipelineState
     let updatePositionState: MTLComputePipelineState
@@ -16,24 +13,13 @@ final class Renderer: NSObject, MTKViewDelegate {
     let particles: Particles
     
     var attractionMatrix: Matrix<Float> = .colorMatrix(filledWith: 0)
-    var velocityUpdateSetting: VelocityUpdateSetting = .init(
-        forceFunction: ForceFunction.default,
-        distanceFunction: DistanceFunction.default,
-        rmax: 0.05,
-        velocityHalfLife: 0.1,
-        forceFactor: 1
-    )
+    var velocityUpdateSetting: VelocityUpdateSetting = .init()
     var fixedDt: Bool = false
     var particleSize: Float = 5
     var viewportSize: SIMD2<Float> = .zero
-    
     var transform = Transform(center: .zero, zoom: 1)
     
-    init(
-        device: MTLDevice,
-        pixelFormat: MTLPixelFormat
-    ) throws {
-        self.device = device
+    init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
         guard let commandQueue = device.makeCommandQueue() else {
             throw MessageError("makeCommandQueue failed.")
         }

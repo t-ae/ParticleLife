@@ -42,6 +42,7 @@ class ControlViewController: NSViewController {
             self.viewModel.colorCountToUse = $0
         }.store(in: &cancellables)
         
+        viewModel.renderingParticleCountUpdate.map(String.init).assign(to: &viewModel.$particleCountString)
         particleCountField.bind(viewModel.$particleCountString) {
             self.viewModel.particleCountString = $0
         }.store(in: &cancellables)

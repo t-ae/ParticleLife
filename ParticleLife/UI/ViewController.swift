@@ -54,8 +54,18 @@ class ViewController: NSViewController {
     }
     
     func bindViewModel() {
-        viewModel.generateEvent.sink {
-            self.generateParticles(generator: $0)
+        renderer.particles.$count
+            .subscribe(viewModel.renderingParticleCountUpdate)
+            .store(in: &cancellables)
+        renderer.particles.$colorCount
+            .assign(to: &viewModel.$renderingColorCount)
+        
+        viewModel.generateEvent.sink { generator, particleCount, colorCount in
+            do {
+                try self.renderer.particles.generateParticles(by: generator, particleCount: particleCount, colorCount: colorCount)
+            } catch {
+                self.showErrorAlert(error)
+            }
         }.store(in: &cancellables)
         
         viewModel.attractionMatrix.sink {
@@ -108,16 +118,6 @@ class ViewController: NSViewController {
         controlWindow = wc
         
         window.orderFrontRegardless()
-    }
-    
-    func generateParticles(generator: any ParticleGeneratorProtocol) {
-        do {
-            try generator.generate(particles: renderer.particles)
-            viewModel.renderingColorCount = viewModel.colorCountToUse
-            viewModel.renderingParticleCount = generator.particleCount
-        } catch {
-            showErrorAlert(error)
-        }
     }
     
     override func mouseUp(with event: NSEvent) {
