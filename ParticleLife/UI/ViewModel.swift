@@ -140,6 +140,10 @@ final class ViewModel {
         }
     }
     
+    // MARK: Edit mode
+    @Published
+    var mode: Mode? = nil
+    
     // MARK: Events
     let errorNotifyEvent = PassthroughSubject<Error, Never>()
     let dumpParametersEvent = PassthroughSubject<Void, Never>()
@@ -174,4 +178,8 @@ enum FPS: Int, OptionConvertible {
     case fps120 = 120
     
     var description: String { "\(rawValue)" }
+}
+
+enum Mode {
+    case edit(Color)
 }

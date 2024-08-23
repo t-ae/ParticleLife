@@ -5,6 +5,7 @@ import Combine
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
     @IBOutlet var coordinateView: CoordinateView!
+    @IBOutlet var putParticlesLabel: NSTextField!
     
     private var renderer: Renderer!
 
@@ -97,6 +98,17 @@ class ViewController: NSViewController {
             let content = renderer.dumpStatistics()
             appDelegate.openDumpModal(title: "Statistics", content: content)
         }.store(in: &cancellables)
+        
+        viewModel.$mode.map {
+            switch $0 {
+            case nil: NSColor.clear
+            case .edit(let color): color.nsColor
+            }
+        }.assign(to: \.textColor, on: putParticlesLabel).store(in: &cancellables)
+        viewModel.$mode
+            .map { $0 == nil}
+            .assign(to: \.isHidden, on: putParticlesLabel)
+            .store(in: &cancellables)
     }
     
     func openControlWindow() {
@@ -110,9 +122,19 @@ class ViewController: NSViewController {
     }
     
     override func mouseUp(with event: NSEvent) {
-        switch event.clickCount {
-        case 2:
+        switch (viewModel.mode, event.clickCount) {
+        case (nil, 2):
             viewModel.resetTransform()
+        case (.edit(let color), _):
+            let location0 = metalView.convert(event.locationInWindow, from: nil)
+            let location1 = SIMD2<Float>(
+                Float(location0.x / metalView.bounds.width) * 2 - 1,
+                Float(location0.y / metalView.bounds.height) * 2 - 1
+            )
+            let position = location1 / viewModel.zoom + viewModel.center
+            
+            let noise = 0.0001 * SIMD2<Float>.random(in: -1..<1)
+            renderer.particles.addParticle(Particle(color: color, position: position + noise))
         default:
             break
         }

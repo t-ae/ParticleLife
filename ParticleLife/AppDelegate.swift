@@ -42,6 +42,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         switch event.characters {
+        case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
+            guard let i = event.characters.flatMap(Int.init) else {
+                return event
+            }
+            if Color.allCases.indices.contains(i-1) {
+                viewModel.mode = .edit(Color.allCases[i-1])
+            } else {
+                viewModel.mode = nil
+            }
         case "a":
             viewModel.autoUpdateAttractionMatrix.toggle()
         case "r":
