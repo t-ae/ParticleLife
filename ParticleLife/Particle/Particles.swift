@@ -52,7 +52,10 @@ final class Particles {
             }
         }
         if minimumIndex >= 0 {
-            bufferPointer[minimumIndex].position.x = .nan
+            if minimumIndex != count-1 {
+                swap(&bufferPointer[minimumIndex], &bufferPointer[count-1])
+            }
+            count -= 1
         }
     }
 }
