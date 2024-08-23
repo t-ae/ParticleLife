@@ -38,27 +38,25 @@ class ControlViewController: NSViewController {
     
     func bindViewModel() {
         // MARK: Particle setting
-        colorCountButton.bind(viewModel.$colorCountToUse, options: [Int](1...Color.allCases.count)) {
-            self.viewModel.colorCountToUse = $0
-        }.store(in: &cancellables)
+        colorCountButton.bind(&viewModel.$colorCountToUse, options: [Int](1...Color.allCases.count))
+            .store(in: &cancellables)
         
-        viewModel.renderingParticleCountUpdate.map(String.init).assign(to: &viewModel.$particleCountString)
-        particleCountField.bind(viewModel.$particleCountString) {
-            self.viewModel.particleCountString = $0
-        }.store(in: &cancellables)
+        viewModel.renderingParticleCountUpdate
+            .map(String.init)
+            .assign(to: &viewModel.$particleCountString)
+        particleCountField.bind(&viewModel.$particleCountString)
+            .store(in: &cancellables)
         
-        particleGeneratorTypeButton.bind(viewModel.$particleGeneratorType) {
-            self.viewModel.particleGeneratorType = $0
-        }.store(in: &cancellables)
+        particleGeneratorTypeButton.bind(&viewModel.$particleGeneratorType)
+            .store(in: &cancellables)
         
-        fixSeedsCheck.bind(viewModel.$fixSeeds) {
-            self.viewModel.fixSeeds = $0
-        }.store(in: &cancellables)
+        fixSeedsCheck.bind(&viewModel.$fixSeeds)
+            .store(in: &cancellables)
         
         generateParticlesButton.bind { _ in
             self.viewModel.particleCountString = self.particleCountField.stringValue  // Assign editing value
             self.viewModel.generateParticles.send(())
-        }
+        }.store(in: &cancellables)
         
         // MARK: Attraction
         attractionMatrixView.setMaxStep(viewModel.attractionMaxStep)
@@ -71,9 +69,8 @@ class ControlViewController: NSViewController {
             self.attractionMatrixView.setSteps($0)
         }.store(in: &cancellables)
         
-        attractionAutoUpdateSwitch.bind(viewModel.$autoUpdateAttractionMatrix) {
-            self.viewModel.autoUpdateAttractionMatrix = $0
-        }.store(in: &cancellables)
+        attractionAutoUpdateSwitch.bind(&viewModel.$autoUpdateAttractionMatrix)
+            .store(in: &cancellables)
         viewModel.$autoUpdateAttractionMatrix.sink {
             self.onChangeAttractionAutoUpdate($0)
         }.store(in: &cancellables)
@@ -86,46 +83,38 @@ class ControlViewController: NSViewController {
         }
         
         // MARK: Velocity update rule
-        forceFunctionButton.bind(viewModel.$forceFunction) {
-            self.viewModel.forceFunction = $0
-        }.store(in: &cancellables)
+        forceFunctionButton.bind(&viewModel.$forceFunction)
+            .store(in: &cancellables)
         
         forceFunctionHelpButton.bind { _ in
             let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md#force-functions")!
             NSWorkspace.shared.open(url)
-        }
-        
-        distanceFunctionButton.bind(viewModel.$distanceFunction) {
-            self.viewModel.distanceFunction = $0
         }.store(in: &cancellables)
         
-        rmaxButton.bind(viewModel.$rmax) {
-            self.viewModel.rmax = $0
-        }.store(in: &cancellables)
+        distanceFunctionButton.bind(&viewModel.$distanceFunction)
+            .store(in: &cancellables)
         
-        velocityHalfLifeButton.bind(viewModel.$velocityHalfLife) {
-            self.viewModel.velocityHalfLife = $0
-        }.store(in: &cancellables)
+        rmaxButton.bind(&viewModel.$rmax)
+            .store(in: &cancellables)
         
-        forceFactorSlider.bind(viewModel.$forceFactor, range: viewModel.forceFactorRange) {
-            self.viewModel.forceFactor = $0
-        }.store(in: &cancellables)
+        velocityHalfLifeButton.bind(&viewModel.$velocityHalfLife)
+            .store(in: &cancellables)
+        
+        forceFactorSlider.bind(&viewModel.$forceFactor, range: viewModel.forceFactorRange)
+            .store(in: &cancellables)
         viewModel.$forceFactor.sink {
             self.forceFactorSlider.toolTip = String(format: "%.2f", $0)
         }.store(in: &cancellables)
         
         // MARK: Other
-        preferredFPSButton.bind(viewModel.$preferredFPS) {
-            self.viewModel.preferredFPS = $0
-        }.store(in: &cancellables)
+        preferredFPSButton.bind(&viewModel.$preferredFPS)
+            .store(in: &cancellables)
         
-        fixDtCheck.bind(viewModel.$fixDt) {
-            self.viewModel.fixDt = $0
-        }.store(in: &cancellables)
+        fixDtCheck.bind(&viewModel.$fixDt)
+            .store(in: &cancellables)
         
-        particleSizeSlider.bind(viewModel.$particleSize, range: viewModel.particleSizeRange) {
-            self.viewModel.particleSize = $0
-        }.store(in: &cancellables)
+        particleSizeSlider.bind(&viewModel.$particleSize, range: viewModel.particleSizeRange)
+            .store(in: &cancellables)
         viewModel.$particleSize.sink {
             self.particleSizeSlider.toolTip = String(format: "%.2f", $0)
         }.store(in: &cancellables)
@@ -133,10 +122,10 @@ class ControlViewController: NSViewController {
         // MARK: Control
         playButton.bind { _ in
             self.viewModel.isPaused = false
-        }
+        }.store(in: &cancellables)
         pauseButton.bind { _ in
             self.viewModel.isPaused = true
-        }
+        }.store(in: &cancellables)
     }
     
     private var attractionAutoUpdateTask: Task<Void, Error>? = nil

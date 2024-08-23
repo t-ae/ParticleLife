@@ -14,19 +14,18 @@ class BindableTextField: NSTextField {
         action = #selector(onChange)
     }
     @objc func onChange(sender: BindableTextField) {
-        actionClosure?(sender)
+        actionSubject.send(sender)
     }
-    var actionClosure: ((BindableTextField)->Void)?
+    let actionSubject = PassthroughSubject<BindableTextField, Never>()
 }
 
 extension BindableTextField {
-    func bind(_ publisher: any Publisher<String, Never>, onChange: @escaping (String)->Void) -> Cancellable {
-        actionClosure = {
-            onChange($0.stringValue)
-        }
-        return publisher.sink {
-            self.stringValue = $0
-        }
+    func bind(_ publisher: inout Published<String>.Publisher) -> Cancellable {
+        actionSubject.map {
+            $0.stringValue
+        }.assign(to: &publisher)
+        
+        return publisher.assign(to: \.stringValue, on: self)
     }
 }
 
@@ -42,28 +41,32 @@ class BindablePopUpButton: NSPopUpButton {
         action = #selector(onChange)
     }
     @objc func onChange(sender: BindablePopUpButton) {
-        actionClosure?(sender)
+        actionSubject.send(sender)
     }
-    var actionClosure: ((BindablePopUpButton)->Void)?
+    let actionSubject = PassthroughSubject<BindablePopUpButton, Never>()
 }
 
 extension BindablePopUpButton {
-    func bind<T: LosslessStringConvertible>(_ publisher: any Publisher<T, Never>, options: [T], onChange: @escaping (T)->Void) -> Cancellable {
+    func bind<T: LosslessStringConvertible>(_ publisher: inout Published<T>.Publisher, options: [T]) -> Cancellable {
         removeAllItems()
         addItems(withTitles: options.map { $0.description })
-        actionClosure = {
-            onChange(.init($0.titleOfSelectedItem!)!)
-        }
+        
+        actionSubject.map {
+            T($0.titleOfSelectedItem!)!
+        }.assign(to: &publisher)
+        
         return publisher.sink {
             self.selectItem(by: $0.description)
         }
     }
     
-    func bind<Option: OptionConvertible>(_ publisher: any Publisher<Option, Never>, onChange: @escaping (Option)->Void) -> Cancellable {
+    func bind<Option: OptionConvertible>(_ publisher: inout Published<Option>.Publisher) -> Cancellable {
         setItems(Option.allCases)
-        actionClosure = {
-            onChange($0.selectedItem()!)
-        }
+        
+        actionSubject.map {
+            $0.selectedItem()!
+        }.assign(to: &publisher)
+        
         return publisher.sink {
             self.selectItem($0)
         }
@@ -82,25 +85,24 @@ class BindableSlider: NSSlider {
         action = #selector(onChange)
     }
     @objc func onChange(sender: NSSlider) {
-        actionClosure?(sender)
+        actionSubject.send(sender)
     }
-    var actionClosure: ((NSSlider)->Void)?
+    let actionSubject = PassthroughSubject<NSSlider, Never>()
 }
 
 extension BindableSlider {
     func bind(
-        _ publisher: any Publisher<Float, Never>,
-        range: ClosedRange<Float>,
-        onChange: @escaping (Float)->Void
+        _ publisher: inout Published<Float>.Publisher,
+        range: ClosedRange<Float>
     ) -> Cancellable {
         minValue = Double(range.lowerBound)
         maxValue = Double(range.upperBound)
-        actionClosure = {
-            onChange($0.floatValue)
-        }
-        return publisher.sink {
-            self.floatValue = $0
-        }
+        
+        actionSubject.map {
+            $0.floatValue
+        }.assign(to: &publisher)
+        
+        return publisher.assign(to: \.floatValue, on: self)
     }
 }
 
@@ -138,22 +140,23 @@ class BindableButton: NSButton {
         action = #selector(onClick)
     }
     @objc func onClick(sender: NSButton) {
-        actionClosure?(sender)
+        actionSubject.send(sender)
     }
-    var actionClosure: ((NSButton)->Void)?
+    let actionSubject = PassthroughSubject<NSButton, Never>()
 }
 
 extension BindableButton {
-    func bind(onClick: @escaping (NSButton)->Void) {
-        actionClosure = {
+    func bind(onClick: @escaping (NSButton)->Void) -> Cancellable {
+        return actionSubject.sink {
             onClick($0)
         }
     }
     
-    func bind(_ publisher: any Publisher<Bool, Never>, onChange: @escaping (Bool)->Void) -> Cancellable {
-        actionClosure = {
-            onChange($0.state == .on)
-        }
+    func bind(_ publisher: inout Published<Bool>.Publisher) -> Cancellable {
+        actionSubject.map {
+            $0.state == .on
+        }.assign(to: &publisher)
+        
         return publisher.sink {
             self.state = $0 ? .on : .off
         }
