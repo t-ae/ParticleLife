@@ -55,7 +55,8 @@ class ViewController: NSViewController {
     }
     
     func bindViewModel(renderer: Renderer) {
-        let viewModel = self.viewModel
+        let appDelegate = appDelegate
+        let viewModel = appDelegate.viewModel
         
         renderer.particles.$count
             .subscribe(viewModel.renderingParticleCountUpdate)
@@ -87,23 +88,24 @@ class ViewController: NSViewController {
         viewModel.hideCoordinateView
             .assign(to: \.isHidden, on: coordinateView)
             .store(in: &cancellables)
+        
+        viewModel.dumpParametersEvent.sink {
+            let content = renderer.dumpParameters()
+            appDelegate.openDumpModal(title: "Parameters", content: content)
+        }.store(in: &cancellables)
+        viewModel.dumpStatisticsEvent.sink {
+            let content = renderer.dumpStatistics()
+            appDelegate.openDumpModal(title: "Statistics", content: content)
+        }.store(in: &cancellables)
     }
     
-    private var controlWindow: NSWindowController?
-    
     func openControlWindow() {
-        guard controlWindow == nil else {
-            return
-        }
-        
         let vc = (storyboard!.instantiateController(withIdentifier: "ControlViewController") as! ControlViewController)
         let window = NSWindow(contentViewController: vc)
         window.title = "Particle Life - Control"
         window.styleMask.remove(.closable)
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
-        controlWindow = wc
-        
         window.orderFrontRegardless()
     }
     
@@ -142,28 +144,11 @@ class ViewController: NSViewController {
     
     override func keyDown(with event: NSEvent) {
         switch event.characters {
-        case "a":
-            viewModel.autoUpdateAttractionMatrix.toggle()
-        case "r":
-            viewModel.updateAttractionMatrix(.randomize)
-        case "p":
-            showDumpModal(title: "Parameters", content: renderer.dumpParameters())
-        case "s":
-            showDumpModal(title: "Statistics", content: renderer.dumpStatistics())
-        case "i":
-            renderer.induceInvalid()
         case " ":
             viewModel.isPaused.toggle()
         default:
             break
         }
-    }
-    
-    func showDumpModal(title: String, content: String) {
-        let vc = storyboard!.instantiateController(withIdentifier: "DumpViewController") as! DumpViewController
-        vc.title = title
-        vc.content = content
-        presentAsModalWindow(vc)
     }
 }
 
@@ -175,6 +160,6 @@ extension ViewController: RendererDelegate {
 
 extension ViewController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
-        controlWindow?.close()
+        NSApplication.shared.terminate(nil)
     }
 }

@@ -140,8 +140,10 @@ final class ViewModel {
         }
     }
     
-    // MARK: Error
+    // MARK: Events
     let errorNotifyEvent = PassthroughSubject<Error, Never>()
+    let dumpParametersEvent = PassthroughSubject<Void, Never>()
+    let dumpStatisticsEvent = PassthroughSubject<Void, Never>()
 }
 
 enum Rmax: Float, OptionConvertible {
