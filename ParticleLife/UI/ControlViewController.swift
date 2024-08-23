@@ -3,7 +3,6 @@ import Cocoa
 import Combine
 
 class ControlViewController: NSViewController {
-    var viewModel: ViewModel!
     private var cancellables = Set<AnyCancellable>()
     
     @IBOutlet var colorCountButton: BindablePopUpButton!
@@ -37,6 +36,8 @@ class ControlViewController: NSViewController {
     }
     
     func bindViewModel() {
+        let viewModel = self.viewModel
+        
         // MARK: Particle setting
         colorCountButton.bind(&viewModel.$colorCountToUse, options: [Int](1...Color.allCases.count))
             .store(in: &cancellables)
@@ -75,12 +76,8 @@ class ControlViewController: NSViewController {
             self.onChangeAttractionAutoUpdate($0)
         }.store(in: &cancellables)
         
-        attractionMatrixUpdateButton.bindMenu(AttractionUpdate.self) {
-            self.viewModel.updateAttractionMatrix($0)
-        }
-        attractionMatrixPresetButton.bindMenu(AttractionPreset.self) {
-            self.viewModel.setAttractionMatrixPreset($0)
-        }
+        attractionMatrixUpdateButton.bindMenu(AttractionUpdate.self, onChoose: viewModel.updateAttractionMatrix)
+        attractionMatrixPresetButton.bindMenu(AttractionPreset.self, onChoose: viewModel.setAttractionMatrixPreset)
         
         // MARK: Velocity update rule
         forceFunctionButton.bind(&viewModel.$forceFunction)

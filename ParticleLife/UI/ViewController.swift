@@ -8,10 +8,9 @@ class ViewController: NSViewController {
     
     private var renderer: Renderer!
 
-    let viewModel = ViewModel()
     private var cancellables = Set<AnyCancellable>()
     
-    var setupError: Error? = nil
+    private var setupError: Error? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +32,7 @@ class ViewController: NSViewController {
         view.window?.delegate = self
         
         if let setupError {
-            showErrorAlert(setupError)
+            appDelegate.showErrorAlert(setupError)
             NSApplication.shared.terminate(self)
         }
     }
@@ -56,17 +55,19 @@ class ViewController: NSViewController {
     }
     
     func bindViewModel(renderer: Renderer) {
+        let viewModel = self.viewModel
+        
         renderer.particles.$count
             .subscribe(viewModel.renderingParticleCountUpdate)
             .store(in: &cancellables)
         renderer.particles.$colorCount
             .assign(to: &viewModel.$renderingColorCount)
         
-        viewModel.generateEvent.sink { [unowned self] generator, particleCount, colorCount in
+        viewModel.generateEvent.sink { generator, particleCount, colorCount in
             do {
                 try renderer.particles.generateParticles(by: generator, particleCount: particleCount, colorCount: colorCount)
             } catch {
-                self.showErrorAlert(error)
+                viewModel.errorNotifyEvent.send(error)
             }
         }.store(in: &cancellables)
         
@@ -96,7 +97,6 @@ class ViewController: NSViewController {
         }
         
         let vc = (storyboard!.instantiateController(withIdentifier: "ControlViewController") as! ControlViewController)
-        vc.viewModel = viewModel
         let window = NSWindow(contentViewController: vc)
         window.title = "Particle Life - Control"
         window.styleMask.remove(.closable)
@@ -164,19 +164,6 @@ class ViewController: NSViewController {
         vc.title = title
         vc.content = content
         presentAsModalWindow(vc)
-    }
-}
-
-extension ViewController {
-    func showErrorAlert(_ error: Error) {
-        let alert: NSAlert
-        if let error = error as? MessageError {
-            alert = NSAlert()
-            alert.messageText = error.message
-        } else {
-            alert = NSAlert(error: error)
-        }
-        alert.runModal()
     }
 }
 

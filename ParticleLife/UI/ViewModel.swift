@@ -139,6 +139,9 @@ final class ViewModel {
             $0 > 0 || $1 != 1 || $2 != .zero
         }
     }
+    
+    // MARK: Error
+    let errorNotifyEvent = PassthroughSubject<Error, Never>()
 }
 
 enum Rmax: Float, OptionConvertible {
