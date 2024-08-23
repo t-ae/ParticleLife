@@ -139,12 +139,6 @@ class ControlViewController: NSViewController {
         }
     }
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        
-        becomeFirstResponder()
-    }
-    
     private var attractionAutoUpdateTask: Task<Void, Error>? = nil
     func onChangeAttractionAutoUpdate(_ on: Bool) {
         print("onSwitchAttractionAutoUpdateButton: \(on)")

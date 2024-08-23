@@ -17,10 +17,10 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         do {
-            try setupMetalView()
-            bindViewModel()
+            let renderer = try setupMetal()
+            self.renderer = renderer
+            bindViewModel(renderer: renderer)
             openControlWindow()
-            metalView.isPaused = false
         } catch {
             setupError = error
         }
@@ -38,7 +38,7 @@ class ViewController: NSViewController {
         }
     }
     
-    func setupMetalView() throws {
+    func setupMetal() throws -> Renderer {
         guard let device = MTLCreateSystemDefaultDevice() else {
             throw MessageError("MTLCreateSystemDefaultDevice failed.")
         }
@@ -46,57 +46,43 @@ class ViewController: NSViewController {
         metalView.device = device
         metalView.preferredFramesPerSecond = 60
         
-        renderer = try Renderer(device: device, pixelFormat: metalView.colorPixelFormat)
+        let renderer = try Renderer(device: device, pixelFormat: metalView.colorPixelFormat)
         renderer.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
         renderer.delegate = self
         
         metalView.delegate = renderer
+        
+        return renderer
     }
     
-    func bindViewModel() {
+    func bindViewModel(renderer: Renderer) {
         renderer.particles.$count
             .subscribe(viewModel.renderingParticleCountUpdate)
             .store(in: &cancellables)
         renderer.particles.$colorCount
             .assign(to: &viewModel.$renderingColorCount)
         
-        viewModel.generateEvent.sink { generator, particleCount, colorCount in
+        viewModel.generateEvent.sink { [unowned self] generator, particleCount, colorCount in
             do {
-                try self.renderer.particles.generateParticles(by: generator, particleCount: particleCount, colorCount: colorCount)
+                try renderer.particles.generateParticles(by: generator, particleCount: particleCount, colorCount: colorCount)
             } catch {
                 self.showErrorAlert(error)
             }
         }.store(in: &cancellables)
         
-        viewModel.attractionMatrix.sink {
-            self.renderer.attractionMatrix = $0
-        }.store(in: &cancellables)
-        
-        viewModel.velocityUpdateSetting.sink {
-            self.renderer.velocityUpdateSetting = $0
-        }.store(in: &cancellables)
-        
-        viewModel.$preferredFPS.sink {
+        viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)
+        viewModel.velocityUpdateSetting.assign(to: &renderer.$velocityUpdateSetting)
+         
+        viewModel.$preferredFPS.sink { [unowned self] in
             self.metalView.preferredFramesPerSecond = $0.rawValue
         }.store(in: &cancellables)
         
-        viewModel.$fixDt.sink {
-            self.renderer.fixedDt = $0
-        }.store(in: &cancellables)
+        viewModel.$fixDt.assign(to: &renderer.$fixedDt)
+        viewModel.$particleSize.assign(to: &renderer.$particleSize)
+        viewModel.$isPaused.assign(to: &renderer.$isPaused)
+        viewModel.transform.assign(to: &renderer.$transform)
         
-        viewModel.$particleSize.sink {
-            self.renderer.particleSize = $0
-        }.store(in: &cancellables)
-        
-        viewModel.$isPaused.sink {
-            self.renderer.isPaused = $0
-        }.store(in: &cancellables)
-        
-        viewModel.transform.sink {
-            self.renderer.transform = $0
-        }.store(in: &cancellables)
-        
-        viewModel.showCoordinateView.sink {
+        viewModel.showCoordinateView.sink { [unowned self] in
             self.coordinateView.isHidden = !$0
         }.store(in: &cancellables)
     }
@@ -194,7 +180,7 @@ extension ViewController {
 }
 
 extension ViewController: RendererDelegate {
-    func rendererOnUpdateFPS(_ fps: Float) {
+    func renderer(_ renderer: Renderer, onUpdateFPS fps: Float) {
         self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particles.count, fps)
     }
 }

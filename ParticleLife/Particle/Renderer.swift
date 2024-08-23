@@ -12,12 +12,20 @@ final class Renderer: NSObject, MTKViewDelegate {
     
     let particles: Particles
     
+    @Published
     var attractionMatrix: Matrix<Float> = .colorMatrix(filledWith: 0)
+    @Published
     var velocityUpdateSetting: VelocityUpdateSetting = .init()
+    @Published
     var fixedDt: Bool = false
+    @Published
     var particleSize: Float = 5
+    @Published
     var viewportSize: SIMD2<Float> = .zero
+    @Published
     var transform = Transform(center: .zero, zoom: 1)
+    @Published
+    var isPaused: Bool = false
     
     init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
         guard let commandQueue = device.makeCommandQueue() else {
@@ -83,7 +91,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         fpsHistory.insert(fps)
         if fpsHistory.head % (view.preferredFramesPerSecond / 2)  == 0 {
             // evenry 0.5sec
-            delegate?.rendererOnUpdateFPS(fpsHistory.average())
+            delegate?.renderer(self, onUpdateFPS: fpsHistory.average())
         }
         lastDrawDate = now
         
@@ -118,8 +126,6 @@ final class Renderer: NSObject, MTKViewDelegate {
             commandBuffer.commit()
         }
     }
-    
-    var isPaused: Bool = false
     
     func updateVelocity(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
         guard !isPaused else { return }
@@ -283,5 +289,5 @@ extension Renderer {
 }
 
 protocol RendererDelegate {
-    func rendererOnUpdateFPS(_ fps: Float)
+    func renderer(_ renderer: Renderer, onUpdateFPS fps: Float)
 }
