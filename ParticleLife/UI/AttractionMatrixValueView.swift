@@ -39,6 +39,7 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
         } else {
             layer?.backgroundColor = .init(red: sqrt(CGFloat(-step)/CGFloat(maxStep)), green: 0, blue: 0, alpha: 1)
         }
+        layer?.borderColor = .white
         label.frame = .init(x: 0, y: bounds.midY - label.bounds.midY, width: bounds.width, height: label.frame.height)
     }
     
@@ -100,6 +101,14 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
     private func endMouseHold() {
         mouseHoldTask?.cancel()
         mouseHoldTask = nil
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        layer?.borderWidth = 1
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        layer?.borderWidth = 0
     }
 }
 

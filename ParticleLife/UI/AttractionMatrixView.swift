@@ -138,4 +138,11 @@ class AttractionMatrixChildView: NSControl {
     }
     
     var valueFormatter: (Int)->String = { "\($0)" }
+    
+    override func updateTrackingAreas() {
+        trackingAreas.forEach { removeTrackingArea($0) }
+        if bounds.isEmpty { return }
+        let area = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
+        addTrackingArea(area)
+    }
 }

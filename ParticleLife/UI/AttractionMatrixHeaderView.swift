@@ -36,6 +36,8 @@ class AttractionMatrixHeaderView: AttractionMatrixChildView {
         allowsExpansionToolTips = true
         guard let layer = self.layer else { return }
         
+        layer.borderColor = .white
+        
         switch fillTarget {
         case .row(let color), .column(let color):
             layer.backgroundColor = color.nsColor.cgColor
@@ -70,6 +72,14 @@ class AttractionMatrixHeaderView: AttractionMatrixChildView {
     override func mouseDown(with event: NSEvent) {
         let menu = menu(for: event)!
         NSMenu.popUpContextMenu(menu, with: event, for: self)
+    }
+    
+    override func mouseEntered(with event: NSEvent) {
+        layer?.borderWidth = 3
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        layer?.borderWidth = 0
     }
 }
 
