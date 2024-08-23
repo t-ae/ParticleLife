@@ -56,3 +56,14 @@ extension NSRect {
         }
     }
 }
+
+extension SIMD2<Float> {
+    // wrap x/y into [-max, max) range.
+    func wrapped(max: Int) -> SIMD2<Float> {
+        let maxf = Float(max)
+        return .init(
+            x: x - floor((x+maxf) / (2*maxf)) * (2*maxf),
+            y: y - floor((y+maxf) / (2*maxf)) * (2*maxf)
+        )
+    }
+}

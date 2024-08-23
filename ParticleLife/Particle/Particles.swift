@@ -35,4 +35,24 @@ final class Particles {
         UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * count)
             .bindMemory(to: Particle.self)
     }
+    
+    func removeNaarestParticle(around center: SIMD2<Float>, in radius: Float) {
+        var minimumIndex = -1
+        var minimumDistance = Float.infinity
+        for i in bufferPointer.indices {
+            let v = bufferPointer[i].position - center
+            let distance = length(v.wrapped(max: 1))
+            
+            if distance < radius && distance < minimumDistance {
+                
+            }
+            if length(v.wrapped(max: 1)) < radius {
+                minimumIndex = i
+                minimumDistance = distance
+            }
+        }
+        if minimumIndex >= 0 {
+            bufferPointer[minimumIndex].position.x = .nan
+        }
+    }
 }

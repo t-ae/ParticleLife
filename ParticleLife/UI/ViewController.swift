@@ -102,12 +102,15 @@ class ViewController: NSViewController {
     override func mouseUp(with event: NSEvent) {
         switch event.clickCount {
         case 1:
-            let location0 = metalView.convert(event.locationInWindow, from: nil)
-            let location1 = SIMD2<Float>(
-                Float(location0.x / metalView.bounds.width) * 2 - 1,
-                Float(location0.y / metalView.bounds.height) * 2 - 1
-            )
-            print("Clicked point:", location1 / viewModel.zoom + viewModel.center)
+            if event.modifierFlags.contains(.command) {
+                let location0 = metalView.convert(event.locationInWindow, from: nil)
+                let location1 = SIMD2<Float>(
+                    Float(location0.x / metalView.bounds.width) * 2 - 1,
+                    Float(location0.y / metalView.bounds.height) * 2 - 1
+                )
+                let center = location1 / viewModel.zoom + viewModel.center
+                renderer.particles.removeNaarestParticle(around: center, in: 0.02 / viewModel.zoom)
+            }
         case 2:
             viewModel.resetTransform()
         default:
