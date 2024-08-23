@@ -81,6 +81,19 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Help" id="sjS-7n-xda">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Help" id="fDX-TD-QSl">
+                                    <items>
+                                        <menuItem title="Open manual" id="V9K-Yl-QUy">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openManual:" target="Voe-Tx-rLC" id="JqR-fA-9MG"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                         </items>
                     </menu>
                     <connections>

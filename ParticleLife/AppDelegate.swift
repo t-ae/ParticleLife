@@ -50,6 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         wc.showWindow(self)
         window.orderFrontRegardless()
     }
+    
+    @IBAction func openManual(_ sender: Any) {
+        let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/readme.md")!
+        NSWorkspace.shared.open(url)
+    }
 }
 
 extension NSViewController {
