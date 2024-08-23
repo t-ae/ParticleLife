@@ -55,8 +55,8 @@ class ControlViewController: NSViewController {
             .store(in: &cancellables)
         
         generateParticlesButton.bind { [particleCountField] in
-            self.viewModel.particleCountString = particleCountField!.stringValue  // Assign editing value
-            self.viewModel.generateParticles.send(())
+            viewModel.particleCountString = particleCountField!.stringValue  // Assign editing value
+            viewModel.generateParticles.send()
         }.store(in: &cancellables)
         
         // MARK: Attraction
@@ -120,10 +120,10 @@ class ControlViewController: NSViewController {
         
         // MARK: Control
         playButton.bind {
-            self.viewModel.isPaused = false
+            viewModel.isPaused = false
         }.store(in: &cancellables)
         pauseButton.bind {
-            self.viewModel.isPaused = true
+            viewModel.isPaused = true
         }.store(in: &cancellables)
     }
     
