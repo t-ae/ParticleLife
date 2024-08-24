@@ -12,8 +12,6 @@ final class ViewModel {
     @Published
     var particleCountString: String = "10000"
     
-    let renderingParticleCountUpdate = PassthroughSubject<Int, Never>()
-    
     @Published
     var particleGeneratorType: ParticleGeneratorType = .uniform
     

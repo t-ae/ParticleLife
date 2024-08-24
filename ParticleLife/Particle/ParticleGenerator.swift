@@ -151,7 +151,7 @@ struct ImbalanceParticleGenerator: ParticleGenerator {
         let ps = (1 << palette.colorCount) - 1
         
         for i in buffer.indices {
-            let c = i - i/ps*ps + 1
+            let c = i%ps + 1
             let color = palette.get(Int(log2(Float(c))))
             buffer[i] = Particle(color: color, position: .random(in: -1..<1, using: &rng))
         }
