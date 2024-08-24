@@ -36,6 +36,15 @@ final class Particles {
             .bindMemory(to: Particle.self)
     }
     
+    func addParticle(_ particle: Particle) {
+        guard count < Self.maxCount-1 else {
+            return
+        }
+        
+        bufferPointer[count] = particle
+        count += 1
+    }
+    
     func removeNaarestParticle(around center: SIMD2<Float>, in radius: Float) {
         var minimumIndex = -1
         var minimumDistance = Float.infinity
