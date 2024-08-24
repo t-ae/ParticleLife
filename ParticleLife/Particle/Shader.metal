@@ -180,6 +180,7 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
     out.position.xy = wrap(out.position.xy, 3);
     out.position.xy *= transform->zoom;
     
+    // Aspect fill
     if(viewportSize->x < viewportSize->y) {
         out.position.x *= viewportSize->y / viewportSize->x;
     } else {

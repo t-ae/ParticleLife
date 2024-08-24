@@ -66,4 +66,9 @@ extension SIMD2<Float> {
             y: y - floor((y+maxf) / (2*maxf)) * (2*maxf)
         )
     }
+    
+    init(_ point: CGPoint) {
+        self.init(x: Float(point.x), y: Float(point.y))
+    }
 }
+
