@@ -30,7 +30,6 @@
 		A731944A2C7025830070148A /* DistanceFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194492C7025830070148A /* DistanceFunction.swift */; };
 		A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731944B2C70669F0070148A /* IntRepresentable.swift */; };
 		A73194562C713CBC0070148A /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194552C713CBC0070148A /* Matrix.swift */; };
-		A7330AED2C773B6500C4E02E /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7330AEC2C773B6500C4E02E /* CoordinateView.swift */; };
 		A7330AEF2C77FA0100C4E02E /* Particles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7330AEE2C77FA0100C4E02E /* Particles.swift */; };
 		A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */; };
 		A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */; };
@@ -88,7 +87,6 @@
 		A73194492C7025830070148A /* DistanceFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceFunction.swift; sourceTree = "<group>"; };
 		A731944B2C70669F0070148A /* IntRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntRepresentable.swift; sourceTree = "<group>"; };
 		A73194552C713CBC0070148A /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
-		A7330AEC2C773B6500C4E02E /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
 		A7330AEE2C77FA0100C4E02E /* Particles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particles.swift; sourceTree = "<group>"; };
 		A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpViewController.swift; sourceTree = "<group>"; };
 		A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 				A78DB8B62C74E346006A3E5E /* AttractionUpdate.swift */,
 				A78DB8B82C74E392006A3E5E /* AttractionPreset.swift */,
 				A78DB8BA2C755CC3006A3E5E /* AttractionLineUpdate.swift */,
-				A7330AEC2C773B6500C4E02E /* CoordinateView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -372,7 +369,6 @@
 				A73193F22C6C2CEF0070148A /* ViewController.swift in Sources */,
 				A73193F02C6C2CEF0070148A /* AppDelegate.swift in Sources */,
 				A78DB8B92C74E392006A3E5E /* AttractionPreset.swift in Sources */,
-				A7330AED2C773B6500C4E02E /* CoordinateView.swift in Sources */,
 				A731944C2C70669F0070148A /* IntRepresentable.swift in Sources */,
 				A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */,
 				A731942F2C6C7C170070148A /* Color.swift in Sources */,

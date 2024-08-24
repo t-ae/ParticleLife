@@ -4,7 +4,6 @@ import Combine
 
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
-    @IBOutlet var coordinateView: CoordinateView!
     
     private var renderer: Renderer!
 
@@ -83,10 +82,6 @@ class ViewController: NSViewController {
         viewModel.$particleSize.assign(to: &renderer.$particleSize)
         viewModel.$isPaused.assign(to: &renderer.$isPaused)
         viewModel.transform.assign(to: &renderer.$transform)
-        
-        viewModel.hideCoordinateView
-            .assign(to: \.isHidden, on: coordinateView)
-            .store(in: &cancellables)
     }
     
     func openControlWindow() {

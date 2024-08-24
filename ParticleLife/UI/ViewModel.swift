@@ -134,12 +134,6 @@ final class ViewModel {
         center = .zero
     }
     
-    var hideCoordinateView: any Publisher<Bool, Never> {
-        renderingParticleCountUpdate.combineLatest($zoom, $center) {
-            $0 > 0 || $1 != 1 || $2 != .zero
-        }
-    }
-    
     // MARK: Events
     let errorNotifyEvent = PassthroughSubject<Error, Never>()
 }

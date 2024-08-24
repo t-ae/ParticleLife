@@ -709,23 +709,15 @@
                                     <constraint firstAttribute="width" secondItem="cnB-fI-SfS" secondAttribute="height" multiplier="1:1" id="Jao-rv-MCV"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="VCw-OG-8MD" customClass="CoordinateView" customModule="ParticleLife" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="768"/>
-                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="VCw-OG-8MD" firstAttribute="trailing" secondItem="cnB-fI-SfS" secondAttribute="trailing" id="7S6-Z6-nta"/>
-                            <constraint firstItem="VCw-OG-8MD" firstAttribute="leading" secondItem="cnB-fI-SfS" secondAttribute="leading" id="A9O-Pb-QYq"/>
-                            <constraint firstItem="VCw-OG-8MD" firstAttribute="top" secondItem="cnB-fI-SfS" secondAttribute="top" id="Phb-EL-BWW"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="top" relation="lessThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Qnw-tD-usO"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="RKC-xT-nmG"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" priority="900" id="Stq-0y-9xH"/>
                             <constraint firstItem="cnB-fI-SfS" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="VpY-g3-avC"/>
-                            <constraint firstItem="VCw-OG-8MD" firstAttribute="bottom" secondItem="cnB-fI-SfS" secondAttribute="bottom" id="sdN-xr-EBm"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="coordinateView" destination="VCw-OG-8MD" id="WDH-rT-Evs"/>
                         <outlet property="metalView" destination="cnB-fI-SfS" id="n1f-yH-ES6"/>
                     </connections>
                 </viewController>
