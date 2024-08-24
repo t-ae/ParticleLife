@@ -6,7 +6,7 @@ enum AttractionPreset: String, OptionConvertible {
     case exclusive = "Exclusive"
     case chain = "Chain"
     case snake = "Snake"
-    case region = "Region"
+    case area = "Area"
 }
 
 extension AttractionPreset {
@@ -49,7 +49,7 @@ extension AttractionPreset {
                 }
             }
             return matrix
-        case .region:
+        case .area:
             var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
             for i in 0..<matrix.rows {
                 matrix[i, i] = 1

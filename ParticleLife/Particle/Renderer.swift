@@ -212,7 +212,6 @@ final class Renderer: NSObject, MTKViewDelegate {
 extension Renderer {
     func dumpParameters() -> String {
         """
-        particleCount: \(particles.count)
         attraction:
         \(attractionMatrix.stringify(elementFormat: "%+.1f"))
         

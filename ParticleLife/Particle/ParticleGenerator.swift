@@ -41,6 +41,7 @@ enum ParticleGeneratorType: String, OptionConvertible {
     case ring = "Ring"
     case rainbowRing = "Rainbow ring"
     case grid = "Grid"
+    case line = "Line"
     case imbalance = "Imbalance"
 }
 
@@ -61,7 +62,9 @@ extension ParticleGeneratorType {
             RingParticleGenerator(fixed: fixed, rainbow: true)
         case .grid:
             GridParticleGenerator(fixed: fixed)
-        case .imbalance: 
+        case .line:
+            LineParticleGenerator(fixed: fixed)
+        case .imbalance:
             ImbalanceParticleGenerator(fixed: fixed)
         }
     }
@@ -140,6 +143,24 @@ struct RingParticleGenerator: ParticleGenerator {
             
             let position = SIMD2<Float>(x: r * cos(theta), y: r * sin(theta))
             buffer[i] = Particle(color: color, position: position)
+        }
+    }
+}
+
+struct LineParticleGenerator: ParticleGenerator {
+    var fixed: Bool
+    
+    func generateBody(buffer: UnsafeMutableBufferPointer<Particle>, palette: ColorPalette, rng: inout any RandomNumberGenerator) {
+        let gap = 2 / Float(buffer.count)
+        for i in buffer.indices {
+            let color = if fixed {
+                palette.get(i)
+            } else {
+                palette.random(using: &rng)
+            }
+            
+            let x = gap * Float(i) + gap/2
+            buffer[i] = Particle(color: color, position: .init(x: x, y: 0))
         }
     }
 }
