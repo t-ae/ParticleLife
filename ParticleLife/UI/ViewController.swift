@@ -96,14 +96,13 @@ class ViewController: NSViewController {
     }
     
     override func mouseUp(with event: NSEvent) {
-        switch event.clickCount {
-        case 1:
-            if event.modifierFlags.contains(.command) {
-                let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
-                let position = convertPointToWorld(clickedPoint)
-                renderer.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
-            }
-        case 2:
+        let command = event.modifierFlags.contains(.command)
+        switch (event.clickCount, command) {
+        case (_, true):
+            let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
+            let position = convertPointToWorld(clickedPoint)
+            renderer.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
+        case (2, false):
             viewModel.resetTransform()
         default:
             break
@@ -138,7 +137,7 @@ class ViewController: NSViewController {
     }
     
     override func scrollWheel(with event: NSEvent) {
-        if event.modifierFlags.contains(.shift) {
+        if event.modifierFlags.contains(.command) {
             let factor = exp2(-event.scrollingDeltaY / 100)
             viewModel.zoom(factor: Float(factor))
         } else {

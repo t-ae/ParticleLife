@@ -4,9 +4,10 @@
 
 ### Mouse
 - Scroll: Move
-- Shift+Scroll: Zoom
+- ⌘+Scroll: Zoom
 - Pinch in/out: Zoom
 - Double click: Reset move/zoom
+- ⌘+Click: Remove clicked particle
 
 ### Shortcuts
 - space: Play/Pause
