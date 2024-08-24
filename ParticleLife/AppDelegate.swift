@@ -57,11 +57,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func squareWindow(_ sender: Any) {
-        guard let window = NSApplication.shared.mainWindow else {
+        guard let window = NSApplication.shared.mainWindow, let contentView = window.contentView else {
             return
         }
         
-        let size = min(window.frame.width, window.frame.height)
+        let size = min(contentView.bounds.width, contentView.bounds.height)
         window.setContentSize(.init(width: size, height: size))
     }
     
