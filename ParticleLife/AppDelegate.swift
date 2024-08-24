@@ -55,6 +55,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = URL(string: "https://github.com/t-ae/ParticleLife/blob/main/manual.md")!
         NSWorkspace.shared.open(url)
     }
+    
+    @IBAction func squareWindow(_ sender: Any) {
+        guard let window = NSApplication.shared.mainWindow else {
+            return
+        }
+        
+        let size = min(window.frame.width, window.frame.height)
+        window.setContentSize(.init(width: size, height: size))
+    }
+    
 }
 
 extension NSViewController {
