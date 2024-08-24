@@ -57,6 +57,7 @@ class ViewController: NSViewController {
         let viewModel = self.viewModel
         
         renderer.particles.$count
+            .dropFirst()
             .subscribe(viewModel.renderingParticleCountUpdate)
             .store(in: &cancellables)
         renderer.particles.$colorCount
