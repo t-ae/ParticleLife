@@ -91,22 +91,8 @@ class ViewController: NSViewController {
         window.orderFrontRegardless()
     }
     
-    override func mouseUp(with event: NSEvent) {
-        let command = event.modifierFlags.contains(.command)
-        switch (event.clickCount, command) {
-        case (_, true):
-            let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
-            let position = convertPointToWorld(clickedPoint)
-            renderer.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
-        case (2, false):
-            viewModel.resetTransform()
-        default:
-            break
-        }
-    }
-    
     /// Convert point in metalView to world position.
-    func convertPointToWorld(_ point: CGPoint) -> SIMD2<Float> {
+    func convertMetalViewPointToWorld(_ point: CGPoint) -> SIMD2<Float> {
         var scaled = CGPoint(
             x: point.x / metalView.bounds.width * 2 - 1,
             y: point.y / metalView.bounds.height * 2 - 1
@@ -118,6 +104,20 @@ class ViewController: NSViewController {
             scaled.y *= metalView.bounds.height/metalView.bounds.width
         }
         return SIMD2<Float>(scaled) / viewModel.zoom + viewModel.center
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        let command = event.modifierFlags.contains(.command)
+        switch (event.clickCount, command) {
+        case (_, true):
+            let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
+            let position = convertMetalViewPointToWorld(clickedPoint)
+            renderer.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
+        case (2, false):
+            viewModel.resetTransform()
+        default:
+            break
+        }
     }
     
     override func mouseDragged(with event: NSEvent) {
