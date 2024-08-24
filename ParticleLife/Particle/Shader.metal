@@ -180,6 +180,12 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
     out.position.xy = wrap(out.position.xy, 3);
     out.position.xy *= transform->zoom;
     
+    if(viewportSize->x < viewportSize->y) {
+        out.position.x *= viewportSize->y / viewportSize->x;
+    } else {
+        out.position.y *= viewportSize->x / viewportSize->y;
+    }
+    
     out.size = *particleSize * viewportSize->x * transform->zoom / 1000;
     out.color = rgb[particles[vid].color];
     return out;
