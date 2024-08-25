@@ -36,10 +36,14 @@ final class Particles {
             .bindMemory(to: Particle.self)
     }
     
-    func setParticles(_ particles: [Particle]) {
-        count = particles.count
-        let buffer = bufferPointer
+    func setParticles(_ particles: [Particle], colorCount: Int) throws {
+        guard particles.count < Self.maxCount else {
+            throw MessageError("Particle count must be less than \(Self.maxCount)")
+        }
+        self.count = particles.count
+        self.colorCount = colorCount
         
+        let buffer = bufferPointer
         for i in 0..<particles.count {
             buffer[i] = particles[i]
         }

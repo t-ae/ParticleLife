@@ -59,16 +59,12 @@ class ViewController: NSViewController {
         renderer.particles.$colorCount
             .assign(to: &viewModel.$renderingColorCount)
         
-        viewModel.generateEvent.sink { generator, particleCount, colorCount in
+        viewModel.setParticlesEvent.sink {
             do {
-                try renderer.particles.generateParticles(by: generator, particleCount: particleCount, colorCount: colorCount)
+                try renderer.particles.setParticles($0, colorCount: $1)
             } catch {
                 viewModel.errorNotifyEvent.send(error)
             }
-        }.store(in: &cancellables)
-        
-        viewModel.setParticlesEvent.sink {
-            renderer.particles.setParticles($0)
         }.store(in: &cancellables)
         
         viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)

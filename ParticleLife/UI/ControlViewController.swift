@@ -53,7 +53,18 @@ class ControlViewController: NSViewController {
         
         generateParticlesButton.bind { [particleCountField] in
             viewModel.particleCountString = particleCountField!.stringValue  // Assign editing value
-            viewModel.generateParticles.send()
+            
+            do {
+                guard let particleCount = Int(viewModel.particleCountString), particleCount >= 0 else {
+                    throw MessageError("Invalid particle count")
+                }
+                let colorCount = viewModel.colorCountToUse
+                let generator = viewModel.particleGeneratorType.generator(fixed: viewModel.fixSeeds)
+                let particles = generator.generate(count: particleCount, colorCount: colorCount)
+                viewModel.setParticlesEvent.send((particles, colorCount))
+            } catch {
+                viewModel.errorNotifyEvent.send(error)
+            }
         }.store(in: &cancellables)
         
         // MARK: Attraction

@@ -18,17 +18,7 @@ final class ViewModel {
     @Published
     var fixSeeds: Bool = false
     
-    let generateParticles = PassthroughSubject<Void, Never>()
-    
-    var generateEvent: any Publisher<(ParticleGenerator, Int, Int), Never> {
-        generateParticles.map {
-            let particleCount = Int(self.particleCountString) ?? -1
-            let generator = self.particleGeneratorType.generator(fixed: self.fixSeeds)
-            return (generator, particleCount, self.colorCountToUse)
-        }
-    }
-    
-    let setParticlesEvent = PassthroughSubject<[Particle], Never>()
+    let setParticlesEvent = PassthroughSubject<([Particle], Int) , Never>()
     
     // MARK: Attraction
     let attractionMaxStep = 10

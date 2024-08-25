@@ -20,8 +20,8 @@ class CommandViewController: NSViewController {
     
     @IBAction func onClickGenerateButton(_ sender: Any) {
         do {
-            let particles = try CommandParticleGenerator().generate(command: textView.string)
-            viewModel.setParticlesEvent.send(particles)
+            let (particles, colorCount) = try CommandParticleGenerator().generate(command: textView.string)
+            viewModel.setParticlesEvent.send((particles, colorCount))
         } catch {
             viewModel.errorNotifyEvent.send(error)
         }
@@ -29,7 +29,7 @@ class CommandViewController: NSViewController {
 }
 
 final class CommandParticleGenerator {
-    func generate(command: String) throws -> [Particle] {
+    func generate(command: String) throws -> ([Particle], colorCount: Int) {
         var particles: [Particle] = []
         var errors: [Int: MessageError] = [:]
         
@@ -58,7 +58,9 @@ final class CommandParticleGenerator {
             throw MessageError(messages.joined(separator: "\n"))
         }
         
-        return particles
+        let colorCount = particles.map { $0.color }.max().map { Int($0)+1 } ?? Color.allCases.count
+        
+        return (particles, colorCount)
     }
     
     func processLine(_ line: String) throws -> Particle? {
