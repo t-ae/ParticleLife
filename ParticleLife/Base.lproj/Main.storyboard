@@ -728,5 +728,80 @@
             </objects>
             <point key="canvasLocation" x="75" y="958"/>
         </scene>
+        <!--Command View Controller-->
+        <scene sceneID="Xl5-5J-MwG">
+            <objects>
+                <viewController storyboardIdentifier="CommandViewController" id="VRi-dp-hxh" customClass="CommandViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="xEu-Nr-44W">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7j-r0-JjM">
+                                <rect key="frame" x="20" y="56" width="410" height="224"/>
+                                <clipView key="contentView" drawsBackground="NO" id="jzd-ZB-nJf">
+                                    <rect key="frame" x="0.0" y="0.0" width="395" height="224"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView wantsLayer="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="iuI-d5-DJY">
+                                            <rect key="frame" x="0.0" y="0.0" width="395" height="224"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="395" height="224"/>
+                                            <size key="maxSize" width="410" height="10000000"/>
+                                            <attributedString key="textStorage">
+                                                <fragment>
+                                                    <string key="content"># Comment
+red 0 0 # Center
+green 1 0
+blue 0.5 0.5
+cyan 0 1
+magenta 1 1
+yellow -0.5 -0.5</string>
+                                                    <attributes>
+                                                        <font key="NSFont" size="12" name="Helvetica"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="0q9-Ut-W1A">
+                                    <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="4e4-Sd-24d">
+                                    <rect key="frame" x="395" y="0.0" width="15" height="224"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JCw-aD-Dbg">
+                                <rect key="frame" x="180" y="13" width="90" height="32"/>
+                                <buttonCell key="cell" type="push" title="Generate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6eI-YL-plG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="onClickGenerateButton:" target="VRi-dp-hxh" id="QXr-2H-oTM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="JCw-aD-Dbg" firstAttribute="centerX" secondItem="xEu-Nr-44W" secondAttribute="centerX" id="2DV-cH-Kc8"/>
+                            <constraint firstItem="Y7j-r0-JjM" firstAttribute="leading" secondItem="xEu-Nr-44W" secondAttribute="leading" constant="20" symbolic="YES" id="9ov-XQ-k67"/>
+                            <constraint firstItem="Y7j-r0-JjM" firstAttribute="top" secondItem="xEu-Nr-44W" secondAttribute="top" constant="20" symbolic="YES" id="QOl-dq-gUk"/>
+                            <constraint firstItem="JCw-aD-Dbg" firstAttribute="top" secondItem="Y7j-r0-JjM" secondAttribute="bottom" constant="16" id="vfe-ha-Bha"/>
+                            <constraint firstAttribute="bottom" secondItem="JCw-aD-Dbg" secondAttribute="bottom" constant="20" symbolic="YES" id="yFF-rP-Eed"/>
+                            <constraint firstAttribute="trailing" secondItem="Y7j-r0-JjM" secondAttribute="trailing" constant="20" symbolic="YES" id="z18-Zo-xOk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="iuI-d5-DJY" id="EBX-qA-FSA"/>
+                    </connections>
+                </viewController>
+                <customObject id="kYv-hc-73g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1112" y="1086"/>
+        </scene>
     </scenes>
 </document>

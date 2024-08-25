@@ -36,6 +36,15 @@ final class Particles {
             .bindMemory(to: Particle.self)
     }
     
+    func setParticles(_ particles: [Particle]) {
+        count = particles.count
+        let buffer = bufferPointer
+        
+        for i in 0..<particles.count {
+            buffer[i] = particles[i]
+        }
+    }
+    
     func addParticle(_ particle: Particle) {
         guard count < Self.maxCount-1 else {
             return

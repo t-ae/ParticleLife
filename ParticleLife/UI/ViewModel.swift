@@ -28,6 +28,8 @@ final class ViewModel {
         }
     }
     
+    let setParticlesEvent = PassthroughSubject<[Particle], Never>()
+    
     // MARK: Attraction
     let attractionMaxStep = 10
     var attractionValueFormatter: (Int)->String {

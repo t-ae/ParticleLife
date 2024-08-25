@@ -8,18 +8,9 @@ enum Color: UInt32, CaseIterable, IntRepresentable {
     case cyan
     case magenta
     case yellow
-//    case white
-//    case gray
 }
 
 extension Color {
-    static let rgb: [SIMD3<Float>] = [
-        
-        
-//        .init(1, 1, 1),
-//        .init(0.7, 0.7, 0.7),
-    ]
-    
     var rgb: SIMD3<Float> {
         switch self {
         case .red: .init(1, 0, 0)
@@ -45,6 +36,13 @@ extension Color {
     
     func next(_ i: Int) -> Color {
         .init(rawValue: (rawValue + UInt32(i)) % UInt32(Color.allCases.count))!
+    }
+    
+    init?(from string: String) {
+        guard let color = Color.allCases.first(where: { "\($0)" == string }) else {
+            return nil
+        }
+        self = color
     }
 }
 

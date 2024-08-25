@@ -67,6 +67,10 @@ class ViewController: NSViewController {
             }
         }.store(in: &cancellables)
         
+        viewModel.setParticlesEvent.sink {
+            renderer.particles.setParticles($0)
+        }.store(in: &cancellables)
+        
         viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)
         viewModel.velocityUpdateSetting.assign(to: &renderer.$velocityUpdateSetting)
          
@@ -86,6 +90,15 @@ class ViewController: NSViewController {
         let window = NSWindow(contentViewController: vc)
         window.title = "Particle Life - Control"
         window.styleMask.remove(.closable)
+        let wc = NSWindowController(window: window)
+        wc.showWindow(self)
+        window.orderFrontRegardless()
+    }
+    
+    func openCommandWindow() {
+        let vc = (storyboard!.instantiateController(withIdentifier: "CommandViewController") as! CommandViewController)
+        let window = NSWindow(contentViewController: vc)
+        window.title = "Particle Life - Command"
         let wc = NSWindowController(window: window)
         wc.showWindow(self)
         window.orderFrontRegardless()
@@ -159,6 +172,8 @@ class ViewController: NSViewController {
         case ("s", true):
             let content = renderer.dumpStatistics()
             appDelegate.openDumpModal(title: "Statistics", content: content)
+        case ("c", true):
+            openCommandWindow()
         default:
             break
         }
