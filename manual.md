@@ -15,6 +15,7 @@
 - ⌘+R: Randomize attractions
 - ⌘+P: Show parameters
 - ⌘+S: Show statistics
+- ⌘+C: Open command window
 
 ## Contol window
 

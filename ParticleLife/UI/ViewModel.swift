@@ -93,7 +93,7 @@ final class ViewModel {
     @Published
     var fixDt: Bool = false
     
-    let particleSizeRange: ClosedRange<Float> = 1...15
+    let particleSizeRange: ClosedRange<Float> = 1...10
     
     @Published
     var particleSize: Float = 5
@@ -107,7 +107,7 @@ final class ViewModel {
     private(set) var zoom: Float = 1
     
     func zoom(factor: Float) {
-        zoom = min(max(zoom * factor, 1.0/3), 100)
+        zoom = min(max(zoom * factor, 1.0/3), 15)
     }
     
     @Published
