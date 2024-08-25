@@ -51,10 +51,6 @@ float l05Distance(float2 vector) {
     return pow(pow(abs(vector.x), 0.5) + pow(abs(vector.y), 0.5), 2);
 }
 
-float l02Distance(float2 vector) {
-    return pow(pow(abs(vector.x), 0.2) + pow(abs(vector.y), 0.2), 5);
-}
-
 float l1Distance(float2 vector) {
     return abs(vector.x) + abs(vector.y);
 }
@@ -62,20 +58,6 @@ float l1Distance(float2 vector) {
 float linfDistance(float2 vector) {
     if(isnan(vector.x)) return NAN; // if vector.y is NaN, max returns NaN.
     return max(abs(vector.x), abs(vector.y));
-}
-
-/// Referred https://qiita.com/7CIT/items/fe33b9b341b9918b6c3d
-/// Modified to return 1 when (x,y) = (0, -1).
-float triangularDistance(float2 vector) {
-    float a = atan2(vector.x, vector.y);
-    float r = M_PI_F * 2 / 3;
-    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
-}
-
-float pentagonalDistance(float2 vector) {
-    float a = atan2(vector.x, vector.y);
-    float r = M_PI_F * 2 / 5;
-    return cos(floor(0.5+a/r)*r-a) * length(vector) / cos(r*0.5);
 }
 
 // MARK: - Kernel functions
@@ -109,12 +91,6 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         distanceFunction = linfDistance;
     } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l05) {
         distanceFunction = l05Distance;
-    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l02) {
-        distanceFunction = l02Distance;
-    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_triangular) {
-        distanceFunction = triangularDistance;
-    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_pentagonal) {
-        distanceFunction = pentagonalDistance;
     }
     
     float2 position = particles[gid].position;

@@ -21,9 +21,6 @@ enum DistanceFunction {
     DistanceFunction_l2,
     DistanceFunction_linf,
     DistanceFunction_l05,
-    DistanceFunction_l02,
-    DistanceFunction_triangular,
-    DistanceFunction_pentagonal,
 };
 
 typedef struct {
