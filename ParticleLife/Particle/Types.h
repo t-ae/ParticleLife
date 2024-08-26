@@ -20,7 +20,6 @@ enum DistanceFunction {
     DistanceFunction_l1,
     DistanceFunction_l2,
     DistanceFunction_linf,
-    DistanceFunction_l05,
 };
 
 typedef struct {

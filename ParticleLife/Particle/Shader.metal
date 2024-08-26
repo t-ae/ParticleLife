@@ -2,15 +2,9 @@
 #include "Types.h"
 using namespace metal;
 
-// wrap value into [-max, max) range
-float wrap(float value, float max) {
-    return value - floor((value+max) / (2*max)) * (2*max);
-}
-
+// wrap values into [-max, max) range
 float2 wrap(float2 vector, float max) {
-    vector.x = wrap(vector.x, max);
-    vector.y = wrap(vector.y, max);
-    return vector;
+    return vector - floor((vector+max) / (2*max)) * (2*max);
 }
 
 // MARK: - Force functions
@@ -47,10 +41,6 @@ float force3(float distance, float attraction) {
 }
 
 // MARK: - Distance functions
-float l05Distance(float2 vector) {
-    return pow(pow(abs(vector.x), 0.5) + pow(abs(vector.y), 0.5), 2);
-}
-
 float l1Distance(float2 vector) {
     return abs(vector.x) + abs(vector.y);
 }
@@ -80,6 +70,8 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         forceFunction = force2;
     } else if(velocityUpdateSetting->forceFunction == ForceFunction_force3) {
         forceFunction = force3;
+    } else {
+        return;
     }
     
     float (*distanceFunction)(float2);
@@ -89,8 +81,8 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         distanceFunction = length;
     } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_linf) {
         distanceFunction = linfDistance;
-    } else if(velocityUpdateSetting->distanceFunction == DistanceFunction_l05) {
-        distanceFunction = l05Distance;
+    } else {
+        return;
     }
     
     float2 position = particles[gid].position;
