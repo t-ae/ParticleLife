@@ -49,7 +49,7 @@ final class ViewModel {
     }
     
     func setAttractionMatrixPreset(_ preset: AttractionPreset) {
-        attractionSteps = preset.steps(colorCouunt: renderingColorCount)
+        attractionSteps = preset.steps(colorCount: renderingColorCount)
     }
     
     // MARK: Velocity update rule

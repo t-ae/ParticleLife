@@ -10,7 +10,7 @@ enum AttractionPreset: String, OptionConvertible {
 }
 
 extension AttractionPreset {
-    func steps(colorCouunt: Int) -> Matrix<Int> {
+    func steps(colorCount: Int) -> Matrix<Int> {
         switch self {
         case .zero:
             return .colorMatrix(filledWith: 0)
@@ -28,10 +28,10 @@ extension AttractionPreset {
             return matrix
         case .chain:
             var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<colorCouunt {
-                let prev = (i - 1 + colorCouunt) % colorCouunt
-                let next = (i + 1) % colorCouunt
-                for j in 0..<colorCouunt {
+            for i in 0..<colorCount {
+                let prev = (i - 1 + colorCount) % colorCount
+                let next = (i + 1) % colorCount
+                for j in 0..<colorCount {
                     matrix[i, j] = i == j ? 10 :
                     j == prev || j == next ? 2 :
                     -10
@@ -40,9 +40,9 @@ extension AttractionPreset {
             return matrix
         case .snake:
             var matrix = Matrix<Int>.colorMatrix(filledWith: 0)
-            for i in 0..<colorCouunt {
-                let next = (i + 1) % colorCouunt
-                for j in 0..<colorCouunt {
+            for i in 0..<colorCount {
+                let next = (i + 1) % colorCount
+                for j in 0..<colorCount {
                     matrix[i, j] = i == j ? 10 :
                     j == next ? 2 :
                     0
