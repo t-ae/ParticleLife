@@ -25,7 +25,7 @@ final class Particles {
             throw MessageError("Particle count must be in range [0, \(Self.maxCount)].")
         }
         guard 1...Color.allCases.count ~= colorCount else {
-            throw MessageError("Color count must be in range [0, \(Color.allCases.count)].")
+            throw MessageError("Color count must be in range [1, \(Color.allCases.count)].")
         }
         self.count = count
         self.colorCount = colorCount
@@ -37,8 +37,8 @@ final class Particles {
     }
     
     func setParticles(_ particles: [Particle], colorCount: Int) throws {
-        guard particles.count < Self.maxCount else {
-            throw MessageError("Particle count must be less than \(Self.maxCount)")
+        guard particles.count <= Self.maxCount else {
+            throw MessageError("Particle count must be less than or equal to \(Self.maxCount)")
         }
         self.count = particles.count
         self.colorCount = colorCount
