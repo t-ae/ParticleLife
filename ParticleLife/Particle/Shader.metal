@@ -104,7 +104,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         float distance = distanceFunction(vector);
         
         float f = forceFunction(distance/rmax, attraction);
-        accel += vector / distance * f;
+        accel += f / distance * vector;
         if(distance < rmax) {
             attractorCount++;
         }

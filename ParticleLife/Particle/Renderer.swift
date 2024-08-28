@@ -134,22 +134,24 @@ final class Renderer: NSObject, MTKViewDelegate {
             return
         }
         computeEncoder.label = "updateVelocity"
+        
+        let state = updateVelocityState
 
-        let dispatchThreads = MTLSize(width: particles.count, height: 1, depth: 1)
-        let threadsPerThreadgroup = MTLSize(width: updateVelocityState.threadExecutionWidth, height: 1, depth: 1)
-
-        computeEncoder.setComputePipelineState(updateVelocityState)
+        computeEncoder.setComputePipelineState(state)
         computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
-        var particleCount = particles.count
+        var particleCount = UInt32(particles.count)
         computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
-        var colorCount = Color.allCases.count
+        var colorCount = UInt32(Color.allCases.count)
         computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
         computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 3)
         computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
         var dt = dt
         computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
-        computeEncoder.setThreadgroupMemoryLength(updatePositionState.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
-        computeEncoder.dispatchThreads(dispatchThreads, threadsPerThreadgroup: threadsPerThreadgroup)
+        computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
+        computeEncoder.dispatchThreads(
+            .init(width: particles.count, height: 1, depth: 1),
+            threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
+        )
         computeEncoder.endEncoding()
     }
     
@@ -160,16 +162,18 @@ final class Renderer: NSObject, MTKViewDelegate {
             return
         }
         computeEncoder.label = "updatePosition"
+        
+        let state = updatePositionState
 
-        let dispatchThreads = MTLSize(width: particles.count, height: 1, depth: 1)
-        let threadsPerThreadgroup = MTLSize(width: updatePositionState.threadExecutionWidth, height: 1, depth: 1)
-
-        computeEncoder.setComputePipelineState(updatePositionState)
+        computeEncoder.setComputePipelineState(state)
         computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
-        computeEncoder.setThreadgroupMemoryLength(updatePositionState.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
+        computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
         var dt = dt
         computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
-        computeEncoder.dispatchThreads(dispatchThreads, threadsPerThreadgroup: threadsPerThreadgroup)
+        computeEncoder.dispatchThreads(
+            .init(width: particles.count, height: 1, depth: 1),
+            threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
+        )
         computeEncoder.endEncoding()
     }
     
@@ -261,29 +265,6 @@ extension Renderer {
         """)
         
         return strs.joined(separator: "\n")
-    }
-    
-    func induceInvalid() {
-        guard !particles.isEmpty else { return }
-        let buffer = particles.bufferPointer
-        let index = buffer.indices.randomElement()!
-        
-        let target = ["x", "y", "vx", "vy"].randomElement()!
-        let value = [Float.nan, .infinity].randomElement()!
-        switch target {
-        case "x":
-            buffer[index].position.x = value
-        case "y":
-            buffer[index].position.x = value
-        case "vx":
-            buffer[index].velocity.x = value
-        case "vy":
-            buffer[index].velocity.x = value
-        default:
-            break
-        }
-        
-        print("Induce \(value) for \(target) of particles[\(index)].")
     }
 }
 
