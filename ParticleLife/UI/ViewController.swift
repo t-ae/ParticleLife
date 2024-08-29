@@ -70,12 +70,6 @@ class ViewController: NSViewController {
         viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)
         viewModel.velocityUpdateSetting.assign(to: &renderer.$velocityUpdateSetting)
          
-        viewModel.$preferredFPS
-            .map { $0.rawValue }
-            .assign(to: \.preferredFramesPerSecond, on: metalView)
-            .store(in: &cancellables)
-        
-        viewModel.$fixDt.assign(to: &renderer.$fixedDt)
         viewModel.$particleSize.assign(to: &renderer.$particleSize)
         viewModel.transform.assign(to: &renderer.$transform)
         

@@ -17,8 +17,6 @@ final class Renderer: NSObject, MTKViewDelegate {
     @Published
     var velocityUpdateSetting: VelocityUpdateSetting = .init()
     @Published
-    var fixedDt: Bool = false
-    @Published
     var particleSize: Float = 5
     @Published
     var viewportSize: SIMD2<Float> = .zero
@@ -218,7 +216,6 @@ extension Renderer {
         \(attractionMatrix.stringify(elementFormat: "%+.1f"))
         
         velocityUpdateSetting: \(velocityUpdateSetting)
-        fixedDt: \(fixedDt)
         particleSize: \(particleSize)
         """
     }

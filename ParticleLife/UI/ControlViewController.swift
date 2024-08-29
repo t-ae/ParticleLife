@@ -23,8 +23,6 @@ class ControlViewController: NSViewController {
     @IBOutlet var velocityHalfLifeButton: BindablePopUpButton!
     @IBOutlet var forceFactorSlider: BindableSlider!
     
-    @IBOutlet var preferredFPSButton: BindablePopUpButton!
-    @IBOutlet var fixDtCheck: BindableButton!
     @IBOutlet var particleSizeSlider: BindableSlider!
     
     @IBOutlet var playButton: BindableButton!
@@ -113,12 +111,6 @@ class ControlViewController: NSViewController {
             .store(in: &cancellables)
         
         // MARK: Other
-        preferredFPSButton.bind(&viewModel.$preferredFPS)
-            .store(in: &cancellables)
-        
-        fixDtCheck.bind(&viewModel.$fixDt)
-            .store(in: &cancellables)
-        
         particleSizeSlider.bind(&viewModel.$particleSize, range: viewModel.particleSizeRange)
             .store(in: &cancellables)
         viewModel.$particleSize

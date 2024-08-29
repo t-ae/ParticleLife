@@ -87,12 +87,6 @@ final class ViewModel {
     
     
     // MARK: Other
-    @Published
-    var preferredFPS: FPS = .fps60
-    
-    @Published
-    var fixDt: Bool = false
-    
     let particleSizeRange: ClosedRange<Float> = 1...10
     
     @Published
@@ -148,12 +142,4 @@ enum VelocityHalfLife: Float, OptionConvertible {
     case l1000 = 1
     
     var description: String { String(format: "%.3fms", rawValue) }
-}
-
-enum FPS: Int, OptionConvertible {
-    case fps30 = 30
-    case fps60 = 60
-    case fps120 = 120
-    
-    var description: String { "\(rawValue)" }
 }

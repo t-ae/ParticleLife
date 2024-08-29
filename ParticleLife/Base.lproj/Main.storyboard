@@ -697,36 +697,8 @@
                                     <rect key="frame" x="4" y="5" width="294" height="70"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fq3-vW-Lfc">
-                                            <rect key="frame" x="10" y="42" width="112" height="16"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="108" id="E0R-ea-NVa"/>
-                                            </constraints>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Preferred FPS" id="tiy-ut-Qbh">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gZV-6R-SFa" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="125" y="36" width="71" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="60" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="60" imageScaling="proportionallyDown" inset="2" selectedItem="Rrg-yK-0uR" id="zYk-HN-inP">
-                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
-                                                <menu key="menu" id="3FE-Xb-w37">
-                                                    <items>
-                                                        <menuItem title="30" tag="30" id="08a-pd-oHT"/>
-                                                        <menuItem title="60" state="on" tag="60" id="Rrg-yK-0uR"/>
-                                                        <menuItem title="120" tag="120" id="Twx-3X-XMs"/>
-                                                    </items>
-                                                </menu>
-                                            </popUpButtonCell>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="64" id="Um3-2G-H9Z"/>
-                                            </constraints>
-                                        </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wz9-5f-U8I">
-                                            <rect key="frame" x="10" y="14" width="78" height="16"/>
+                                            <rect key="frame" x="18" y="42" width="78" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Particle size" id="o02-6F-ind">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -734,33 +706,20 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="92" y="6" width="196" height="28"/>
+                                            <rect key="frame" x="100" y="34" width="164" height="28"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="192" id="P8A-PO-cEO"/>
+                                                <constraint firstAttribute="width" constant="160" id="P8A-PO-cEO"/>
                                             </constraints>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="15" doubleValue="3" tickMarkPosition="above" sliderType="linear" id="YaG-Hv-1o8">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                         </slider>
-                                        <button toolTip="Use 1/Preferred FPS instead of real ⊿t." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qxr-z9-EJ7" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="198" y="41" width="75" height="18"/>
-                                            <buttonCell key="cell" type="check" title="Fixed ⊿t" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gZi-pT-fBE">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="fq3-vW-Lfc" firstAttribute="top" secondItem="8WL-dt-aMO" secondAttribute="top" constant="12" id="Ln1-eo-Ud7"/>
+                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="leading" secondItem="8WL-dt-aMO" secondAttribute="leading" constant="20" symbolic="YES" id="Emg-Hr-ubg"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="leading" secondItem="wz9-5f-U8I" secondAttribute="trailing" constant="8" id="QhG-y2-TsG"/>
-                                        <constraint firstItem="qxr-z9-EJ7" firstAttribute="centerY" secondItem="gZV-6R-SFa" secondAttribute="centerY" id="Y1R-bp-9CF"/>
                                         <constraint firstItem="txD-IE-NLz" firstAttribute="centerY" secondItem="wz9-5f-U8I" secondAttribute="centerY" id="a0J-bh-Mas"/>
-                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="leading" id="l10-y8-huP"/>
-                                        <constraint firstItem="fq3-vW-Lfc" firstAttribute="leading" secondItem="8WL-dt-aMO" secondAttribute="leading" constant="12" id="pPF-Sb-Z5f"/>
-                                        <constraint firstItem="gZV-6R-SFa" firstAttribute="leading" secondItem="fq3-vW-Lfc" secondAttribute="trailing" constant="8" id="qdx-i7-eWh"/>
-                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="top" secondItem="fq3-vW-Lfc" secondAttribute="bottom" constant="12" id="rKH-aA-8lv"/>
-                                        <constraint firstItem="qxr-z9-EJ7" firstAttribute="leading" secondItem="gZV-6R-SFa" secondAttribute="trailing" constant="8" id="vCc-J0-76l"/>
-                                        <constraint firstItem="gZV-6R-SFa" firstAttribute="centerY" secondItem="fq3-vW-Lfc" secondAttribute="centerY" id="xpI-5y-cZV"/>
+                                        <constraint firstItem="wz9-5f-U8I" firstAttribute="top" secondItem="8WL-dt-aMO" secondAttribute="top" constant="12" id="eaO-AP-oNW"/>
                                     </constraints>
                                 </view>
                                 <constraints>
@@ -840,7 +799,6 @@
                         <outlet property="attractionMatrixView" destination="VBU-da-5gg" id="1hD-Rl-d9E"/>
                         <outlet property="colorCountButton" destination="fP9-86-aTL" id="5i5-86-mCi"/>
                         <outlet property="distanceFunctionButton" destination="8b7-TM-vHR" id="oGi-pT-2fq"/>
-                        <outlet property="fixDtCheck" destination="qxr-z9-EJ7" id="eD5-z0-gEK"/>
                         <outlet property="fixSeedsCheck" destination="x1R-uf-ZXW" id="PK6-vm-BzH"/>
                         <outlet property="forceFactorSlider" destination="pGo-2X-nUn" id="xLt-Yn-aqA"/>
                         <outlet property="forceFunctionButton" destination="lNS-yF-G5T" id="8Ag-HB-VWX"/>
@@ -851,7 +809,6 @@
                         <outlet property="particleSizeSlider" destination="txD-IE-NLz" id="BfW-z7-bA8"/>
                         <outlet property="pauseButton" destination="FG1-dO-IeQ" id="JeT-fK-64v"/>
                         <outlet property="playButton" destination="FjC-ua-HJt" id="DPz-E2-qOT"/>
-                        <outlet property="preferredFPSButton" destination="gZV-6R-SFa" id="8jp-jQ-s0F"/>
                         <outlet property="rmaxButton" destination="aar-TR-ARJ" id="xXb-vW-vOP"/>
                         <outlet property="velocityHalfLifeButton" destination="Alr-Aw-bew" id="8cg-VJ-cSh"/>
                     </connections>

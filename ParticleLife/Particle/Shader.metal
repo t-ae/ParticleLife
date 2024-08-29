@@ -121,7 +121,6 @@ updatePosition(device Particle* particles [[ buffer(0) ]],
                const uint gid [[ thread_position_in_grid ]])
 {
     float2 velocity = particles[gid].velocity;
-    
     particles[gid].position += velocity * *dt;
     particles[gid].position = wrap(particles[gid].position, 1);
 }
