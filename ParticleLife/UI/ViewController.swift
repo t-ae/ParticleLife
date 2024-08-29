@@ -179,7 +179,7 @@ class ViewController: NSViewController {
 
 extension ViewController: RendererDelegate {
     func renderer(_ renderer: Renderer, onUpdateFPS fps: Float) {
-         self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particles.count, fps)
+         self.view.window?.title = String(format: "Particle Life (%d particles | %.1f update/sec)", renderer.particles.count, fps)
     }
 }
 
