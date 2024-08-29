@@ -76,8 +76,8 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        viewportSize.x = Float(size.width);
-        viewportSize.y = Float(size.height);
+        viewportSize.x = Float(size.width)
+        viewportSize.y = Float(size.height)
     }
     
     private var lastDrawDate = Date()
@@ -104,18 +104,11 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
         dtHistory.insert(dt)
         
-        do { // Update velocity
+        do { // Update particles
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
                 fatalError("Failed to make command buffer.")
             }
-            updateVelocity(in: view, commandBuffer: commandBuffer, dt: dt)
-            commandBuffer.commit()
-        }
-        do { // Update position
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-                fatalError("Failed to make command buffer.")
-            }
-            updatePosition(in: view, commandBuffer: commandBuffer, dt: dt)
+            updateParticles(in: view, commandBuffer: commandBuffer, dt: dt)
             commandBuffer.commit()
         }
         do { // Render
@@ -127,54 +120,45 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
     }
     
-    func updateVelocity(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
+    func updateParticles(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
         guard !isPaused else { return }
         if particles.isEmpty { return }
-        guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
-            return
-        }
-        computeEncoder.label = "updateVelocity"
         
-        let state = updateVelocityState
-
-        computeEncoder.setComputePipelineState(state)
-        computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
-        var particleCount = UInt32(particles.count)
-        computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
-        var colorCount = UInt32(Color.allCases.count)
-        computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
-        computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 3)
-        computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
         var dt = dt
-        computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
-        computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
-        computeEncoder.dispatchThreads(
-            .init(width: particles.count, height: 1, depth: 1),
-            threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
-        )
-        computeEncoder.endEncoding()
-    }
-    
-    func updatePosition(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
-        guard !isPaused else { return }
-        if particles.isEmpty { return }
-        guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
-            return
-        }
-        computeEncoder.label = "updatePosition"
         
-        let state = updatePositionState
-
-        computeEncoder.setComputePipelineState(state)
-        computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
-        computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
-        var dt = dt
-        computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
-        computeEncoder.dispatchThreads(
-            .init(width: particles.count, height: 1, depth: 1),
-            threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
-        )
-        computeEncoder.endEncoding()
+        if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
+            let state = updateVelocityState
+            computeEncoder.label = "updateVelocity"
+            computeEncoder.setComputePipelineState(state)
+            computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
+            var particleCount = UInt32(particles.count)
+            computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
+            var colorCount = UInt32(Color.allCases.count)
+            computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
+            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 3)
+            computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
+            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
+            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
+            computeEncoder.dispatchThreads(
+                .init(width: particles.count, height: 1, depth: 1),
+                threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
+            )
+            computeEncoder.endEncoding()
+        }
+        if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
+            let state = updatePositionState
+            computeEncoder.label = "updatePosition"
+            computeEncoder.setComputePipelineState(state)
+            computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
+            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
+            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
+            computeEncoder.dispatchThreads(
+                .init(width: particles.count, height: 1, depth: 1),
+                threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
+            )
+            computeEncoder.endEncoding()
+        }
+        
     }
     
     let rgbs = Color.allCases.map { $0.rgb }
@@ -189,8 +173,8 @@ final class Renderer: NSObject, MTKViewDelegate {
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
             return
         }
-        renderEncoder.label = "renderParticles"
         
+        renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
         renderEncoder.setVertexBuffer(particles.buffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)

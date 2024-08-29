@@ -562,6 +562,13 @@
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="128" id="mLU-w3-KBW"/>
                                             </constraints>
                                         </popUpButton>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
+                                            <rect key="frame" x="261" y="118" width="25" height="25"/>
+                                            <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GLM-AQ-2z0">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0nx-v7-oKg">
                                             <rect key="frame" x="10" y="96" width="112" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Distance function" id="XMw-2U-6YD">
@@ -582,13 +589,6 @@
                                                 </menu>
                                             </popUpButtonCell>
                                         </popUpButton>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="261" y="118" width="25" height="25"/>
-                                            <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GLM-AQ-2z0">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-B9-nq6">
                                             <rect key="frame" x="10" y="68" width="112" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Rmax" id="Dwe-hM-XIA">
