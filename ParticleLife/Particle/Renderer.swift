@@ -80,16 +80,21 @@ final class Renderer: NSObject, MTKViewDelegate {
         guard isPaused else { return }
         lastUpdate = Date()
         isPaused = false
-        Task {
-            await updateParticles()
+        
+        if !updateLoopStarted {
+            updateLoopStarted = true
+            Task {
+                await updateParticles()
+            }
         }
     }
     
-    func pauseUpdate() {
+    func stopUpdate() {
         guard !isPaused else { return }
         isPaused = true
     }
     
+    private var updateLoopStarted = false
     private var lastUpdate = Date()
     private var isPaused = true
     private var updateCount = 0
@@ -99,16 +104,17 @@ final class Renderer: NSObject, MTKViewDelegate {
         let now = Date()
         var dt = Float(now.timeIntervalSince(lastUpdate))
         lastUpdate = now
-        updateCount += 1
         
-        guard !isPaused else { return }
-        if particles.isEmpty {
+        let shouldSkip = isPaused || particles.isEmpty
+        if shouldSkip {
             Task {
                 try await Task.sleep(milliseconds: 1)
                 updateParticles()
             }
             return
         }
+        
+        updateCount += 1
         
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             fatalError("Failed to make command buffer.")

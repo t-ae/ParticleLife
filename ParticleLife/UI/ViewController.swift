@@ -75,7 +75,7 @@ class ViewController: NSViewController {
         
         viewModel.$isPaused.sink { isPaused in
             if isPaused {
-                renderer.pauseUpdate()
+                renderer.stopUpdate()
             } else {
                 renderer.startUpdate()
             }
