@@ -187,4 +187,20 @@ extension ViewController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         NSApplication.shared.terminate(nil)
     }
+    
+    func windowWillEnterFullScreen(_ notification: Notification) {
+        viewModel.isPaused = true
+    }
+    
+    func windowDidEnterFullScreen(_ notification: Notification) {
+        viewModel.isPaused = false
+    }
+    
+    func windowWillExitFullScreen(_ notification: Notification) {
+        viewModel.isPaused = true
+    }
+    
+    func windowDidExitFullScreen(_ notification: Notification) {
+        viewModel.isPaused = false
+    }
 }
