@@ -77,6 +77,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     func startUpdate() {
+        guard isPaused else { return }
         lastUpdate = Date()
         isPaused = false
         Task {
@@ -85,11 +86,12 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
     
     func pauseUpdate() {
+        guard !isPaused else { return }
         isPaused = true
     }
     
     private var lastUpdate = Date()
-    private var isPaused = false
+    private var isPaused = true
     private var updateCount = 0
     
     @MainActor
