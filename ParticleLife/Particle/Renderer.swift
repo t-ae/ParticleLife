@@ -80,35 +80,12 @@ final class Renderer: NSObject, MTKViewDelegate {
         viewportSize.y = Float(size.height)
     }
     
-    private var lastDrawDate = Date()
-    private var fpsHistory: RingBuffer = .init(count: 60, initialValue: 0)
-    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 1.0/60)
-    
     func draw(in view: MTKView) {
-        let now = Date()
-        let realDt = Float(now.timeIntervalSince(lastDrawDate))
-        let fps = 1/realDt
-        fpsHistory.insert(fps)
-        if fpsHistory.head % (view.preferredFramesPerSecond / 2)  == 0 {
-            // evenry 0.5sec
-            delegate?.renderer(self, onUpdateFPS: fpsHistory.average())
-        }
-        lastDrawDate = now
-        
-        let dt: Float
-        let averageDt = dtHistory.average()
-        if fixedDt || realDt < averageDt/2 || realDt > averageDt*1.5 { // ignore outlier
-            dt =  1 / Float(view.preferredFramesPerSecond)
-        } else {
-            dt = realDt
-        }
-        dtHistory.insert(dt)
-        
         do { // Update particles
             guard let commandBuffer = commandQueue.makeCommandBuffer() else {
                 fatalError("Failed to make command buffer.")
             }
-            updateParticles(in: view, commandBuffer: commandBuffer, dt: dt)
+            updateParticles(in: view, commandBuffer: commandBuffer)
             commandBuffer.commit()
         }
         do { // Render
@@ -120,11 +97,33 @@ final class Renderer: NSObject, MTKViewDelegate {
         }
     }
     
-    func updateParticles(in view: MTKView, commandBuffer: MTLCommandBuffer, dt: Float) {
+    private var lastUpdate = Date()
+    private var fpsHistory: RingBuffer = .init(count: 60, initialValue: 0)
+    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 1.0/60)
+    
+    func updateParticles(in view: MTKView, commandBuffer: MTLCommandBuffer) {
+        let now = Date()
+        let realDt = Float(now.timeIntervalSince(lastUpdate))
+        let fps = 1/realDt
+        fpsHistory.insert(fps)
+        if fpsHistory.head % (view.preferredFramesPerSecond / 2)  == 0 {
+            // evenry 0.5sec
+            delegate?.renderer(self, onUpdateFPS: fpsHistory.average())
+        }
+        lastUpdate = now
+        
+        var dt: Float
+        let averageDt = dtHistory.average()
+        if fixedDt || realDt < averageDt/2 || realDt > averageDt*1.5 { // ignore outlier
+            dt =  1 / Float(view.preferredFramesPerSecond)
+        } else {
+            dt = realDt
+        }
+        dtHistory.insert(dt)
+        
         guard !isPaused else { return }
         if particles.isEmpty { return }
         
-        var dt = dt
         
         if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
             let state = updateVelocityState
