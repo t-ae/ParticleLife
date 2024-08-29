@@ -24,8 +24,6 @@ final class Renderer: NSObject, MTKViewDelegate {
     var viewportSize: SIMD2<Float> = .zero
     @Published
     var transform = Transform(center: .zero, zoom: 1)
-    @Published
-    var isPaused: Bool = false
     
     init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
         guard let commandQueue = device.makeCommandQueue() else {
@@ -80,50 +78,41 @@ final class Renderer: NSObject, MTKViewDelegate {
         viewportSize.y = Float(size.height)
     }
     
-    func draw(in view: MTKView) {
-        do { // Update particles
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-                fatalError("Failed to make command buffer.")
-            }
-            updateParticles(in: view, commandBuffer: commandBuffer)
-            commandBuffer.commit()
-        }
-        do { // Render
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-                fatalError("Failed to make command buffer.")
-            }
-            renderParticles(in: view, commandBuffer: commandBuffer)
-            commandBuffer.commit()
+    func startUpdate() {
+        lastUpdate = Date()
+        isPaused = false
+        Task {
+            await updateParticles()
         }
     }
     
-    private var lastUpdate = Date()
-    private var fpsHistory: RingBuffer = .init(count: 60, initialValue: 0)
-    private var dtHistory: RingBuffer = .init(count: 30, initialValue: 1.0/60)
+    func pauseUpdate() {
+        isPaused = true
+    }
     
-    func updateParticles(in view: MTKView, commandBuffer: MTLCommandBuffer) {
+    private var lastUpdate = Date()
+    private var isPaused = false
+    private var updateCount = 0
+    
+    @MainActor
+    func updateParticles() {
         let now = Date()
-        let realDt = Float(now.timeIntervalSince(lastUpdate))
-        let fps = 1/realDt
-        fpsHistory.insert(fps)
-        if fpsHistory.head % (view.preferredFramesPerSecond / 2)  == 0 {
-            // evenry 0.5sec
-            delegate?.renderer(self, onUpdateFPS: fpsHistory.average())
-        }
+        var dt = Float(now.timeIntervalSince(lastUpdate))
         lastUpdate = now
-        
-        var dt: Float
-        let averageDt = dtHistory.average()
-        if fixedDt || realDt < averageDt/2 || realDt > averageDt*1.5 { // ignore outlier
-            dt =  1 / Float(view.preferredFramesPerSecond)
-        } else {
-            dt = realDt
-        }
-        dtHistory.insert(dt)
+        updateCount += 1
         
         guard !isPaused else { return }
-        if particles.isEmpty { return }
+        if particles.isEmpty {
+            Task {
+                try await Task.sleep(milliseconds: 1)
+                updateParticles()
+            }
+            return
+        }
         
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            fatalError("Failed to make command buffer.")
+        }
         
         if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
             let state = updateVelocityState
@@ -158,6 +147,32 @@ final class Renderer: NSObject, MTKViewDelegate {
             computeEncoder.endEncoding()
         }
         
+        commandBuffer.addCompletedHandler { commandBuffer in
+            Task {
+                self.updateParticles()
+            }
+        }
+        
+        commandBuffer.commit()
+    }
+    
+    private var lastFPSUpdate = Date()
+    
+    func draw(in view: MTKView) {
+        let now = Date()
+        let interval = now.timeIntervalSince(lastFPSUpdate)
+        if interval > 0.5 {
+            let fps = Float(updateCount) / Float(interval)
+            delegate?.renderer(self, onUpdateFPS: fps)
+            updateCount = 0
+            lastFPSUpdate = now
+        }
+        
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            fatalError("Failed to make command buffer.")
+        }
+        renderParticles(in: view, commandBuffer: commandBuffer)
+        commandBuffer.commit()
     }
     
     let rgbs = Color.allCases.map { $0.rgb }

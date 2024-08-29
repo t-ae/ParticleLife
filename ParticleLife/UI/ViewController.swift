@@ -77,8 +77,15 @@ class ViewController: NSViewController {
         
         viewModel.$fixDt.assign(to: &renderer.$fixedDt)
         viewModel.$particleSize.assign(to: &renderer.$particleSize)
-        viewModel.$isPaused.assign(to: &renderer.$isPaused)
         viewModel.transform.assign(to: &renderer.$transform)
+        
+        viewModel.$isPaused.sink { isPaused in
+            if isPaused {
+                renderer.pauseUpdate()
+            } else {
+                renderer.startUpdate()
+            }
+        }.store(in: &cancellables)
     }
     
     func openControlWindow() {
@@ -178,7 +185,7 @@ class ViewController: NSViewController {
 
 extension ViewController: RendererDelegate {
     func renderer(_ renderer: Renderer, onUpdateFPS fps: Float) {
-        self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particles.count, fps)
+         self.view.window?.title = String(format: "Particle Life (%d particles / %.1ffps)", renderer.particles.count, fps)
     }
 }
 
