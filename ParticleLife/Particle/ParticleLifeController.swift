@@ -10,7 +10,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     let updatePositionState: MTLComputePipelineState
     let renderPipelineState: MTLRenderPipelineState
     
-    let particles: Particles
+    let particleHolder: ParticleHolder
     
     @Published
     var attractionMatrix: Matrix<Float> = .colorMatrix(filledWith: 0)
@@ -68,7 +68,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             self.renderPipelineState = try device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
         }
         
-        particles = try Particles(device: device)
+        particleHolder = try ParticleHolder(device: device)
     }
     
     nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -114,7 +114,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             lastNotify = now
         }
         
-        let shouldSkip = isPaused || particles.isEmpty
+        let shouldSkip = isPaused || particleHolder.isEmpty
         if shouldSkip {
             Task {
                 try await Task.sleep(milliseconds: 1)
@@ -136,8 +136,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updateVelocityState
             computeEncoder.label = "updateVelocity"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
-            var particleCount = UInt32(particles.count)
+            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
+            var particleCount = UInt32(particleHolder.count)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
             var colorCount = UInt32(Color.allCases.count)
             computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
@@ -146,7 +146,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.dispatchThreads(
-                .init(width: particles.count, height: 1, depth: 1),
+                .init(width: particleHolder.count, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
             )
             computeEncoder.endEncoding()
@@ -158,11 +158,11 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updatePositionState
             computeEncoder.label = "updatePosition"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particles.buffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
-                .init(width: particles.count, height: 1, depth: 1),
+                .init(width: particleHolder.count, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
             )
             computeEncoder.endEncoding()
@@ -196,7 +196,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particles.buffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particleHolder.buffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
@@ -205,7 +205,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             for x: Float in [-2, 0, 2] {
                 var offsets = SIMD2<Float>(x: x, y: y)
                 renderEncoder.setVertexBytes(&offsets, length: MemoryLayout<SIMD2<Float>>.size, index: 4)
-                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particles.count)
+                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleHolder.count)
             }
         }
         
@@ -236,7 +236,7 @@ extension ParticleLifeController {
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
         var sumOfAttractorCount: UInt32 = 0
         
-        let buffer = particles.bufferPointer
+        let buffer = particleHolder.bufferPointer
         for particle in buffer {
             if particle.hasNaN { nanCout += 1 }
             if particle.hasInfinite { infiniteCount += 1 }
@@ -247,12 +247,12 @@ extension ParticleLifeController {
         }
         
         var strs = [String]()
-        strs.append("particleCount: \(particles.count)")
+        strs.append("particleCount: \(particleHolder.count)")
         for color in Color.allCases {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }
         
-        let validParticleCount = particles.count - nanCout - infiniteCount
+        let validParticleCount = particleHolder.count - nanCout - infiniteCount
         
         let rmax = velocityUpdateSetting.rmax
         let fieldSize: Float = 2*2

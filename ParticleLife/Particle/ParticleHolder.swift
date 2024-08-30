@@ -1,7 +1,7 @@
 import Foundation
 import Metal
 
-final class Particles {
+final class ParticleHolder {
     static let maxCount: Int = 65536
     
     @Published

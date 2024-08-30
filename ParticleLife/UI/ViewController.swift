@@ -56,12 +56,12 @@ class ViewController: NSViewController {
     func bindViewModel(particleLifeController: ParticleLifeController) {
         let viewModel = self.viewModel
         
-        particleLifeController.particles.$colorCount
+        particleLifeController.particleHolder.$colorCount
             .assign(to: &viewModel.$renderingColorCount)
         
         viewModel.setParticlesEvent.sink {
             do {
-                try particleLifeController.particles.setParticles($0, colorCount: $1)
+                try particleLifeController.particleHolder.setParticles($0, colorCount: $1)
             } catch {
                 viewModel.errorNotifyEvent.send(error)
             }
@@ -122,7 +122,7 @@ class ViewController: NSViewController {
         case (_, true):
             let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
             let position = convertMetalViewPointToWorld(clickedPoint)
-            particleLifeController.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
+            particleLifeController.particleHolder.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
         case (2, false):
             viewModel.resetTransform()
         default:
@@ -180,7 +180,7 @@ class ViewController: NSViewController {
 extension ViewController: ParticleLifeControllerDelegate {
     func particleLifeController(_ particleLifeController: ParticleLifeController, notifyUpdatePerSecond updatePerSeond: Float) {
          self.view.window?.title = String(format: "Particle Life (%d particles | %.1f update/sec)", 
-                                          particleLifeController.particles.count,
+                                          particleLifeController.particleHolder.count,
                                           updatePerSeond)
     }
 }
