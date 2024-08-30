@@ -98,12 +98,21 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     private var lastUpdate = Date()
     private var isPaused = true
     private var updateCount = 0
+    private var lastNotify = Date()
     
     @MainActor
     func updateParticles() {
         let now = Date()
         var dt = Float(now.timeIntervalSince(lastUpdate))
         lastUpdate = now
+        
+        let interval = now.timeIntervalSince(lastNotify)
+        if interval > 0.5 {
+            let ups = Float(updateCount) / Float(interval)
+            delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+            updateCount = 0
+            lastNotify = now
+        }
         
         let shouldSkip = isPaused || particles.isEmpty
         if shouldSkip {
@@ -117,10 +126,13 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         updateCount += 1
         
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-            fatalError("Failed to make command buffer.")
+            fatalError("makeCommandBuffer failed.")
         }
         
-        if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
+        do {
+            guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                fatalError("makeComputeCommandEncoder failed.")
+            }
             let state = updateVelocityState
             computeEncoder.label = "updateVelocity"
             computeEncoder.setComputePipelineState(state)
@@ -139,7 +151,10 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             )
             computeEncoder.endEncoding()
         }
-        if let computeEncoder = commandBuffer.makeComputeCommandEncoder() {
+        do {
+            guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
+                fatalError("makeComputeCommandEncoder failed.")
+            }
             let state = updatePositionState
             computeEncoder.label = "updatePosition"
             computeEncoder.setComputePipelineState(state)
@@ -162,28 +177,13 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         commandBuffer.commit()
     }
     
-    private var lastFPSUpdate = Date()
-    
-    func draw(in view: MTKView) {
-        let now = Date()
-        let interval = now.timeIntervalSince(lastFPSUpdate)
-        if interval > 0.5 {
-            let fps = Float(updateCount) / Float(interval)
-            delegate?.particleLifeController(self, notifyUpdatePerSecond: fps)
-            updateCount = 0
-            lastFPSUpdate = now
-        }
-        
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-            fatalError("Failed to make command buffer.")
-        }
-        renderParticles(in: view, commandBuffer: commandBuffer)
-        commandBuffer.commit()
-    }
-    
     let rgbs = Color.allCases.map { $0.rgb }
     
-    func renderParticles(in view: MTKView, commandBuffer: MTLCommandBuffer) {
+    func draw(in view: MTKView) {
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            fatalError("makeCommandBuffer failed.")
+        }
+        
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable?.texture
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
@@ -191,7 +191,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         renderPassDescriptor.colorAttachments[0].storeAction = .store
         
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            return
+            fatalError("makeRenderCommandEncoder failed.")
         }
         
         renderEncoder.label = "renderParticles"
@@ -214,6 +214,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         if let drawable = view.currentDrawable {
             commandBuffer.present(drawable)
         }
+        
+        commandBuffer.commit()
     }
 }
 
