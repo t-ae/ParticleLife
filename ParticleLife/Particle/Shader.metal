@@ -53,12 +53,12 @@ float linfDistance(float2 vector) {
 // MARK: - Kernel functions
 kernel void
 updateVelocity(device Particle* particles [[ buffer(0) ]],
-               constant uint *particleCount [[ buffer(1) ]],
-               constant uint *colorCount [[ buffer(2) ]],
+               constant uint32_t *particleCount [[ buffer(1) ]],
+               constant uint32_t *colorCount [[ buffer(2) ]],
                constant float* attractionMatrix [[ buffer(3) ]],
                constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(4) ]],
                constant float *dt [[ buffer(5) ]],
-               const uint gid [[ thread_position_in_grid ]])
+               const uint32_t gid [[ thread_position_in_grid ]])
 {
     float rmax = velocityUpdateSetting->rmax;
     float velocityHalfLife = velocityUpdateSetting->velocityHalfLife;
@@ -118,7 +118,7 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
 kernel void
 updatePosition(device Particle* particles [[ buffer(0) ]],
                constant float *dt [[ buffer(1) ]],
-               const uint gid [[ thread_position_in_grid ]])
+               const uint32_t gid [[ thread_position_in_grid ]])
 {
     float2 velocity = particles[gid].velocity;
     particles[gid].position += velocity * *dt;
@@ -139,7 +139,7 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
                constant Transform *transform [[ buffer(3) ]],
                constant float2 *offset [[ buffer(4) ]],
                constant float2 *viewportSize [[ buffer(5) ]],
-               unsigned int vid [[ vertex_id ]])
+               uint32_t vid [[ vertex_id ]])
 {
     Point out;
     out.position = float4(0.0, 0.0, 0.0, 1.0);

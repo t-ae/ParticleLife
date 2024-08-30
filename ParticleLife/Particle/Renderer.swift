@@ -71,7 +71,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         particles = try Particles(device: device)
     }
     
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+    nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         viewportSize.x = Float(size.width)
         viewportSize.y = Float(size.height)
     }
