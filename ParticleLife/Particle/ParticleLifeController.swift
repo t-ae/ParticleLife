@@ -2,8 +2,8 @@ import Foundation
 import Metal
 import MetalKit
 
-final class Renderer: NSObject, MTKViewDelegate {
-    var delegate: RendererDelegate?
+final class ParticleLifeController: NSObject, MTKViewDelegate {
+    var delegate: ParticleLifeControllerDelegate?
     
     let commandQueue: MTLCommandQueue
     let updateVelocityState: MTLComputePipelineState
@@ -169,7 +169,7 @@ final class Renderer: NSObject, MTKViewDelegate {
         let interval = now.timeIntervalSince(lastFPSUpdate)
         if interval > 0.5 {
             let fps = Float(updateCount) / Float(interval)
-            delegate?.renderer(self, onUpdateFPS: fps)
+            delegate?.particleLifeController(self, notifyUpdatePerSecond: fps)
             updateCount = 0
             lastFPSUpdate = now
         }
@@ -217,7 +217,7 @@ final class Renderer: NSObject, MTKViewDelegate {
     }
 }
 
-extension Renderer {
+extension ParticleLifeController {
     func dumpParameters() -> String {
         """
         attraction:
@@ -271,6 +271,6 @@ extension Renderer {
     }
 }
 
-protocol RendererDelegate {
-    func renderer(_ renderer: Renderer, onUpdateFPS fps: Float)
+protocol ParticleLifeControllerDelegate {
+    func particleLifeController(_ particleLifeController: ParticleLifeController, notifyUpdatePerSecond updatePerSeond: Float)
 }

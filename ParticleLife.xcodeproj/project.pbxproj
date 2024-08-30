@@ -15,7 +15,7 @@
 		A731940C2C6C2CF00070148A /* ParticleLifeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731940B2C6C2CF00070148A /* ParticleLifeUITests.swift */; };
 		A731940E2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731940D2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift */; };
 		A73194252C6C40C30070148A /* Shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = A73194242C6C40C30070148A /* Shader.metal */; };
-		A73194272C6C6FC00070148A /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194262C6C6FC00070148A /* Renderer.swift */; };
+		A73194272C6C6FC00070148A /* ParticleLifeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194262C6C6FC00070148A /* ParticleLifeController.swift */; };
 		A731942D2C6C7C010070148A /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942C2C6C7C010070148A /* Particle.swift */; };
 		A731942F2C6C7C170070148A /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731942E2C6C7C170070148A /* Color.swift */; };
 		A73194322C6C81CC0070148A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194312C6C81CC0070148A /* Extension.swift */; };
@@ -73,7 +73,7 @@
 		A731940D2C6C2CF00070148A /* ParticleLifeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleLifeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A73194232C6C35110070148A /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		A73194242C6C40C30070148A /* Shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shader.metal; sourceTree = "<group>"; };
-		A73194262C6C6FC00070148A /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		A73194262C6C6FC00070148A /* ParticleLifeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleLifeController.swift; sourceTree = "<group>"; };
 		A731942C2C6C7C010070148A /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		A731942E2C6C7C170070148A /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		A73194312C6C81CC0070148A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				A731942E2C6C7C170070148A /* Color.swift */,
 				A73194232C6C35110070148A /* Types.h */,
 				A731942C2C6C7C010070148A /* Particle.swift */,
-				A73194262C6C6FC00070148A /* Renderer.swift */,
+				A73194262C6C6FC00070148A /* ParticleLifeController.swift */,
 				A73194242C6C40C30070148A /* Shader.metal */,
 				A73194382C6DB5150070148A /* ForceFunction.swift */,
 				A73194412C6E85D70070148A /* ParticleGenerator.swift */,
@@ -356,7 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A73194442C6E95100070148A /* AttractionMatrixValueView.swift in Sources */,
-				A73194272C6C6FC00070148A /* Renderer.swift in Sources */,
+				A73194272C6C6FC00070148A /* ParticleLifeController.swift in Sources */,
 				A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */,
 				A73194372C6D881A0070148A /* MessageError.swift in Sources */,
 				A7330AFA2C7ABF4300C4E02E /* CommandViewController.swift in Sources */,

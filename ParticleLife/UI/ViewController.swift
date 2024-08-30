@@ -5,7 +5,7 @@ import Combine
 class ViewController: NSViewController {
     @IBOutlet var metalView: MTKView!
     
-    private var renderer: Renderer!
+    private var particleLifeController: ParticleLifeController!
 
     private var cancellables = Set<AnyCancellable>()
     
@@ -15,9 +15,9 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         
         do {
-            let renderer = try setupMetal()
-            self.renderer = renderer
-            bindViewModel(renderer: renderer)
+            let particleLifeController = try setupMetal()
+            self.particleLifeController = particleLifeController
+            bindViewModel(particleLifeController: particleLifeController)
             openControlWindow()
         } catch {
             setupError = error
@@ -36,7 +36,7 @@ class ViewController: NSViewController {
         }
     }
     
-    func setupMetal() throws -> Renderer {
+    func setupMetal() throws -> ParticleLifeController {
         guard let device = MTLCreateSystemDefaultDevice() else {
             throw MessageError("MTLCreateSystemDefaultDevice failed.")
         }
@@ -44,40 +44,40 @@ class ViewController: NSViewController {
         metalView.device = device
         metalView.preferredFramesPerSecond = 60
         
-        let renderer = try Renderer(device: device, pixelFormat: metalView.colorPixelFormat)
-        renderer.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
-        renderer.delegate = self
+        let particleLifeController = try ParticleLifeController(device: device, pixelFormat: metalView.colorPixelFormat)
+        particleLifeController.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)
+        particleLifeController.delegate = self
         
-        metalView.delegate = renderer
+        metalView.delegate = particleLifeController
         
-        return renderer
+        return particleLifeController
     }
     
-    func bindViewModel(renderer: Renderer) {
+    func bindViewModel(particleLifeController: ParticleLifeController) {
         let viewModel = self.viewModel
         
-        renderer.particles.$colorCount
+        particleLifeController.particles.$colorCount
             .assign(to: &viewModel.$renderingColorCount)
         
         viewModel.setParticlesEvent.sink {
             do {
-                try renderer.particles.setParticles($0, colorCount: $1)
+                try particleLifeController.particles.setParticles($0, colorCount: $1)
             } catch {
                 viewModel.errorNotifyEvent.send(error)
             }
         }.store(in: &cancellables)
         
-        viewModel.attractionMatrix.assign(to: &renderer.$attractionMatrix)
-        viewModel.velocityUpdateSetting.assign(to: &renderer.$velocityUpdateSetting)
+        viewModel.attractionMatrix.assign(to: &particleLifeController.$attractionMatrix)
+        viewModel.velocityUpdateSetting.assign(to: &particleLifeController.$velocityUpdateSetting)
          
-        viewModel.$particleSize.assign(to: &renderer.$particleSize)
-        viewModel.transform.assign(to: &renderer.$transform)
+        viewModel.$particleSize.assign(to: &particleLifeController.$particleSize)
+        viewModel.transform.assign(to: &particleLifeController.$transform)
         
         viewModel.$isPaused.sink { isPaused in
             if isPaused {
-                renderer.stopUpdate()
+                particleLifeController.stopUpdate()
             } else {
-                renderer.startUpdate()
+                particleLifeController.startUpdate()
             }
         }.store(in: &cancellables)
     }
@@ -122,7 +122,7 @@ class ViewController: NSViewController {
         case (_, true):
             let clickedPoint = metalView.convert(event.locationInWindow, from: nil)
             let position = convertMetalViewPointToWorld(clickedPoint)
-            renderer.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
+            particleLifeController.particles.removeNaarestParticle(around: position, in: 0.02 / viewModel.zoom)
         case (2, false):
             viewModel.resetTransform()
         default:
@@ -164,10 +164,10 @@ class ViewController: NSViewController {
         case ("r", true):
             viewModel.updateAttractionMatrix(.randomize)
         case ("p", true):
-            let content = renderer.dumpParameters()
+            let content = particleLifeController.dumpParameters()
             appDelegate.openDumpModal(title: "Parameters", content: content)
         case ("s", true):
-            let content = renderer.dumpStatistics()
+            let content = particleLifeController.dumpStatistics()
             appDelegate.openDumpModal(title: "Statistics", content: content)
         case ("c", true):
             openCommandWindow()
@@ -177,9 +177,11 @@ class ViewController: NSViewController {
     }
 }
 
-extension ViewController: RendererDelegate {
-    func renderer(_ renderer: Renderer, onUpdateFPS fps: Float) {
-         self.view.window?.title = String(format: "Particle Life (%d particles | %.1f update/sec)", renderer.particles.count, fps)
+extension ViewController: ParticleLifeControllerDelegate {
+    func particleLifeController(_ particleLifeController: ParticleLifeController, notifyUpdatePerSecond updatePerSeond: Float) {
+         self.view.window?.title = String(format: "Particle Life (%d particles | %.1f update/sec)", 
+                                          particleLifeController.particles.count,
+                                          updatePerSeond)
     }
 }
 
