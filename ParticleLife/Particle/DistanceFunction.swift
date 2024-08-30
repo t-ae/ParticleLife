@@ -10,23 +10,6 @@ extension DistanceFunction: CaseIterable {
     ]
 }
 
-extension DistanceFunction {
-    /// The area inside distance==1 contour.
-    var areaOfDistance1: Float {
-        switch self {
-        case DistanceFunction_l1:
-            return 2
-        case DistanceFunction_l2:
-            return .pi
-        case DistanceFunction_linf:
-            return 4
-        default:
-            // Undefined
-            return .nan
-        }
-    }
-}
-
 extension DistanceFunction: OptionConvertible {
     public var description: String {
         switch self {

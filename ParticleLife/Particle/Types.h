@@ -7,7 +7,6 @@ typedef struct {
     uint color;
     simd_float2 position;
     simd_float2 velocity;
-    uint attractorCount;
 } Particle;
 
 enum ForceFunction {

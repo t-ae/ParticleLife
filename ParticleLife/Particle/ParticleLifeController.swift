@@ -234,16 +234,12 @@ extension ParticleLifeController {
         var nanCout = 0
         var infiniteCount = 0
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
-        var sumOfAttractorCount: UInt32 = 0
         
         let buffer = particleHolder.bufferPointer
         for particle in buffer {
             if particle.hasNaN { nanCout += 1 }
             if particle.hasInfinite { infiniteCount += 1 }
             colorCounts[Int(particle.color)] += 1
-            if !particle.hasNaN && !particle.hasInfinite {
-                sumOfAttractorCount += particle.attractorCount
-            }
         }
         
         var strs = [String]()
@@ -252,19 +248,8 @@ extension ParticleLifeController {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }
         
-        let validParticleCount = particleHolder.count - nanCout - infiniteCount
-        
-        let rmax = velocityUpdateSetting.rmax
-        let fieldSize: Float = 2*2
-        let attractionArea = velocityUpdateSetting.distanceFunction.areaOfDistance1 * rmax * rmax
-        let expectedAttractorCount = max(Float(validParticleCount-1), 0) / fieldSize * attractionArea
-        let averageAttractorCount = Float(sumOfAttractorCount) / max(Float(validParticleCount), 1)
-        
         strs.append("""
-        
-        Expected attractor count: \(expectedAttractorCount)
-        Average attractor count: \(averageAttractorCount)
-        
+
         NaN: \(nanCout)
         Infinite: \(infiniteCount)
         """)
