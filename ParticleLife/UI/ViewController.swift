@@ -42,7 +42,7 @@ class ViewController: NSViewController {
         }
         
         metalView.device = device
-        metalView.preferredFramesPerSecond = 60
+        metalView.preferredFramesPerSecond = 120
         
         let particleLifeController = try ParticleLifeController(device: device, pixelFormat: metalView.colorPixelFormat)
         particleLifeController.mtkView(metalView, drawableSizeWillChange: metalView.drawableSize)

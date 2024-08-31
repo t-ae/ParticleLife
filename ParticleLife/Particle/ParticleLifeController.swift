@@ -121,16 +121,17 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                     nextSemaphore.signal()
                 } else {
                     updateCount += 1
-                    updateParticles(dt: dt, nextSemaphore: nextSemaphore, loopSepaphore: loopSemaphore)
+                    updateParticles(dt: dt, loopSepaphore: loopSemaphore)
                     loopSemaphore.wait() // Wait until updateParticles is completed
                     particleHolder.advanceBufferIndex() // After updateParticles is completed
+                    nextSemaphore.signal() // Release buffer
                 }
             }
         }
     }
     
     /// Update particleHolder.nextBuffer based on particleHolder.currentBuffer.
-    func updateParticles(dt: Float, nextSemaphore: DispatchSemaphore, loopSepaphore: DispatchSemaphore) {
+    func updateParticles(dt: Float, loopSepaphore: DispatchSemaphore) {
         assert(!isPaused && !particleHolder.isEmpty)
         
         guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
@@ -180,7 +181,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         }
         
         commandBuffer.addCompletedHandler { commandBuffer in
-            nextSemaphore.signal() // Notify nextBuffer is available
             loopSepaphore.signal() // Notify update complete
         }
         
