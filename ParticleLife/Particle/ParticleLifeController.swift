@@ -125,6 +125,11 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             fatalError("makeCommandBuffer failed.")
         }
         
+        let currentBufferIndex = particleHolder.currentBufferIndex
+        let nextBufferIndex = particleHolder.nextBufferIndex
+        let currentBuffer = particleHolder.buffers[currentBufferIndex]
+        let nextBuffer = particleHolder.buffers[nextBufferIndex]
+        
         var dt = dt
         var particleCount = UInt32(particleHolder.count)
         var colorCount = UInt32(Color.allCases.count)
@@ -134,10 +139,10 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 fatalError("makeComputeCommandEncoder failed.")
             }
             let state = updateVelocityState
-            computeEncoder.label = "updateVelocity"
+            computeEncoder.label = "updateVelocity[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.currentBuffer(), offset: 0, index: 0)
-            computeEncoder.setBuffer(particleHolder.nextBuffer(), offset: 0, index: 1)
+            computeEncoder.setBuffer(currentBuffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(nextBuffer, offset: 0, index: 1)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
             computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
             computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 4)
@@ -155,9 +160,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 fatalError("makeComputeCommandEncoder failed.")
             }
             let state = updatePositionState
-            computeEncoder.label = "updatePosition"
+            computeEncoder.label = "updatePosition[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.nextBuffer(), offset: 0, index: 0)
+            computeEncoder.setBuffer(nextBuffer, offset: 0, index: 0)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
@@ -189,9 +194,12 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             fatalError("makeRenderCommandEncoder failed.")
         }
         
-        renderEncoder.label = "renderParticles"
+        let bufferIndex = particleHolder.currentBufferIndex
+        let buffer = particleHolder.buffers[bufferIndex]
+        
+        renderEncoder.label = "renderParticles[\(bufferIndex)]"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particleHolder.currentBuffer(), offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)

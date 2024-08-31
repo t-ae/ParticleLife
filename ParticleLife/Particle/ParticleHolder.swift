@@ -9,9 +9,9 @@ final class ParticleHolder {
     @Published
     private(set) var colorCount: Int = Color.allCases.count
     
-    private let buffers: [MTLBuffer]
-    private var currentBufferIndex = 0
-    private var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
+    let buffers: [MTLBuffer]
+    private(set) var currentBufferIndex = 0
+    var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
     let semaphore = DispatchSemaphore(value: 1)
     
     var isEmpty: Bool { count == 0 }
@@ -25,9 +25,6 @@ final class ParticleHolder {
             return buffer
         }
     }
-    
-    func currentBuffer() -> MTLBuffer { buffers[currentBufferIndex] }
-    func nextBuffer() -> MTLBuffer { buffers[nextBufferIndex] }
     
     func advanceBufferIndex() {
         currentBufferIndex = (currentBufferIndex+1) % Self.bufferCount
@@ -47,7 +44,8 @@ final class ParticleHolder {
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
         semaphore.wait()
         
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: currentBuffer().contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
+        let buffer = buffers[currentBufferIndex]
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
         
@@ -110,9 +108,10 @@ final class ParticleHolder {
         semaphore.wait()
         defer { semaphore.signal() }
         
-        let buffer = UnsafeMutableRawBufferPointer(start: currentBuffer().contents(), count: MemoryLayout<Particle>.size * count)
+        let buffer = buffers[currentBufferIndex]
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * count)
             .bindMemory(to: Particle.self)
-        for particle in buffer {
+        for particle in bufferPointer {
             if particle.hasNaN { nanCout += 1 }
             if particle.hasInfinite { infiniteCount += 1 }
             colorCounts[Int(particle.color)] += 1
