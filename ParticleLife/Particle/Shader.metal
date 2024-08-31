@@ -166,7 +166,7 @@ particleFragment(Point point [[stage_in]],
     if(distance < 0.15) {
         float alpha = 1.0;
         return float4(point.color, alpha);
-    } if(distance < 0.5) {
+    } else if(distance < 0.5) {
         float alpha = 1.0 - smoothstep(0.0, 0.5, distance);
         return float4(point.color, alpha);
     } else {
