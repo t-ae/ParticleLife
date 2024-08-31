@@ -186,9 +186,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     let rgbs = Color.allCases.map { $0.rgb }
     
     func draw(in view: MTKView) {
-        let semaphore = particleHolder.currentSemaphore()
-        semaphore.wait() // Wait until current buffer is available
-        
         guard let commandBuffer = drawCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
@@ -222,10 +219,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         if let drawable = view.currentDrawable {
             commandBuffer.present(drawable)
-        }
-        
-        commandBuffer.addCompletedHandler { _ in
-            semaphore.signal() // Notify currentBuffer is available
         }
         
         commandBuffer.commit()
