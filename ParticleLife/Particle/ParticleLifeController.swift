@@ -105,8 +105,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         let interval = now.timeIntervalSince(lastNotify)
         if interval > 0.5 {
             let ups = Float(updateCount) / Float(interval)
-            Task { @MainActor in
-                delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+            DispatchQueue.main.async {
+                self.delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
             }
             updateCount = 0
             lastNotify = now
@@ -117,10 +117,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         let shouldSkip = isPaused || particleHolder.isEmpty
         if shouldSkip {
-            Task {
-                try await Task.sleep(milliseconds: 1)
+            DispatchQueue.global().asyncAfter(deadline: .now().advanced(by: .milliseconds(1))) {
                 semaphore.signal()
-                updateParticles()
+                self.updateParticles()
             }
             return
         }
