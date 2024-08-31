@@ -1,6 +1,7 @@
 import Metal
 
 final class ParticleHolder {
+    static let bufferCount = 3
     static let maxCount: Int = 65536
     
     @Published
@@ -12,19 +13,19 @@ final class ParticleHolder {
     let semaphores: [DispatchSemaphore]
     
     private var currentBufferIndex = 0
-    private var nextBufferIndex = 1
+    private var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
     
     var isEmpty: Bool { count == 0 }
     
     init(device: MTLDevice) throws {
         let length: Int = MemoryLayout<Particle>.size * Self.maxCount
-        self.buffers = try (0..<3).map {
+        self.buffers = try (0..<Self.bufferCount).map {
             let buffer = try device.makeBuffer(length: length, options: .storageModeShared)
                 .orThrow("Failed to make particle buffer")
             buffer.label = "particle_buffer_\($0)"
             return buffer
         }
-        self.semaphores = (0..<3).map { _ in DispatchSemaphore(value: 1) }
+        self.semaphores = (0..<Self.bufferCount).map { _ in DispatchSemaphore(value: 1) }
     }
     
     func currentBuffer() -> MTLBuffer { buffers[currentBufferIndex] }
@@ -34,14 +35,7 @@ final class ParticleHolder {
     func nextSemaphore() -> DispatchSemaphore { semaphores[nextBufferIndex] }
     
     func advanceBufferIndex() {
-        currentBufferIndex += 1
-        if currentBufferIndex >= 3 {
-            currentBufferIndex = 0
-        }
-        nextBufferIndex += 1
-        if nextBufferIndex >= 3 {
-            nextBufferIndex = 0
-        }
+        currentBufferIndex = (currentBufferIndex+1) % Self.bufferCount
     }
     
     func setCount(count: Int, colorCount: Int) throws {
