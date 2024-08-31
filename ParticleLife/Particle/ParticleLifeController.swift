@@ -171,11 +171,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         }
         
         commandBuffer.addCompletedHandler { commandBuffer in
-            Task {
-                self.particleHolder.advanceBufferIndex()
-                semaphore.signal()
-                self.updateParticles()
-            }
+            self.particleHolder.advanceBufferIndex()
+            semaphore.signal()
+            self.updateParticles()
         }
         
         commandBuffer.commit()
