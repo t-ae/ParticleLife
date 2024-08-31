@@ -71,7 +71,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         super.init()
         
-        self.updateParticles()
+        self.updateLoop()
     }
     
     nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -90,43 +90,56 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         isPaused = true
     }
     
-    private var lastUpdate = Date()
     private var isPaused = true
-    private var updateCount = 0
-    private var lastNotify = Date()
+    private var lastUpdate = Date()
     
-    func updateParticles() {
-        let now = Date()
-        var dt = Float(now.timeIntervalSince(lastUpdate))
-        lastUpdate = now
+    func updateLoop() {
+        var updateCount = 0
+        var lastNotify = Date()
+        let loopSemaphore = DispatchSemaphore(value: 0)
         
-        let interval = now.timeIntervalSince(lastNotify)
-        if interval > 0.5 {
-            let ups = Float(updateCount) / Float(interval)
-            DispatchQueue.main.async {
-                self.delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+        DispatchQueue.global().async { [unowned self] in
+            while true {
+                let nextSemaphore = particleHolder.nextSemaphore()
+                nextSemaphore.wait() // Wait until next buffer is available
+                
+                let now = Date()
+                let dt = Float(now.timeIntervalSince(lastUpdate))
+                lastUpdate = now
+                
+                let interval = now.timeIntervalSince(lastNotify)
+                if interval > 0.5 {
+                    let ups = Float(updateCount) / Float(interval)
+                    DispatchQueue.main.async { [unowned self] in
+                        delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+                    }
+                    updateCount = 0
+                    lastNotify = now
+                }
+                
+                if isPaused || particleHolder.isEmpty {
+                    nextSemaphore.signal()
+                } else {
+                    updateCount += 1
+                    updateParticles(dt: dt, nextSemaphore: nextSemaphore, loopSepaphore: loopSemaphore)
+                    loopSemaphore.wait() // Wait until updateParticles is completed
+                    particleHolder.advanceBufferIndex() // After updateParticles is completed
+                }
             }
-            updateCount = 0
-            lastNotify = now
         }
-        
-        let semaphore = particleHolder.nextSemaphore()
-        semaphore.wait() // Wait before touching buffers
-        
-        let shouldSkip = isPaused || particleHolder.isEmpty
-        if shouldSkip {
-            DispatchQueue.global().asyncAfter(deadline: .now().advanced(by: .milliseconds(1))) {
-                semaphore.signal()
-                self.updateParticles()
-            }
-            return
-        }
-        
-        updateCount += 1
+    }
+    
+    /// Update particleHolder.nextBuffer based on particleHolder.currentBuffer.
+    func updateParticles(dt: Float, nextSemaphore: DispatchSemaphore, loopSepaphore: DispatchSemaphore) {
+        assert(!isPaused && !particleHolder.isEmpty)
         
         guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
+        
+        var dt = dt
+        var particleCount = UInt32(particleHolder.count)
+        var colorCount = UInt32(Color.allCases.count)
         
         do {
             guard let computeEncoder = commandBuffer.makeComputeCommandEncoder() else {
@@ -137,9 +150,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.setComputePipelineState(state)
             computeEncoder.setBuffer(particleHolder.currentBuffer(), offset: 0, index: 0)
             computeEncoder.setBuffer(particleHolder.nextBuffer(), offset: 0, index: 1)
-            var particleCount = UInt32(particleHolder.count)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
-            var colorCount = UInt32(Color.allCases.count)
             computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
             computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 4)
             computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 5)
@@ -169,9 +180,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         }
         
         commandBuffer.addCompletedHandler { commandBuffer in
-            self.particleHolder.advanceBufferIndex()
-            semaphore.signal()
-            self.updateParticles()
+            nextSemaphore.signal() // Notify nextBuffer is available
+            loopSepaphore.signal() // Notify update complete
         }
         
         commandBuffer.commit()
@@ -181,7 +191,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     
     func draw(in view: MTKView) {
         let semaphore = particleHolder.currentSemaphore()
-        semaphore.wait()
+        semaphore.wait() // Wait until current buffer is available
         
         guard let commandBuffer = drawCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
@@ -219,7 +229,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         }
         
         commandBuffer.addCompletedHandler { _ in
-            semaphore.signal()
+            semaphore.signal() // Notify currentBuffer is available
         }
         
         commandBuffer.commit()

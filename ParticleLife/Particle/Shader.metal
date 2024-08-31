@@ -152,6 +152,7 @@ particleVertex(const device Particle* particles [[ buffer(0) ]],
         out.position.y *= viewportSize->x / viewportSize->y;
     }
     
+    // FIXME: It seems there's upperlimit for point_size.
     out.size = *particleSize * max(viewportSize->x, viewportSize->y) * transform->zoom / 1000;
     out.color = rgb[particles[vid].color];
     return out;
