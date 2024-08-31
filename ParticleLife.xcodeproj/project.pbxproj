@@ -32,6 +32,7 @@
 		A73194562C713CBC0070148A /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73194552C713CBC0070148A /* Matrix.swift */; };
 		A7330AEF2C77FA0100C4E02E /* ParticleHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7330AEE2C77FA0100C4E02E /* ParticleHolder.swift */; };
 		A7330AFA2C7ABF4300C4E02E /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7330AF92C7ABF4300C4E02E /* CommandViewController.swift */; };
+		A74D0E522C835FC800E43E51 /* LogScaleSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D0E512C835FC800E43E51 /* LogScaleSlider.swift */; };
 		A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */; };
 		A78DB8B32C74BAB0006A3E5E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */; };
 		A78DB8B52C74D123006A3E5E /* OptionConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */; };
@@ -90,6 +91,7 @@
 		A73194552C713CBC0070148A /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		A7330AEE2C77FA0100C4E02E /* ParticleHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleHolder.swift; sourceTree = "<group>"; };
 		A7330AF92C7ABF4300C4E02E /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
+		A74D0E512C835FC800E43E51 /* LogScaleSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogScaleSlider.swift; sourceTree = "<group>"; };
 		A78DB8AC2C72BE79006A3E5E /* DumpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpViewController.swift; sourceTree = "<group>"; };
 		A78DB8B22C74BAB0006A3E5E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionConvertible.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				A78DB8B42C74D123006A3E5E /* OptionConvertible.swift */,
 				A78DB8BC2C75B0C5006A3E5E /* Binding.swift */,
 				A78DB8BE2C75F4DB006A3E5E /* RingBuffer.swift */,
+				A74D0E512C835FC800E43E51 /* LogScaleSlider.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				A73194442C6E95100070148A /* AttractionMatrixValueView.swift in Sources */,
 				A73194272C6C6FC00070148A /* ParticleLifeController.swift in Sources */,
 				A731943C2C6DC5590070148A /* ControlViewController.swift in Sources */,
+				A74D0E522C835FC800E43E51 /* LogScaleSlider.swift in Sources */,
 				A73194372C6D881A0070148A /* MessageError.swift in Sources */,
 				A7330AFA2C7ABF4300C4E02E /* CommandViewController.swift in Sources */,
 				A78DB8AD2C72BE79006A3E5E /* DumpViewController.swift in Sources */,

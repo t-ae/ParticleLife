@@ -597,24 +597,20 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aar-TR-ARJ" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="97" y="62" width="135" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="0.05" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="50" imageScaling="proportionallyDown" inset="2" selectedItem="Mdg-0a-eya" id="WNv-qU-4mp">
-                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
-                                                <menu key="menu" id="nyN-fE-rp0">
-                                                    <items>
-                                                        <menuItem title="0.01" tag="10" id="9al-y8-8lN"/>
-                                                        <menuItem title="0.03" tag="30" id="PtU-BB-vIW"/>
-                                                        <menuItem title="0.05" state="on" tag="50" id="Mdg-0a-eya"/>
-                                                        <menuItem title="0.07" tag="70" id="zIm-4g-PwD"/>
-                                                        <menuItem title="0.1" tag="100" id="JQ3-Z2-RmW"/>
-                                                        <menuItem title="0.3" tag="300" id="kxj-yi-9ng"/>
-                                                        <menuItem title="0.5" tag="500" id="1OT-L8-Nvw"/>
-                                                    </items>
-                                                </menu>
-                                            </popUpButtonCell>
-                                        </popUpButton>
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AZo-mS-Wcm" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
+                                            <rect key="frame" x="98" y="60" width="132" height="28"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-3" tickMarkPosition="above" sliderType="linear" id="GuN-p0-Pap">
+                                                <font key="font" size="12" name="Helvetica"/>
+                                            </sliderCell>
+                                        </slider>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tmk-Ne-Ubq">
+                                            <rect key="frame" x="234" y="68" width="29" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" continuous="YES" title="0.01" id="8X6-4k-p9M">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-8H-i6c">
                                             <rect key="frame" x="10" y="40" width="84" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Velocity HL" id="DtB-jh-T4d">
@@ -662,12 +658,12 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="4HC-nF-jTh" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="trailing" constant="8" id="1yM-0U-bd2"/>
+                                        <constraint firstItem="Tmk-Ne-Ubq" firstAttribute="leading" secondItem="4HC-nF-jTh" secondAttribute="leading" id="4XK-rC-yXz"/>
                                         <constraint firstItem="4TL-LV-hfC" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="4Yw-Gt-mh2"/>
                                         <constraint firstItem="YwS-B9-nq6" firstAttribute="top" secondItem="0nx-v7-oKg" secondAttribute="bottom" constant="12" id="5hc-c7-3pl"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="top" secondItem="8MZ-Dt-wUT" secondAttribute="bottom" constant="12" id="9If-r3-oGV"/>
                                         <constraint firstItem="8MZ-Dt-wUT" firstAttribute="leading" secondItem="FGG-dr-vFy" secondAttribute="leading" constant="12" id="DyB-2M-rUg"/>
                                         <constraint firstItem="YwS-B9-nq6" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="EPh-RU-MYJ"/>
-                                        <constraint firstItem="aar-TR-ARJ" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="H1H-eM-JaL"/>
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="JRa-16-K61"/>
                                         <constraint firstItem="pr7-Cp-U2w" firstAttribute="centerY" secondItem="pGo-2X-nUn" secondAttribute="centerY" id="Jir-5w-sVe"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="KQt-8Q-of1"/>
@@ -679,13 +675,16 @@
                                         <constraint firstItem="pr7-Cp-U2w" firstAttribute="leading" secondItem="4HC-nF-jTh" secondAttribute="leading" id="X72-6D-FyN"/>
                                         <constraint firstItem="mDy-2I-NnF" firstAttribute="leading" secondItem="4HC-nF-jTh" secondAttribute="leading" id="Xpc-iB-yge"/>
                                         <constraint firstItem="4HC-nF-jTh" firstAttribute="centerY" secondItem="lNS-yF-G5T" secondAttribute="centerY" id="YB2-vM-kAc"/>
+                                        <constraint firstItem="AZo-mS-Wcm" firstAttribute="centerY" secondItem="YwS-B9-nq6" secondAttribute="centerY" id="ZrO-9M-mhK"/>
                                         <constraint firstItem="4TL-LV-hfC" firstAttribute="centerY" secondItem="ohD-8H-i6c" secondAttribute="centerY" id="b13-8h-a3d"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="bcR-l0-dtl"/>
                                         <constraint firstItem="8MZ-Dt-wUT" firstAttribute="top" secondItem="FGG-dr-vFy" secondAttribute="top" constant="12" id="bqh-vP-hIu"/>
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="dXT-hM-G2p"/>
                                         <constraint firstItem="YwS-B9-nq6" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="dgE-f1-fma"/>
+                                        <constraint firstItem="AZo-mS-Wcm" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="e4I-xU-uPV"/>
+                                        <constraint firstItem="AZo-mS-Wcm" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="faT-GL-bhD"/>
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="centerY" secondItem="0nx-v7-oKg" secondAttribute="centerY" id="lg6-5E-p15"/>
-                                        <constraint firstItem="aar-TR-ARJ" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="mc8-Ok-gkJ"/>
+                                        <constraint firstItem="Tmk-Ne-Ubq" firstAttribute="centerY" secondItem="AZo-mS-Wcm" secondAttribute="centerY" id="lgx-3B-WP0"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="okY-Jr-8Zg"/>
                                         <constraint firstItem="pGo-2X-nUn" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="qhL-fs-fkP"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="top" secondItem="YwS-B9-nq6" secondAttribute="bottom" constant="12" id="sI0-7h-dC6"/>
@@ -694,7 +693,6 @@
                                         <constraint firstItem="mfZ-VI-rxF" firstAttribute="top" secondItem="ohD-8H-i6c" secondAttribute="bottom" constant="12" id="vdx-08-VpM"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="wRb-oU-3ry"/>
                                         <constraint firstItem="mDy-2I-NnF" firstAttribute="centerY" secondItem="4TL-LV-hfC" secondAttribute="centerY" id="xU4-fN-BFl"/>
-                                        <constraint firstItem="aar-TR-ARJ" firstAttribute="centerY" secondItem="YwS-B9-nq6" secondAttribute="centerY" id="z11-TA-JPP"/>
                                     </constraints>
                                 </view>
                                 <constraints>
@@ -820,7 +818,8 @@
                         <outlet property="particleSizeSlider" destination="txD-IE-NLz" id="BfW-z7-bA8"/>
                         <outlet property="pauseButton" destination="FG1-dO-IeQ" id="JeT-fK-64v"/>
                         <outlet property="playButton" destination="FjC-ua-HJt" id="DPz-E2-qOT"/>
-                        <outlet property="rmaxButton" destination="aar-TR-ARJ" id="xXb-vW-vOP"/>
+                        <outlet property="rmaxSlider" destination="AZo-mS-Wcm" id="Fie-eO-G1Y"/>
+                        <outlet property="rmaxValueLabel" destination="Tmk-Ne-Ubq" id="tuv-aH-jIh"/>
                         <outlet property="velocityHalfLifeSlider" destination="4TL-LV-hfC" id="TJY-CD-NjM"/>
                         <outlet property="velocityHalfLifeValueLabel" destination="mDy-2I-NnF" id="lEK-2f-J7h"/>
                     </connections>

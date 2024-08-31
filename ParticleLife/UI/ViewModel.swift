@@ -59,11 +59,12 @@ final class ViewModel {
     @Published
     var distanceFunction: DistanceFunction = .default
     
-    @Published
-    var rmax: Rmax = .r010
+    let rmaxRange: ClosedRange<Float> = 0.01...1
     
     @Published
-    var velocityHalfLifeRange: ClosedRange<Float> = 0.01...1
+    var rmax: Float = 0.1
+    
+    let velocityHalfLifeRange: ClosedRange<Float> = 0.01...1
     
     @Published
     var velocityHalfLife: Float = 0.1
@@ -81,13 +82,12 @@ final class ViewModel {
             VelocityUpdateSetting(
                 forceFunction: a.0,
                 distanceFunction: a.1,
-                rmax: a.2.rawValue,
+                rmax: a.2,
                 velocityHalfLife: b.0,
                 forceFactor: b.1
             )
         }
     }
-    
     
     // MARK: Other
     let particleSizeRange: ClosedRange<Float> = 1...10
@@ -123,16 +123,4 @@ final class ViewModel {
     
     // MARK: Events
     let errorNotifyEvent = PassthroughSubject<Error, Never>()
-}
-
-enum Rmax: Float, OptionConvertible {
-    case r001 = 0.01
-    case r003 = 0.03
-    case r005 = 0.05
-    case r010 = 0.10
-    case r030 = 0.30
-    case r050 = 0.50
-    case r100 = 1.00
-    
-    var description: String { String(format: "%.2f", rawValue) }
 }

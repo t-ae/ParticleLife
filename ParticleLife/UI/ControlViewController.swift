@@ -19,7 +19,8 @@ class ControlViewController: NSViewController {
     @IBOutlet var forceFunctionButton: BindablePopUpButton!
     @IBOutlet var forceFunctionHelpButton: BindableButton!
     @IBOutlet var distanceFunctionButton: BindablePopUpButton!
-    @IBOutlet var rmaxButton: BindablePopUpButton!
+    @IBOutlet var rmaxSlider: LogScaleSlider!
+    @IBOutlet var rmaxValueLabel: NSTextField!
     @IBOutlet var velocityHalfLifeSlider: BindableSlider!
     @IBOutlet var velocityHalfLifeValueLabel: NSTextField!
     
@@ -100,7 +101,10 @@ class ControlViewController: NSViewController {
         distanceFunctionButton.bind(&viewModel.$distanceFunction)
             .store(in: &cancellables)
         
-        rmaxButton.bind(&viewModel.$rmax)
+        rmaxSlider.bind(&viewModel.$rmax, range: viewModel.rmaxRange)
+            .store(in: &cancellables)
+        viewModel.$rmax.map { String(format: "%.3f", $0) }
+            .assign(to: \.stringValue, on: rmaxValueLabel)
             .store(in: &cancellables)
         
         velocityHalfLifeSlider.bind(&viewModel.$velocityHalfLife, range: viewModel.velocityHalfLifeRange)
