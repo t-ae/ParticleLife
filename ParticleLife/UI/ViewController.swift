@@ -73,13 +73,8 @@ class ViewController: NSViewController {
         viewModel.$particleSize.assign(to: &particleLifeController.$particleSize)
         viewModel.transform.assign(to: &particleLifeController.$transform)
         
-        viewModel.$isPaused.sink { isPaused in
-            if isPaused {
-                particleLifeController.stopUpdate()
-            } else {
-                particleLifeController.startUpdate()
-            }
-        }.store(in: &cancellables)
+        viewModel.$isPaused
+            .assign(to: &particleLifeController.$isPaused)
     }
     
     func openControlWindow() {

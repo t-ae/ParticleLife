@@ -9,11 +9,10 @@ final class ParticleHolder {
     @Published
     private(set) var colorCount: Int = Color.allCases.count
     
-    let buffers: [MTLBuffer]
-    let semaphores: [DispatchSemaphore]
-    
+    private let buffers: [MTLBuffer]
     private var currentBufferIndex = 0
     private var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
+    let semaphore = DispatchSemaphore(value: 1)
     
     var isEmpty: Bool { count == 0 }
     
@@ -25,14 +24,10 @@ final class ParticleHolder {
             buffer.label = "particle_buffer_\($0)"
             return buffer
         }
-        self.semaphores = (0..<Self.bufferCount).map { _ in DispatchSemaphore(value: 1) }
     }
     
     func currentBuffer() -> MTLBuffer { buffers[currentBufferIndex] }
     func nextBuffer() -> MTLBuffer { buffers[nextBufferIndex] }
-    
-    func currentSemaphore() -> DispatchSemaphore { semaphores[currentBufferIndex] }
-    func nextSemaphore() -> DispatchSemaphore { semaphores[nextBufferIndex] }
     
     func advanceBufferIndex() {
         currentBufferIndex = (currentBufferIndex+1) % Self.bufferCount
@@ -50,13 +45,13 @@ final class ParticleHolder {
     }
     
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
-        semaphores.forEach { $0.wait() }
+        semaphore.wait()
         
         let bufferPointer = UnsafeMutableRawBufferPointer(start: currentBuffer().contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
         
-        semaphores.forEach { $0.signal() }
+        semaphore.signal()
     }
     
     func setParticles(_ particles: [Particle], colorCount: Int) throws {
@@ -112,7 +107,6 @@ final class ParticleHolder {
         var infiniteCount = 0
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
         
-        let semaphore = currentSemaphore()
         semaphore.wait()
         defer { semaphore.signal() }
         

@@ -79,28 +79,19 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         viewportSize.y = Float(size.height)
     }
     
-    func startUpdate() {
-        guard isPaused else { return }
-        lastUpdate = Date()
-        isPaused = false
-    }
-    
-    func stopUpdate() {
-        guard !isPaused else { return }
-        isPaused = true
-    }
-    
-    private var isPaused = true
-    private var lastUpdate = Date()
+    @Published
+    var isPaused = true
     
     func updateLoop() {
+        var lastUpdate = Date()
         var updateCount = 0
         var lastNotify = Date()
         
+        
         DispatchQueue.global().async { [unowned self] in
             while true {
-                let nextSemaphore = particleHolder.nextSemaphore()
-                nextSemaphore.wait() // Wait until next buffer is available
+                let semaphore = particleHolder.semaphore
+                semaphore.wait() // Wait until next buffer is available
                 
                 let now = Date()
                 let dt = Float(now.timeIntervalSince(lastUpdate))
@@ -117,12 +108,12 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 }
                 
                 if isPaused || particleHolder.isEmpty {
-                    nextSemaphore.signal()
+                    semaphore.signal()
                 } else {
                     updateCount += 1
                     updateParticles(dt: dt)
                     particleHolder.advanceBufferIndex() // After updateParticles is completed
-                    nextSemaphore.signal() // Release buffer
+                    semaphore.signal() // Release buffer
                 }
             }
         }
