@@ -68,6 +68,10 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         }
         
         particleHolder = try ParticleHolder(device: device)
+        
+        super.init()
+        
+        self.updateParticles()
     }
     
     nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -79,11 +83,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         guard isPaused else { return }
         lastUpdate = Date()
         isPaused = false
-        
-        if !updateLoopStarted {
-            updateLoopStarted = true
-            updateParticles()
-        }
     }
     
     func stopUpdate() {
@@ -91,7 +90,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         isPaused = true
     }
     
-    private var updateLoopStarted = false
     private var lastUpdate = Date()
     private var isPaused = true
     private var updateCount = 0
