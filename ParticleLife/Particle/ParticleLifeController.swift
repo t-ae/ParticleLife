@@ -5,8 +5,7 @@ import MetalKit
 final class ParticleLifeController: NSObject, MTKViewDelegate {
     var delegate: ParticleLifeControllerDelegate?
     
-    let updateCommandQueue: MTLCommandQueue
-    let drawCommandQueue: MTLCommandQueue
+    let commandQueue: MTLCommandQueue
     let updateVelocityState: MTLComputePipelineState
     let updatePositionState: MTLComputePipelineState
     let renderPipelineState: MTLRenderPipelineState
@@ -25,8 +24,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     var transform = Transform(center: .zero, zoom: 1)
     
     init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
-        self.updateCommandQueue = try device.makeCommandQueue().orThrow("makeCommandQueue failed.")
-        self.drawCommandQueue = try device.makeCommandQueue().orThrow("makeCommandQueue failed.")
+        self.commandQueue = try device.makeCommandQueue().orThrow("makeCommandQueue failed.")
         
         guard let library = device.makeDefaultLibrary() else {
             throw MessageError("makeDefaultLibrary failed.")
@@ -123,7 +121,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     func updateParticles(dt: Float) {
         assert(!isPaused && !particleHolder.isEmpty)
         
-        guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
         
@@ -177,7 +175,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     let rgbs = Color.allCases.map { $0.rgb }
     
     func draw(in view: MTKView) {
-        guard let commandBuffer = drawCommandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
         
