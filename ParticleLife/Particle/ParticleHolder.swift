@@ -52,9 +52,15 @@ final class ParticleHolder {
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
         semaphores.forEach { $0.wait() }
         
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: currentBuffer().contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
+        let currentBufferIndex = self.currentBufferIndex
+        let buffer = buffers[currentBufferIndex]
+        
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
+        
+        // Restore currentBufferIndex
+        self.currentBufferIndex = currentBufferIndex
         
         semaphores.forEach { $0.signal() }
     }
