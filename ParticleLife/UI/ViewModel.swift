@@ -63,7 +63,10 @@ final class ViewModel {
     var rmax: Rmax = .r010
     
     @Published
-    var velocityHalfLife: VelocityHalfLife = .l100
+    var velocityHalfLifeRange: ClosedRange<Float> = 0.01...1
+    
+    @Published
+    var velocityHalfLife: Float = 0.1
     
     let forceFactorRange: ClosedRange<Float> = 0...10
     
@@ -79,7 +82,7 @@ final class ViewModel {
                 forceFunction: a.0,
                 distanceFunction: a.1,
                 rmax: a.2.rawValue,
-                velocityHalfLife: b.0.rawValue,
+                velocityHalfLife: b.0,
                 forceFactor: b.1
             )
         }
@@ -132,14 +135,4 @@ enum Rmax: Float, OptionConvertible {
     case r100 = 1.00
     
     var description: String { String(format: "%.2f", rawValue) }
-}
-
-enum VelocityHalfLife: Float, OptionConvertible {
-    case l10 = 0.01
-    case l50 = 0.05
-    case l100 = 0.1
-    case l500 = 0.5
-    case l1000 = 1
-    
-    var description: String { String(format: "%.3fms", rawValue) }
 }

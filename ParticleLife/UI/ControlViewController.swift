@@ -20,7 +20,8 @@ class ControlViewController: NSViewController {
     @IBOutlet var forceFunctionHelpButton: BindableButton!
     @IBOutlet var distanceFunctionButton: BindablePopUpButton!
     @IBOutlet var rmaxButton: BindablePopUpButton!
-    @IBOutlet var velocityHalfLifeButton: BindablePopUpButton!
+    @IBOutlet var velocityHalfLifeSlider: BindableSlider!
+    
     @IBOutlet var forceFactorSlider: BindableSlider!
     
     @IBOutlet var particleSizeSlider: BindableSlider!
@@ -100,7 +101,7 @@ class ControlViewController: NSViewController {
         rmaxButton.bind(&viewModel.$rmax)
             .store(in: &cancellables)
         
-        velocityHalfLifeButton.bind(&viewModel.$velocityHalfLife)
+        velocityHalfLifeSlider.bind(&viewModel.$velocityHalfLife, range: viewModel.velocityHalfLifeRange)
             .store(in: &cancellables)
         
         forceFactorSlider.bind(&viewModel.$forceFactor, range: viewModel.forceFactorRange)
