@@ -21,10 +21,9 @@ class ControlViewController: NSViewController {
     @IBOutlet var distanceFunctionButton: BindablePopUpButton!
     @IBOutlet var rmaxSlider: LogScaleSlider!
     @IBOutlet var rmaxValueLabel: NSTextField!
-    @IBOutlet var velocityHalfLifeSlider: BindableSlider!
+    @IBOutlet var velocityHalfLifeSlider: LogScaleSlider!
     @IBOutlet var velocityHalfLifeValueLabel: NSTextField!
-    
-    @IBOutlet var forceFactorSlider: BindableSlider!
+    @IBOutlet var forceFactorSlider: LogScaleSlider!
     @IBOutlet var forceFactorValueLabel: NSTextField!
     
     @IBOutlet var particleSizeSlider: BindableSlider!

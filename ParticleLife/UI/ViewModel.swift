@@ -69,7 +69,7 @@ final class ViewModel {
     @Published
     var velocityHalfLife: Float = 0.1
     
-    let forceFactorRange: ClosedRange<Float> = 0...10
+    let forceFactorRange: ClosedRange<Float> = 0.1...10
     
     @Published
     var forceFactor: Float = 1

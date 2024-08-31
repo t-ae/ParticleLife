@@ -619,7 +619,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-LV-hfC" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-LV-hfC" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="98" y="32" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.01" maxValue="1" doubleValue="0.10000000000000001" tickMarkPosition="above" sliderType="linear" id="EtV-KL-76m">
                                                 <font key="font" size="12" name="Helvetica"/>
@@ -641,7 +641,7 @@
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
                                             <rect key="frame" x="98" y="4" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="10" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="HAN-di-16a">
                                                 <font key="font" size="12" name="Helvetica"/>
