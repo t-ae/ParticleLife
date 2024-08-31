@@ -89,7 +89,7 @@ final class ParticleHolder {
         update { bufferPointer in 
             var minimumIndex = -1
             var minimumDistance = Float.infinity
-            for i in bufferPointer.indices {
+            for i in 0..<count {
                 let v = bufferPointer[i].position - center
                 let distance = length(v.wrapped(max: 1))
                 

@@ -112,19 +112,20 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             lastNotify = now
         }
         
+        let semaphore = particleHolder.nextSemaphore()
+        semaphore.wait() // Wait before touching buffers
+        
         let shouldSkip = isPaused || particleHolder.isEmpty
         if shouldSkip {
             Task {
                 try await Task.sleep(milliseconds: 1)
+                semaphore.signal()
                 updateParticles()
             }
             return
         }
         
         updateCount += 1
-        
-        let semaphore = particleHolder.nextSemaphore()
-        semaphore.wait() // Wait before touching buffers
         
         guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
