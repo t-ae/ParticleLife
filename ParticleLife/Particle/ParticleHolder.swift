@@ -88,15 +88,12 @@ final class ParticleHolder {
     func removeNaarestParticle(around center: SIMD2<Float>, in radius: Float) {
         update { bufferPointer in 
             var minimumIndex = -1
-            var minimumDistance = Float.infinity
+            var minimumDistance = radius
             for i in 0..<count {
                 let v = bufferPointer[i].position - center
                 let distance = length(v.wrapped(max: 1))
                 
-                if distance < radius && distance < minimumDistance {
-                    
-                }
-                if length(v.wrapped(max: 1)) < radius {
+                if length(v.wrapped(max: 1)) < minimumDistance {
                     minimumIndex = i
                     minimumDistance = distance
                 }
