@@ -21,8 +21,10 @@ class ControlViewController: NSViewController {
     @IBOutlet var distanceFunctionButton: BindablePopUpButton!
     @IBOutlet var rmaxButton: BindablePopUpButton!
     @IBOutlet var velocityHalfLifeSlider: BindableSlider!
+    @IBOutlet var velocityHalfLifeValueLabel: NSTextField!
     
     @IBOutlet var forceFactorSlider: BindableSlider!
+    @IBOutlet var forceFactorValueLabel: NSTextField!
     
     @IBOutlet var particleSizeSlider: BindableSlider!
     
@@ -103,12 +105,15 @@ class ControlViewController: NSViewController {
         
         velocityHalfLifeSlider.bind(&viewModel.$velocityHalfLife, range: viewModel.velocityHalfLifeRange)
             .store(in: &cancellables)
+        viewModel.$velocityHalfLife.map { String(format: "%dms", Int($0*1000)) }
+            .assign(to: \.stringValue, on: velocityHalfLifeValueLabel)
+            .store(in: &cancellables)
         
         forceFactorSlider.bind(&viewModel.$forceFactor, range: viewModel.forceFactorRange)
             .store(in: &cancellables)
         viewModel.$forceFactor
             .map { String(format: "%.2f", $0) }
-            .assign(to: \.toolTip, on: forceFactorSlider)
+            .assign(to: \.stringValue, on: forceFactorValueLabel)
             .store(in: &cancellables)
         
         // MARK: Other

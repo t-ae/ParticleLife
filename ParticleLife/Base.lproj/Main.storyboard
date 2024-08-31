@@ -537,18 +537,18 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8MZ-Dt-wUT">
-                                            <rect key="frame" x="10" y="124" width="112" height="16"/>
+                                            <rect key="frame" x="10" y="124" width="84" height="16"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="108" id="q8u-Gw-lFa"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="q8u-Gw-lFa"/>
                                             </constraints>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force function" id="osI-er-4u5">
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force fn" id="osI-er-4u5">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="125" y="118" width="135" height="25"/>
+                                            <rect key="frame" x="97" y="118" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -563,22 +563,22 @@
                                             </constraints>
                                         </popUpButton>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="261" y="118" width="25" height="25"/>
+                                            <rect key="frame" x="233" y="118" width="25" height="25"/>
                                             <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GLM-AQ-2z0">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0nx-v7-oKg">
-                                            <rect key="frame" x="10" y="96" width="112" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Distance function" id="XMw-2U-6YD">
+                                            <rect key="frame" x="10" y="96" width="84" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Distance fn" id="XMw-2U-6YD">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="125" y="90" width="135" height="25"/>
+                                            <rect key="frame" x="97" y="90" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -590,7 +590,7 @@
                                             </popUpButtonCell>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-B9-nq6">
-                                            <rect key="frame" x="10" y="68" width="112" height="16"/>
+                                            <rect key="frame" x="10" y="68" width="84" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Rmax" id="Dwe-hM-XIA">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -598,7 +598,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aar-TR-ARJ" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="125" y="62" width="135" height="25"/>
+                                            <rect key="frame" x="97" y="62" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="0.05" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="50" imageScaling="proportionallyDown" inset="2" selectedItem="Mdg-0a-eya" id="WNv-qU-4mp">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -616,15 +616,29 @@
                                             </popUpButtonCell>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-8H-i6c">
-                                            <rect key="frame" x="10" y="40" width="112" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Velocity half life" id="DtB-jh-T4d">
+                                            <rect key="frame" x="10" y="40" width="84" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Velocity HL" id="DtB-jh-T4d">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-LV-hfC" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
+                                            <rect key="frame" x="98" y="32" width="132" height="28"/>
+                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.01" maxValue="1" doubleValue="0.10000000000000001" tickMarkPosition="above" sliderType="linear" id="EtV-KL-76m">
+                                                <font key="font" size="12" name="Helvetica"/>
+                                            </sliderCell>
+                                        </slider>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mDy-2I-NnF">
+                                            <rect key="frame" x="234" y="40" width="45" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="100ms" id="SQL-3R-Xbu">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mfZ-VI-rxF">
-                                            <rect key="frame" x="10" y="12" width="112" height="16"/>
+                                            <rect key="frame" x="10" y="12" width="84" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force factor" id="ZLg-H9-z53">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -632,36 +646,40 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="126" y="4" width="160" height="28"/>
+                                            <rect key="frame" x="98" y="4" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="10" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="HAN-di-16a">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                         </slider>
-                                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-LV-hfC" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="126" y="32" width="132" height="28"/>
-                                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="EtV-KL-76m">
-                                                <font key="font" size="12" name="Helvetica"/>
-                                            </sliderCell>
-                                        </slider>
+                                        <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pr7-Cp-U2w">
+                                            <rect key="frame" x="234" y="12" width="22" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="1.0" id="uHf-aE-HLH">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="4HC-nF-jTh" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="trailing" constant="8" id="1yM-0U-bd2"/>
                                         <constraint firstItem="4TL-LV-hfC" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="4Yw-Gt-mh2"/>
                                         <constraint firstItem="YwS-B9-nq6" firstAttribute="top" secondItem="0nx-v7-oKg" secondAttribute="bottom" constant="12" id="5hc-c7-3pl"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="top" secondItem="8MZ-Dt-wUT" secondAttribute="bottom" constant="12" id="9If-r3-oGV"/>
-                                        <constraint firstItem="pGo-2X-nUn" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="DVZ-FU-FeX"/>
                                         <constraint firstItem="8MZ-Dt-wUT" firstAttribute="leading" secondItem="FGG-dr-vFy" secondAttribute="leading" constant="12" id="DyB-2M-rUg"/>
                                         <constraint firstItem="YwS-B9-nq6" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="EPh-RU-MYJ"/>
                                         <constraint firstItem="aar-TR-ARJ" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="H1H-eM-JaL"/>
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="JRa-16-K61"/>
+                                        <constraint firstItem="pr7-Cp-U2w" firstAttribute="centerY" secondItem="pGo-2X-nUn" secondAttribute="centerY" id="Jir-5w-sVe"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="KQt-8Q-of1"/>
                                         <constraint firstItem="lNS-yF-G5T" firstAttribute="centerY" secondItem="8MZ-Dt-wUT" secondAttribute="centerY" id="NEs-l8-HMO"/>
                                         <constraint firstItem="pGo-2X-nUn" firstAttribute="centerY" secondItem="mfZ-VI-rxF" secondAttribute="centerY" id="VEZ-o9-3oH"/>
                                         <constraint firstItem="4TL-LV-hfC" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="W94-9m-EB2"/>
                                         <constraint firstItem="lNS-yF-G5T" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" constant="8" id="X1t-Ju-E8l"/>
+                                        <constraint firstItem="pGo-2X-nUn" firstAttribute="leading" secondItem="lNS-yF-G5T" secondAttribute="leading" id="X3W-vL-q8X"/>
+                                        <constraint firstItem="pr7-Cp-U2w" firstAttribute="leading" secondItem="4HC-nF-jTh" secondAttribute="leading" id="X72-6D-FyN"/>
+                                        <constraint firstItem="mDy-2I-NnF" firstAttribute="leading" secondItem="4HC-nF-jTh" secondAttribute="leading" id="Xpc-iB-yge"/>
                                         <constraint firstItem="4HC-nF-jTh" firstAttribute="centerY" secondItem="lNS-yF-G5T" secondAttribute="centerY" id="YB2-vM-kAc"/>
                                         <constraint firstItem="4TL-LV-hfC" firstAttribute="centerY" secondItem="ohD-8H-i6c" secondAttribute="centerY" id="b13-8h-a3d"/>
-                                        <constraint firstItem="pGo-2X-nUn" firstAttribute="trailing" secondItem="4HC-nF-jTh" secondAttribute="trailing" id="bOe-tH-D6G"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="bcR-l0-dtl"/>
                                         <constraint firstItem="8MZ-Dt-wUT" firstAttribute="top" secondItem="FGG-dr-vFy" secondAttribute="top" constant="12" id="bqh-vP-hIu"/>
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="dXT-hM-G2p"/>
@@ -669,11 +687,13 @@
                                         <constraint firstItem="8b7-TM-vHR" firstAttribute="centerY" secondItem="0nx-v7-oKg" secondAttribute="centerY" id="lg6-5E-p15"/>
                                         <constraint firstItem="aar-TR-ARJ" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="mc8-Ok-gkJ"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="okY-Jr-8Zg"/>
+                                        <constraint firstItem="pGo-2X-nUn" firstAttribute="trailing" secondItem="lNS-yF-G5T" secondAttribute="trailing" id="qhL-fs-fkP"/>
                                         <constraint firstItem="ohD-8H-i6c" firstAttribute="top" secondItem="YwS-B9-nq6" secondAttribute="bottom" constant="12" id="sI0-7h-dC6"/>
                                         <constraint firstItem="mfZ-VI-rxF" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="sPi-90-k5E"/>
                                         <constraint firstItem="mfZ-VI-rxF" firstAttribute="trailing" secondItem="8MZ-Dt-wUT" secondAttribute="trailing" id="ucY-YW-6q7"/>
                                         <constraint firstItem="mfZ-VI-rxF" firstAttribute="top" secondItem="ohD-8H-i6c" secondAttribute="bottom" constant="12" id="vdx-08-VpM"/>
                                         <constraint firstItem="0nx-v7-oKg" firstAttribute="leading" secondItem="8MZ-Dt-wUT" secondAttribute="leading" id="wRb-oU-3ry"/>
+                                        <constraint firstItem="mDy-2I-NnF" firstAttribute="centerY" secondItem="4TL-LV-hfC" secondAttribute="centerY" id="xU4-fN-BFl"/>
                                         <constraint firstItem="aar-TR-ARJ" firstAttribute="centerY" secondItem="YwS-B9-nq6" secondAttribute="centerY" id="z11-TA-JPP"/>
                                     </constraints>
                                 </view>
@@ -791,6 +811,7 @@
                         <outlet property="distanceFunctionButton" destination="8b7-TM-vHR" id="oGi-pT-2fq"/>
                         <outlet property="fixSeedsCheck" destination="x1R-uf-ZXW" id="PK6-vm-BzH"/>
                         <outlet property="forceFactorSlider" destination="pGo-2X-nUn" id="xLt-Yn-aqA"/>
+                        <outlet property="forceFactorValueLabel" destination="pr7-Cp-U2w" id="l5g-qn-FOX"/>
                         <outlet property="forceFunctionButton" destination="lNS-yF-G5T" id="8Ag-HB-VWX"/>
                         <outlet property="forceFunctionHelpButton" destination="4HC-nF-jTh" id="rNd-p5-3Tb"/>
                         <outlet property="generateParticlesButton" destination="jsy-Yp-elp" id="JuM-X6-rNM"/>
@@ -801,6 +822,7 @@
                         <outlet property="playButton" destination="FjC-ua-HJt" id="DPz-E2-qOT"/>
                         <outlet property="rmaxButton" destination="aar-TR-ARJ" id="xXb-vW-vOP"/>
                         <outlet property="velocityHalfLifeSlider" destination="4TL-LV-hfC" id="TJY-CD-NjM"/>
+                        <outlet property="velocityHalfLifeValueLabel" destination="mDy-2I-NnF" id="lEK-2f-J7h"/>
                     </connections>
                 </viewController>
                 <customObject id="FqP-i5-WUy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
