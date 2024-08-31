@@ -5,7 +5,8 @@ import MetalKit
 final class ParticleLifeController: NSObject, MTKViewDelegate {
     var delegate: ParticleLifeControllerDelegate?
     
-    let commandQueue: MTLCommandQueue
+    let updateCommandQueue: MTLCommandQueue
+    let drawCommandQueue: MTLCommandQueue
     let updateVelocityState: MTLComputePipelineState
     let updatePositionState: MTLComputePipelineState
     let renderPipelineState: MTLRenderPipelineState
@@ -24,10 +25,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     var transform = Transform(center: .zero, zoom: 1)
     
     init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
-        guard let commandQueue = device.makeCommandQueue() else {
-            throw MessageError("makeCommandQueue failed.")
-        }
-        self.commandQueue = commandQueue
+        self.updateCommandQueue = try device.makeCommandQueue().orThrow("makeCommandQueue failed.")
+        self.drawCommandQueue = try device.makeCommandQueue().orThrow("makeCommandQueue failed.")
         
         guard let library = device.makeDefaultLibrary() else {
             throw MessageError("makeDefaultLibrary failed.")
@@ -83,9 +82,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         if !updateLoopStarted {
             updateLoopStarted = true
-            Task {
-                await updateParticles()
-            }
+            updateParticles()
         }
     }
     
@@ -100,7 +97,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     private var updateCount = 0
     private var lastNotify = Date()
     
-    @MainActor
     func updateParticles() {
         let now = Date()
         var dt = Float(now.timeIntervalSince(lastUpdate))
@@ -109,7 +105,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         let interval = now.timeIntervalSince(lastNotify)
         if interval > 0.5 {
             let ups = Float(updateCount) / Float(interval)
-            delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+            Task { @MainActor in
+                delegate?.particleLifeController(self, notifyUpdatePerSecond: ups)
+            }
             updateCount = 0
             lastNotify = now
         }
@@ -125,7 +123,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         updateCount += 1
         
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
         
@@ -136,14 +134,15 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updateVelocityState
             computeEncoder.label = "updateVelocity"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.currentBuffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.nextBuffer, offset: 0, index: 1)
             var particleCount = UInt32(particleHolder.count)
-            computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
+            computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
             var colorCount = UInt32(Color.allCases.count)
-            computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
-            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 3)
-            computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
-            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
+            computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
+            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 4)
+            computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 5)
+            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 6)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.count, height: 1, depth: 1),
@@ -158,7 +157,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updatePositionState
             computeEncoder.label = "updatePosition"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.nextBuffer, offset: 0, index: 0)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
@@ -168,8 +167,12 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.endEncoding()
         }
         
+        let semaphore = particleHolder.nextSemaphore
+        semaphore.wait()
         commandBuffer.addCompletedHandler { commandBuffer in
             Task {
+                self.particleHolder.advanceBufferIndex()
+                semaphore.signal()
                 self.updateParticles()
             }
         }
@@ -180,7 +183,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     let rgbs = Color.allCases.map { $0.rgb }
     
     func draw(in view: MTKView) {
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = drawCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
         
@@ -196,7 +199,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particleHolder.buffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particleHolder.currentBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
@@ -213,6 +216,12 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         if let drawable = view.currentDrawable {
             commandBuffer.present(drawable)
+        }
+        
+        let semaphore = particleHolder.currentSemaphore
+        semaphore.wait()
+        commandBuffer.addCompletedHandler { _ in
+            semaphore.signal()
         }
         
         commandBuffer.commit()

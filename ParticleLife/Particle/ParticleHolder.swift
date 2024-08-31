@@ -1,4 +1,3 @@
-import Foundation
 import Metal
 
 final class ParticleHolder {
@@ -9,15 +8,40 @@ final class ParticleHolder {
     @Published
     private(set) var colorCount: Int = Color.allCases.count
     
-    let buffer: MTLBuffer
+    let buffers: [MTLBuffer]
+    let semaphores: [DispatchSemaphore]
+    
+    private var currentBufferIndex = 0
+    private var nextBufferIndex = 1
     
     var isEmpty: Bool { count == 0 }
     
     init(device: MTLDevice) throws {
         let length: Int = MemoryLayout<Particle>.size * Self.maxCount
-        self.buffer = try device.makeBuffer(length: length, options: .storageModeShared)
-            .orThrow("Failed to make particle buffer")
-        buffer.label = "particle_buffer"
+        self.buffers = try (0..<3).map {
+            let buffer = try device.makeBuffer(length: length, options: .storageModeShared)
+                .orThrow("Failed to make particle buffer")
+            buffer.label = "particle_buffer_\($0)"
+            return buffer
+        }
+        self.semaphores = (0..<3).map { _ in DispatchSemaphore(value: 1) }
+    }
+    
+    var currentBuffer: MTLBuffer { buffers[currentBufferIndex] }
+    var nextBuffer: MTLBuffer { buffers[nextBufferIndex] }
+    
+    var currentSemaphore: DispatchSemaphore { semaphores[currentBufferIndex] }
+    var nextSemaphore: DispatchSemaphore { semaphores[nextBufferIndex] }
+    
+    func advanceBufferIndex() {
+        currentBufferIndex += 1
+        if currentBufferIndex >= 3 {
+            currentBufferIndex = 0
+        }
+        nextBufferIndex += 1
+        if nextBufferIndex >= 3 {
+            nextBufferIndex = 0
+        }
     }
     
     func setCount(count: Int, colorCount: Int) throws {
@@ -32,7 +56,7 @@ final class ParticleHolder {
     }
     
     var bufferPointer: UnsafeMutableBufferPointer<Particle> {
-        UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * count)
+        UnsafeMutableRawBufferPointer(start: currentBuffer.contents(), count: MemoryLayout<Particle>.size * count)
             .bindMemory(to: Particle.self)
     }
     

@@ -52,12 +52,13 @@ float linfDistance(float2 vector) {
 
 // MARK: - Kernel functions
 kernel void
-updateVelocity(device Particle* particles [[ buffer(0) ]],
-               constant uint32_t *particleCount [[ buffer(1) ]],
-               constant uint32_t *colorCount [[ buffer(2) ]],
-               constant float* attractionMatrix [[ buffer(3) ]],
-               constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(4) ]],
-               constant float *dt [[ buffer(5) ]],
+updateVelocity(const device Particle* in [[ buffer(0) ]],
+               device Particle* out [[ buffer(1) ]],
+               constant uint32_t *particleCount [[ buffer(2) ]],
+               constant uint32_t *colorCount [[ buffer(3) ]],
+               constant float* attractionMatrix [[ buffer(4) ]],
+               constant VelocityUpdateSetting *velocityUpdateSetting [[ buffer(5) ]],
+               constant float *dt [[ buffer(6) ]],
                const uint32_t gid [[ thread_position_in_grid ]])
 {
     float rmax = velocityUpdateSetting->rmax;
@@ -85,29 +86,31 @@ updateVelocity(device Particle* particles [[ buffer(0) ]],
         return;
     }
     
-    float2 position = particles[gid].position;
-    constant float* attractionRow = attractionMatrix + particles[gid].color * *colorCount;
+    float2 position = in[gid].position;
+    constant float* attractionRow = attractionMatrix + in[gid].color * *colorCount;
     
     float2 accel(0, 0);
     for(uint i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
-        float2 vector = wrap(particles[i].position - position, 1);
+        float2 vector = wrap(in[i].position - position, 1);
         
         if(!(linfDistance(vector) < rmax)) {
             // Ignore too large distance and NaN.
             continue;
         }
         
-        float attraction = attractionRow[particles[i].color];
+        float attraction = attractionRow[in[i].color];
         float distance = distanceFunction(vector);
         
         float f = forceFunction(distance/rmax, attraction);
         accel += f / distance * vector;
     }
     
-    particles[gid].velocity *= pow(0.5, *dt/velocityHalfLife); // friction
-    particles[gid].velocity += rmax * accel * velocityUpdateSetting->forceFactor * *dt;
+    out[gid].position = in[gid].position;
+    out[gid].color = in[gid].color;
+    out[gid].velocity = in[gid].velocity * pow(0.5, *dt/velocityHalfLife); // friction
+    out[gid].velocity += rmax * accel * velocityUpdateSetting->forceFactor * *dt;
 }
 
 kernel void
