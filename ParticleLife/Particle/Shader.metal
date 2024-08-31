@@ -90,7 +90,7 @@ updateVelocity(const device Particle* in [[ buffer(0) ]],
     constant float* attractionRow = attractionMatrix + in[gid].color * *colorCount;
     
     float2 accel(0, 0);
-    for(uint i = 0 ; i < *particleCount ; i++) {
+    for(uint32_t i = 0 ; i < *particleCount ; i++) {
         if(i == gid) continue;
         
         float2 vector = wrap(in[i].position - position, 1);

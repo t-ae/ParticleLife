@@ -4,7 +4,7 @@
 #define particle_h
 
 typedef struct {
-    uint color;
+    uint32_t color;
     simd_float2 position;
     simd_float2 velocity;
 } Particle;
