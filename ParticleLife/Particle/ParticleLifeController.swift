@@ -96,7 +96,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     func updateLoop() {
         var updateCount = 0
         var lastNotify = Date()
-        let loopSemaphore = DispatchSemaphore(value: 0)
         
         DispatchQueue.global().async { [unowned self] in
             while true {
@@ -121,8 +120,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                     nextSemaphore.signal()
                 } else {
                     updateCount += 1
-                    updateParticles(dt: dt, loopSepaphore: loopSemaphore)
-                    loopSemaphore.wait() // Wait until updateParticles is completed
+                    updateParticles(dt: dt)
                     particleHolder.advanceBufferIndex() // After updateParticles is completed
                     nextSemaphore.signal() // Release buffer
                 }
@@ -131,7 +129,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     }
     
     /// Update particleHolder.nextBuffer based on particleHolder.currentBuffer.
-    func updateParticles(dt: Float, loopSepaphore: DispatchSemaphore) {
+    func updateParticles(dt: Float) {
         assert(!isPaused && !particleHolder.isEmpty)
         
         guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
@@ -180,11 +178,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.endEncoding()
         }
         
-        commandBuffer.addCompletedHandler { commandBuffer in
-            loopSepaphore.signal() // Notify update complete
-        }
-        
         commandBuffer.commit()
+        
+        commandBuffer.waitUntilCompleted()
     }
     
     let rgbs = Color.allCases.map { $0.rgb }
