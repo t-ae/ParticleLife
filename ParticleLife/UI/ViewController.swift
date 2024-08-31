@@ -167,7 +167,7 @@ class ViewController: NSViewController {
             let content = particleLifeController.dumpParameters()
             appDelegate.openDumpModal(title: "Parameters", content: content)
         case ("s", true):
-            let content = particleLifeController.dumpStatistics()
+            let content = particleLifeController.particleHolder.dumpStatistics()
             appDelegate.openDumpModal(title: "Statistics", content: content)
         case ("c", true):
             openCommandWindow()

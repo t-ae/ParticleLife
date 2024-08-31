@@ -123,6 +123,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         updateCount += 1
         
+        let semaphore = particleHolder.nextSemaphore()
+        semaphore.wait() // Wait before touching buffers
+        
         guard let commandBuffer = updateCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
@@ -134,8 +137,8 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updateVelocityState
             computeEncoder.label = "updateVelocity"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.currentBuffer, offset: 0, index: 0)
-            computeEncoder.setBuffer(particleHolder.nextBuffer, offset: 0, index: 1)
+            computeEncoder.setBuffer(particleHolder.currentBuffer(), offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.nextBuffer(), offset: 0, index: 1)
             var particleCount = UInt32(particleHolder.count)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
             var colorCount = UInt32(Color.allCases.count)
@@ -157,7 +160,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             let state = updatePositionState
             computeEncoder.label = "updatePosition"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(particleHolder.nextBuffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.nextBuffer(), offset: 0, index: 0)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
@@ -167,8 +170,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.endEncoding()
         }
         
-        let semaphore = particleHolder.nextSemaphore
-        semaphore.wait()
         commandBuffer.addCompletedHandler { commandBuffer in
             Task {
                 self.particleHolder.advanceBufferIndex()
@@ -183,6 +184,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     let rgbs = Color.allCases.map { $0.rgb }
     
     func draw(in view: MTKView) {
+        let semaphore = particleHolder.currentSemaphore()
+        semaphore.wait()
+        
         guard let commandBuffer = drawCommandQueue.makeCommandBuffer() else {
             fatalError("makeCommandBuffer failed.")
         }
@@ -199,7 +203,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particleHolder.currentBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particleHolder.currentBuffer(), offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
@@ -218,8 +222,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             commandBuffer.present(drawable)
         }
         
-        let semaphore = particleHolder.currentSemaphore
-        semaphore.wait()
         commandBuffer.addCompletedHandler { _ in
             semaphore.signal()
         }
@@ -237,33 +239,6 @@ extension ParticleLifeController {
         velocityUpdateSetting: \(velocityUpdateSetting)
         particleSize: \(particleSize)
         """
-    }
-    
-    func dumpStatistics() -> String {
-        var nanCout = 0
-        var infiniteCount = 0
-        var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
-        
-        let buffer = particleHolder.bufferPointer
-        for particle in buffer {
-            if particle.hasNaN { nanCout += 1 }
-            if particle.hasInfinite { infiniteCount += 1 }
-            colorCounts[Int(particle.color)] += 1
-        }
-        
-        var strs = [String]()
-        strs.append("particleCount: \(particleHolder.count)")
-        for color in Color.allCases {
-            strs.append("- \(color): \(colorCounts[color.intValue])")
-        }
-        
-        strs.append("""
-
-        NaN: \(nanCout)
-        Infinite: \(infiniteCount)
-        """)
-        
-        return strs.joined(separator: "\n")
     }
 }
 
