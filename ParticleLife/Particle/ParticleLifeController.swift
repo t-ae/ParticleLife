@@ -106,6 +106,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 }
                 
                 if isPaused || particleHolder.isEmpty {
+                    usleep(1000)
                     semaphore.signal()
                 } else {
                     updateCount += 1
