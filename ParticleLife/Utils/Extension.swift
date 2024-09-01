@@ -46,18 +46,11 @@ extension NSTextField {
     }
 }
 
-extension NSRect {
-    var center: CGPoint {
-        get {
-            .init(x: origin.x + size.width/2, y: origin.y + size.height/2)
-        }
-        set {
-            origin = .init(x: newValue.x - size.width/2 , y: newValue.y - size.height/2)
-        }
-    }
-}
-
 extension SIMD2<Float> {
+    init(_ point: CGPoint) {
+        self.init(x: Float(point.x), y: Float(point.y))
+    }
+    
     // wrap x/y into [-max, max) range.
     func wrapped(max: Int) -> SIMD2<Float> {
         let maxf = Float(max)
@@ -67,8 +60,25 @@ extension SIMD2<Float> {
         )
     }
     
-    init(_ point: CGPoint) {
-        self.init(x: Float(point.x), y: Float(point.y))
+    static func random(in range: Range<Float>) -> Self {
+        var g = SystemRandomNumberGenerator()
+        return .random(in: range, using: &g)
     }
+    
+    static func random<T: RandomNumberGenerator>(in range: Range<Float>, using generator: inout T) -> Self {
+        .random(in: range, range, using: &generator)
+    }
+    
+    static func random(in xrange: Range<Float>, _ yrange: Range<Float>) -> Self {
+        var g = SystemRandomNumberGenerator()
+        return .random(in: xrange, yrange, using: &g)
+    }
+    
+    static func random<T: RandomNumberGenerator>(in xrange: Range<Float>, _ yrange: Range<Float>, using generator: inout T) -> Self {
+        .init(.random(in: xrange, using: &generator), .random(in: yrange, using: &generator))
+    }
+    
+    var hasNaN: Bool { x.isNaN || y.isNaN }
+    var hasInfinite: Bool { x.isInfinite || y.isInfinite }
 }
 
