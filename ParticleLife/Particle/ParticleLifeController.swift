@@ -143,7 +143,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.label = "updateVelocity[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
             computeEncoder.setBuffer(currentBuffer, offset: 0, index: 0)
-            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.stride, index: 0)
             computeEncoder.setBuffer(nextBuffer, offset: 0, index: 1)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
             computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
@@ -164,7 +163,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.label = "updatePosition[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
             computeEncoder.setBuffer(nextBuffer, offset: 0, index: 0)
-            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.stride, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.particleCount, height: 1, depth: 1),
