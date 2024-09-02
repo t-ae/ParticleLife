@@ -90,7 +90,7 @@ final class ViewModel {
     }
     
     // MARK: Other
-    let particleSizeRange: ClosedRange<Float> = 1...10
+    let particleSizeRange: ClosedRange<Float> = 1...15
     
     @Published
     var particleSize: Float = 5

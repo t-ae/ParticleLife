@@ -122,10 +122,6 @@ class ControlViewController: NSViewController {
         // MARK: Other
         particleSizeSlider.bind(&viewModel.$particleSize, range: viewModel.particleSizeRange)
             .store(in: &cancellables)
-        viewModel.$particleSize
-            .map { String(format: "%.2f", $0) }
-            .assign(to: \.toolTip, on: particleSizeSlider)
-            .store(in: &cancellables)
         
         // MARK: Control
         playButton.bind {

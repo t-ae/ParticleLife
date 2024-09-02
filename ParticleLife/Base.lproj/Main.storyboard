@@ -357,13 +357,13 @@
             <objects>
                 <viewController storyboardIdentifier="ControlViewController" id="3gE-1T-kfi" customClass="ControlViewController" customModule="ParticleLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VM6-R2-6ON">
-                        <rect key="frame" x="0.0" y="0.0" width="324" height="860"/>
+                        <rect key="frame" x="0.0" y="0.0" width="344" height="860"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box title="Particle setting" translatesAutoresizingMaskIntoConstraints="NO" id="h0u-zC-dyS">
-                                <rect key="frame" x="9" y="700" width="306" height="148"/>
+                                <rect key="frame" x="9" y="700" width="326" height="148"/>
                                 <view key="contentView" id="czC-Pt-JhJ">
-                                    <rect key="frame" x="4" y="5" width="298" height="128"/>
+                                    <rect key="frame" x="4" y="5" width="318" height="128"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ucv-lo-LLS">
@@ -441,7 +441,7 @@
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsy-Yp-elp" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="203" y="3" width="90" height="32"/>
+                                            <rect key="frame" x="223" y="3" width="90" height="32"/>
                                             <buttonCell key="cell" type="push" title="Generate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C7G-xd-6fN">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -473,17 +473,17 @@
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="144" id="639-YY-qEv"/>
-                                    <constraint firstAttribute="width" constant="300" id="zlV-Ss-C5X"/>
+                                    <constraint firstAttribute="width" constant="320" id="zlV-Ss-C5X"/>
                                 </constraints>
                             </box>
                             <box title="Attraction" translatesAutoresizingMaskIntoConstraints="NO" id="Goo-8Y-qmM">
-                                <rect key="frame" x="10" y="348" width="304" height="348"/>
+                                <rect key="frame" x="10" y="328" width="324" height="368"/>
                                 <view key="contentView" id="uRI-GH-At4">
-                                    <rect key="frame" x="4" y="5" width="296" height="328"/>
+                                    <rect key="frame" x="4" y="5" width="316" height="348"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="VBU-da-5gg" customClass="AttractionMatrixView" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="40" width="280" height="280"/>
+                                            <rect key="frame" x="8" y="40" width="300" height="300"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="VBU-da-5gg" secondAttribute="height" multiplier="1:1" id="Z6S-pi-Kfa"/>
                                             </constraints>
@@ -496,7 +496,7 @@
                                             </buttonCell>
                                         </button>
                                         <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Update" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-A2-901" customClass="BindableComboButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="173" y="10" width="61" height="24"/>
+                                            <rect key="frame" x="193" y="10" width="61" height="24"/>
                                             <menu key="menu" id="LDS-3E-AgY">
                                                 <items>
                                                     <menuItem title="Item" id="tTb-bx-Prw">
@@ -506,7 +506,7 @@
                                             </menu>
                                         </comboButton>
                                         <comboButton verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="center" title="Preset" imageScaling="proportionallyDown" style="unified" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-CS-md8" customClass="BindableComboButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="236" y="10" width="55" height="24"/>
+                                            <rect key="frame" x="256" y="10" width="55" height="24"/>
                                             <menu key="menu" id="91A-RG-Uwc">
                                                 <items>
                                                     <menuItem title="Item" id="gRe-aE-ZZx">
@@ -531,24 +531,24 @@
                                 </view>
                             </box>
                             <box title="Velocity update rule" translatesAutoresizingMaskIntoConstraints="NO" id="wSm-jq-enh">
-                                <rect key="frame" x="11" y="172" width="304" height="172"/>
+                                <rect key="frame" x="11" y="152" width="324" height="172"/>
                                 <view key="contentView" id="FGG-dr-vFy">
-                                    <rect key="frame" x="4" y="5" width="296" height="152"/>
+                                    <rect key="frame" x="4" y="5" width="316" height="152"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8MZ-Dt-wUT">
-                                            <rect key="frame" x="10" y="124" width="84" height="16"/>
+                                            <rect key="frame" x="10" y="124" width="114" height="16"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="q8u-Gw-lFa"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="q8u-Gw-lFa"/>
                                             </constraints>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force fn" id="osI-er-4u5">
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force function" id="osI-er-4u5">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNS-yF-G5T" userLabel="force function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="97" y="118" width="135" height="25"/>
+                                            <rect key="frame" x="127" y="118" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -563,22 +563,22 @@
                                             </constraints>
                                         </popUpButton>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4HC-nF-jTh" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="233" y="118" width="25" height="25"/>
+                                            <rect key="frame" x="263" y="118" width="25" height="25"/>
                                             <buttonCell key="cell" type="help" bezelStyle="helpButton" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GLM-AQ-2z0">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </button>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0nx-v7-oKg">
-                                            <rect key="frame" x="10" y="96" width="84" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Distance fn" id="XMw-2U-6YD">
+                                            <rect key="frame" x="10" y="96" width="114" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Distance function" id="XMw-2U-6YD">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8b7-TM-vHR" userLabel="distance function" customClass="BindablePopUpButton" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="97" y="90" width="135" height="25"/>
+                                            <rect key="frame" x="127" y="90" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -590,7 +590,7 @@
                                             </popUpButtonCell>
                                         </popUpButton>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-B9-nq6">
-                                            <rect key="frame" x="10" y="68" width="84" height="16"/>
+                                            <rect key="frame" x="10" y="68" width="114" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Rmax" id="Dwe-hM-XIA">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -598,13 +598,13 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AZo-mS-Wcm" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="98" y="60" width="132" height="28"/>
+                                            <rect key="frame" x="128" y="60" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-3" tickMarkPosition="above" sliderType="linear" id="GuN-p0-Pap">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                         </slider>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Tmk-Ne-Ubq">
-                                            <rect key="frame" x="234" y="68" width="29" height="16"/>
+                                            <rect key="frame" x="264" y="68" width="29" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" continuous="YES" title="0.01" id="8X6-4k-p9M">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -612,21 +612,21 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ohD-8H-i6c">
-                                            <rect key="frame" x="10" y="40" width="84" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Velocity HL" id="DtB-jh-T4d">
+                                            <rect key="frame" x="10" y="40" width="114" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Velocity Half Life" id="DtB-jh-T4d">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-LV-hfC" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="98" y="32" width="132" height="28"/>
+                                            <rect key="frame" x="128" y="32" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.01" maxValue="1" doubleValue="0.10000000000000001" tickMarkPosition="above" sliderType="linear" id="EtV-KL-76m">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                         </slider>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mDy-2I-NnF">
-                                            <rect key="frame" x="234" y="40" width="45" height="16"/>
+                                            <rect key="frame" x="264" y="40" width="45" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="100ms" id="SQL-3R-Xbu">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -634,7 +634,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mfZ-VI-rxF">
-                                            <rect key="frame" x="10" y="12" width="84" height="16"/>
+                                            <rect key="frame" x="10" y="12" width="114" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Force factor" id="ZLg-H9-z53">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -642,13 +642,13 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pGo-2X-nUn" customClass="LogScaleSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="98" y="4" width="132" height="28"/>
+                                            <rect key="frame" x="128" y="4" width="132" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="10" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="HAN-di-16a">
                                                 <font key="font" size="12" name="Helvetica"/>
                                             </sliderCell>
                                         </slider>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pr7-Cp-U2w">
-                                            <rect key="frame" x="234" y="12" width="22" height="16"/>
+                                            <rect key="frame" x="264" y="12" width="22" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="1.0" id="uHf-aE-HLH">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -700,13 +700,13 @@
                                 </constraints>
                             </box>
                             <box title="Other" translatesAutoresizingMaskIntoConstraints="NO" id="XbP-Lb-uGx">
-                                <rect key="frame" x="12" y="78" width="302" height="90"/>
+                                <rect key="frame" x="12" y="84" width="322" height="64"/>
                                 <view key="contentView" id="8WL-dt-aMO">
-                                    <rect key="frame" x="4" y="5" width="294" height="70"/>
+                                    <rect key="frame" x="4" y="5" width="314" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wz9-5f-U8I">
-                                            <rect key="frame" x="18" y="42" width="78" height="16"/>
+                                            <rect key="frame" x="18" y="16" width="78" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Particle size" id="o02-6F-ind">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -714,7 +714,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="txD-IE-NLz" customClass="BindableSlider" customModule="ParticleLife" customModuleProvider="target">
-                                            <rect key="frame" x="100" y="34" width="164" height="28"/>
+                                            <rect key="frame" x="100" y="8" width="164" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="160" id="P8A-PO-cEO"/>
                                             </constraints>
@@ -731,17 +731,17 @@
                                     </constraints>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="86" id="fUK-ex-WFJ"/>
+                                    <constraint firstAttribute="height" constant="60" id="fUK-ex-WFJ"/>
                                 </constraints>
                             </box>
                             <box title="Control" translatesAutoresizingMaskIntoConstraints="NO" id="00z-vB-JRj">
-                                <rect key="frame" x="13" y="10" width="300" height="64"/>
+                                <rect key="frame" x="13" y="16" width="320" height="64"/>
                                 <view key="contentView" id="aOu-GA-mhH">
-                                    <rect key="frame" x="4" y="5" width="292" height="44"/>
+                                    <rect key="frame" x="4" y="5" width="312" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <stackView distribution="equalSpacing" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DfH-er-Rkd">
-                                            <rect key="frame" x="46" y="12" width="200" height="20"/>
+                                            <rect key="frame" x="56" y="12" width="200" height="20"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FjC-ua-HJt" customClass="BindableButton" customModule="ParticleLife" customModuleProvider="target">
                                                     <rect key="frame" x="-7" y="-7" width="60" height="32"/>
@@ -826,7 +826,7 @@
                 </viewController>
                 <customObject id="FqP-i5-WUy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="676" y="968"/>
+            <point key="canvasLocation" x="676" y="959"/>
         </scene>
         <!--Dump View Controller-->
         <scene sceneID="qaX-Ac-B7M">
