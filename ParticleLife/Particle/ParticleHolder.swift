@@ -5,7 +5,7 @@ final class ParticleHolder {
     static let maxCount: Int = 65536
     
     @Published
-    private(set) var count: Int = 0
+    private(set) var particleCount: Int = 0
     @Published
     private(set) var colorCount: Int = Color.allCases.count
     
@@ -14,7 +14,7 @@ final class ParticleHolder {
     var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
     let semaphore = DispatchSemaphore(value: 1)
     
-    var isEmpty: Bool { count == 0 }
+    var isEmpty: Bool { particleCount == 0 }
     
     init(device: MTLDevice) throws {
         let length: Int = MemoryLayout<Particle>.size * Self.maxCount
@@ -28,17 +28,6 @@ final class ParticleHolder {
     
     func advanceBufferIndex() {
         currentBufferIndex = (currentBufferIndex+1) % Self.bufferCount
-    }
-    
-    func setCount(count: Int, colorCount: Int) throws {
-        guard 0...Self.maxCount ~= count else {
-            throw MessageError("Particle count must be in range [0, \(Self.maxCount)].")
-        }
-        guard 1...Color.allCases.count ~= colorCount else {
-            throw MessageError("Color count must be in range [1, \(Color.allCases.count)].")
-        }
-        self.count = count
-        self.colorCount = colorCount
     }
     
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
@@ -58,7 +47,7 @@ final class ParticleHolder {
         }
         
         update { bufferPointer in
-            self.count = particles.count
+            self.particleCount = particles.count
             self.colorCount = colorCount
             
             for i in 0..<particles.count {
@@ -68,13 +57,13 @@ final class ParticleHolder {
     }
     
     func addParticle(_ particle: Particle) {
-        guard count < Self.maxCount-1 else {
+        guard particleCount < Self.maxCount-1 else {
             return
         }
         
         update { bufferPointer in
-            bufferPointer[count] = particle
-            count += 1
+            bufferPointer[particleCount] = particle
+            particleCount += 1
         }
     }
     
@@ -82,7 +71,7 @@ final class ParticleHolder {
         update { bufferPointer in 
             var minimumIndex = -1
             var minimumDistance = radius
-            for i in 0..<count {
+            for i in 0..<particleCount {
                 let v = bufferPointer[i].position - center
                 let distance = length(v.wrapped(max: 1))
                 
@@ -92,10 +81,10 @@ final class ParticleHolder {
                 }
             }
             if minimumIndex >= 0 {
-                if minimumIndex != count-1 {
-                    swap(&bufferPointer[minimumIndex], &bufferPointer[count-1])
+                if minimumIndex != particleCount-1 {
+                    swap(&bufferPointer[minimumIndex], &bufferPointer[particleCount-1])
                 }
-                count -= 1
+                particleCount -= 1
             }
         }
     }
@@ -109,7 +98,7 @@ final class ParticleHolder {
         defer { semaphore.signal() }
         
         let buffer = buffers[currentBufferIndex]
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * count)
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * particleCount)
             .bindMemory(to: Particle.self)
         for particle in bufferPointer {
             if particle.hasNaN { nanCout += 1 }
@@ -118,7 +107,7 @@ final class ParticleHolder {
         }
         
         var strs = [String]()
-        strs.append("particleCount: \(count)")
+        strs.append("particleCount: \(particleCount)")
         for color in Color.allCases {
             strs.append("- \(color): \(colorCounts[color.intValue])")
         }

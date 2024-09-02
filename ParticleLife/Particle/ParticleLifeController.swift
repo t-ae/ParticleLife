@@ -132,7 +132,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         let nextBuffer = particleHolder.buffers[nextBufferIndex]
         
         var dt = dt
-        var particleCount = UInt32(particleHolder.count)
+        var particleCount = UInt32(particleHolder.particleCount)
         var colorCount = UInt32(Color.allCases.count)
         
         do {
@@ -151,7 +151,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 6)
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.dispatchThreads(
-                .init(width: particleHolder.count, height: 1, depth: 1),
+                .init(width: particleHolder.particleCount, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
             )
             computeEncoder.endEncoding()
@@ -167,7 +167,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
-                .init(width: particleHolder.count, height: 1, depth: 1),
+                .init(width: particleHolder.particleCount, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
             )
             computeEncoder.endEncoding()
@@ -185,11 +185,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             fatalError("makeCommandBuffer failed.")
         }
         
-        let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable?.texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .clear
-        renderPassDescriptor.colorAttachments[0].clearColor = .init(red: 0, green: 0, blue: 0, alpha: 0)
-        renderPassDescriptor.colorAttachments[0].storeAction = .store
+        guard let renderPassDescriptor = view.currentRenderPassDescriptor else {
+            fatalError("currentRenderPassDescriptor is nil.")
+        }
         
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
             fatalError("makeRenderCommandEncoder failed.")
@@ -209,7 +207,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             for x: Float in [-2, 0, 2] {
                 var offsets = SIMD2<Float>(x: x, y: y)
                 renderEncoder.setVertexBytes(&offsets, length: MemoryLayout<SIMD2<Float>>.size, index: 4)
-                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleHolder.count)
+                renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: particleHolder.particleCount)
             }
         }
         

@@ -175,7 +175,7 @@ class ViewController: NSViewController {
 extension ViewController: ParticleLifeControllerDelegate {
     func particleLifeController(_ particleLifeController: ParticleLifeController, notifyUpdatePerSecond updatePerSeond: Float) {
          self.view.window?.title = String(format: "Particle Life (%d particles | %.1f update/sec)", 
-                                          particleLifeController.particleHolder.count,
+                                          particleLifeController.particleHolder.particleCount,
                                           updatePerSeond)
     }
 }
