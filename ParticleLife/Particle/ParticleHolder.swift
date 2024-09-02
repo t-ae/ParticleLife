@@ -50,9 +50,7 @@ final class ParticleHolder {
             self.particleCount = particles.count
             self.colorCount = colorCount
             
-            for i in 0..<particles.count {
-                bufferPointer[i] = particles[i]
-            }
+            memcpy(bufferPointer.baseAddress, particles, MemoryLayout<Particle>.stride * particles.count)
         }
     }
     
