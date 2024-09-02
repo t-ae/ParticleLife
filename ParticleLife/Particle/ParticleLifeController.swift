@@ -143,13 +143,13 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.label = "updateVelocity[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
             computeEncoder.setBuffer(currentBuffer, offset: 0, index: 0)
+            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.stride, index: 0)
             computeEncoder.setBuffer(nextBuffer, offset: 0, index: 1)
             computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
             computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
-            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.size * attractionMatrix.elements.count, index: 4)
+            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.stride * attractionMatrix.elements.count, index: 4)
             computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 5)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 6)
-            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.particleCount, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
@@ -164,7 +164,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.label = "updatePosition[\(nextBufferIndex)]"
             computeEncoder.setComputePipelineState(state)
             computeEncoder.setBuffer(nextBuffer, offset: 0, index: 0)
-            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.size, index: 0)
+            computeEncoder.setThreadgroupMemoryLength(state.threadExecutionWidth * MemoryLayout<Particle>.stride, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.particleCount, height: 1, depth: 1),
@@ -199,7 +199,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         renderEncoder.label = "renderParticles[\(bufferIndex)]"
         renderEncoder.setRenderPipelineState(renderPipelineState)
         renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0)
-        renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.size * rgbs.count, index: 1)
+        renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.stride * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
         renderEncoder.setVertexBytes(&viewportSize, length: MemoryLayout<SIMD2<Float>>.size, index: 5)

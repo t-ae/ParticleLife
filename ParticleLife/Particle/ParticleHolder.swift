@@ -17,7 +17,7 @@ final class ParticleHolder {
     var isEmpty: Bool { particleCount == 0 }
     
     init(device: MTLDevice) throws {
-        let length: Int = MemoryLayout<Particle>.size * Self.maxCount
+        let length: Int = MemoryLayout<Particle>.stride * Self.maxCount
         self.buffers = try (0..<Self.bufferCount).map {
             let buffer = try device.makeBuffer(length: length, options: .storageModeShared)
                 .orThrow("Failed to make particle buffer")
@@ -34,7 +34,7 @@ final class ParticleHolder {
         semaphore.wait()
         
         let buffer = buffers[currentBufferIndex]
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * Self.maxCount)
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
         
@@ -98,7 +98,7 @@ final class ParticleHolder {
         defer { semaphore.signal() }
         
         let buffer = buffers[currentBufferIndex]
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.size * particleCount)
+        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * particleCount)
             .bindMemory(to: Particle.self)
         for particle in bufferPointer {
             if particle.hasNaN { nanCout += 1 }
