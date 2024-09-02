@@ -85,8 +85,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         var updateCount = 0
         var lastNotify = Date()
         
-        
-        DispatchQueue.global().async { [unowned self] in
+        let thread = Thread { [unowned self] in
             while true {
                 let semaphore = particleHolder.semaphore
                 semaphore.wait() // Wait until next buffer is available
@@ -116,6 +115,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 }
             }
         }
+        thread.start()
     }
     
     /// Update particleHolder.nextBuffer based on particleHolder.currentBuffer.
