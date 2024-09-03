@@ -10,7 +10,7 @@ class AttractionMatrixView: NSView {
         }
     }
     
-    var gap: CGFloat = 4 {
+    var gap: CGFloat = 3 {
         didSet {
             needsLayout = true
         }
@@ -90,8 +90,9 @@ class AttractionMatrixView: NSView {
     }
     
     override func layout() {
-        let w = (bounds.width - CGFloat(colorCount)*gap) / CGFloat(colorCount+1)
-        let h = (bounds.height - CGFloat(colorCount)*gap) / CGFloat(colorCount+1)
+        let headerSizeRatio: CGFloat = 0.6
+        let w = (bounds.width - CGFloat(colorCount)*gap) / (CGFloat(colorCount) + headerSizeRatio)
+        let h = (bounds.height - CGFloat(colorCount)*gap) / (CGFloat(colorCount) + headerSizeRatio)
         
         let c = Color.allCases.count + 1
         
@@ -99,10 +100,10 @@ class AttractionMatrixView: NSView {
             for column in 0..<c {
                 let view = views[row*c + column]
                 view.frame = CGRect(
-                    x: CGFloat(column)*(w+gap),
-                    y: bounds.height - h - CGFloat(row)*(h+gap),
-                    width: w,
-                    height: h
+                    x: column == 0 ? 0 : CGFloat(column-1)*(w+gap) + gap + w*headerSizeRatio,
+                    y: bounds.height - h*headerSizeRatio - CGFloat(row)*(h+gap),
+                    width: column == 0 ? w*headerSizeRatio : w,
+                    height: row == 0 ? h*headerSizeRatio : h
                 )
                 view.isHidden = row > colorCount || column > colorCount
                 view.needsDisplay = true

@@ -41,11 +41,9 @@ class AttractionMatrixHeaderView: AttractionMatrixChildView {
         switch fillTarget {
         case .row(let color), .column(let color):
             layer.backgroundColor = color.nsColor.cgColor
-            layer.cornerRadius = bounds.width / 2
             lineLayer.isHidden = true
         case .diagonal:
             layer.backgroundColor = .black
-            layer.cornerRadius = bounds.width / 4
             
             let path = NSBezierPath()
             path.move(to: .init(x: bounds.width, y: 0))
