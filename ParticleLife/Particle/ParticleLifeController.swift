@@ -110,7 +110,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 } else {
                     updateCount += 1
                     updateParticles(dt: dt)
-                    particleHolder.advanceBufferIndex() // After updateParticles is completed
                     semaphore.signal() // Release buffer
                 }
             }
@@ -126,11 +125,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             fatalError("makeCommandBuffer failed.")
         }
         
-        let currentBufferIndex = particleHolder.currentBufferIndex
-        let nextBufferIndex = particleHolder.nextBufferIndex
-        let currentBuffer = particleHolder.buffers[currentBufferIndex]
-        let nextBuffer = particleHolder.buffers[nextBufferIndex]
-        
         var dt = dt
         var particleCount = UInt32(particleHolder.particleCount)
         var colorCount = UInt32(Color.allCases.count)
@@ -140,15 +134,14 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 fatalError("makeComputeCommandEncoder failed.")
             }
             let state = updateVelocityState
-            computeEncoder.label = "updateVelocity[\(nextBufferIndex)]"
+            computeEncoder.label = "updateVelocity"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(currentBuffer, offset: 0, index: 0)
-            computeEncoder.setBuffer(nextBuffer, offset: 0, index: 1)
-            computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 2)
-            computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 3)
-            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.stride * attractionMatrix.elements.count, index: 4)
-            computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 5)
-            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 6)
+            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
+            computeEncoder.setBytes(&particleCount, length: MemoryLayout<UInt32>.size, index: 1)
+            computeEncoder.setBytes(&colorCount, length: MemoryLayout<UInt32>.size, index: 2)
+            computeEncoder.setBytes(attractionMatrix.elements, length: MemoryLayout<Float>.stride * attractionMatrix.elements.count, index: 3)
+            computeEncoder.setBytes(&velocityUpdateSetting, length: MemoryLayout<VelocityUpdateSetting>.size, index: 4)
+            computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 5)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.particleCount, height: 1, depth: 1),
                 threadsPerThreadgroup: .init(width: state.threadExecutionWidth, height: 1, depth: 1)
@@ -160,9 +153,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 fatalError("makeComputeCommandEncoder failed.")
             }
             let state = updatePositionState
-            computeEncoder.label = "updatePosition[\(nextBufferIndex)]"
+            computeEncoder.label = "updatePosition"
             computeEncoder.setComputePipelineState(state)
-            computeEncoder.setBuffer(nextBuffer, offset: 0, index: 0)
+            computeEncoder.setBuffer(particleHolder.buffer, offset: 0, index: 0)
             computeEncoder.setBytes(&dt, length: MemoryLayout<Float>.size, index: 1)
             computeEncoder.dispatchThreads(
                 .init(width: particleHolder.particleCount, height: 1, depth: 1),
@@ -191,12 +184,9 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             fatalError("makeRenderCommandEncoder failed.")
         }
         
-        let bufferIndex = particleHolder.currentBufferIndex
-        let buffer = particleHolder.buffers[bufferIndex]
-        
-        renderEncoder.label = "renderParticles[\(bufferIndex)]"
+        renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particleHolder.drawBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.stride * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)

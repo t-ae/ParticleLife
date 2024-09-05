@@ -1,7 +1,6 @@
 import Metal
 
 final class ParticleHolder {
-    static let bufferCount = 3
     static let maxCount: Int = 65536
     
     @Published
@@ -9,31 +8,28 @@ final class ParticleHolder {
     @Published
     private(set) var colorCount: Int = Color.allCases.count
     
-    let buffers: [MTLBuffer]
-    private(set) var currentBufferIndex = 0
-    var nextBufferIndex: Int { (currentBufferIndex+1) % Self.bufferCount }
+    let buffer: MTLBuffer
+    let drawBuffer: MTLBuffer
     let semaphore = DispatchSemaphore(value: 1)
     
     var isEmpty: Bool { particleCount == 0 }
     
     init(device: MTLDevice) throws {
         let length: Int = MemoryLayout<Particle>.stride * Self.maxCount
-        self.buffers = try (0..<Self.bufferCount).map {
-            let buffer = try device.makeBuffer(length: length, options: .storageModeShared)
-                .orThrow("Failed to make particle buffer")
-            buffer.label = "particle_buffer_\($0)"
-            return buffer
-        }
-    }
-    
-    func advanceBufferIndex() {
-        currentBufferIndex = (currentBufferIndex+1) % Self.bufferCount
+        self.buffer = try device.makeBuffer(length: length, options: .storageModeShared)
+            .orThrow("Failed to make particle buffer")
+        buffer.label = "particle_buffer"
+        
+        // Need this for executing `updateParticles` and `draw` simultaneously.
+        // There can be data race but it's not big problem.
+        drawBuffer = try device.makeBuffer(bytesNoCopy: buffer.contents(), length: buffer.length)
+            .orThrow("Failed to make draw buffer")
+        drawBuffer.label = "draw_buffer"
     }
     
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
         semaphore.wait()
         
-        let buffer = buffers[currentBufferIndex]
         let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
@@ -95,7 +91,6 @@ final class ParticleHolder {
         semaphore.wait()
         defer { semaphore.signal() }
         
-        let buffer = buffers[currentBufferIndex]
         let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * particleCount)
             .bindMemory(to: Particle.self)
         for particle in bufferPointer {
