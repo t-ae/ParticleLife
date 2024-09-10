@@ -117,7 +117,6 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         thread.start()
     }
     
-    /// Update particleHolder.nextBuffer based on particleHolder.currentBuffer.
     func updateParticles(dt: Float) {
         assert(!isPaused && !particleHolder.isEmpty)
         
@@ -186,7 +185,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         renderEncoder.label = "renderParticles"
         renderEncoder.setRenderPipelineState(renderPipelineState)
-        renderEncoder.setVertexBuffer(particleHolder.drawBuffer, offset: 0, index: 0)
+        renderEncoder.setVertexBuffer(particleHolder.buffer, offset: 0, index: 0)
         renderEncoder.setVertexBytes(rgbs, length: MemoryLayout<SIMD3<Float>>.stride * rgbs.count, index: 1)
         renderEncoder.setVertexBytes(&particleSize, length: MemoryLayout<Float>.size, index: 2)
         renderEncoder.setVertexBytes(&transform, length: MemoryLayout<Transform>.size, index: 3)
@@ -204,7 +203,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         if let drawable = view.currentDrawable {
             commandBuffer.present(drawable)
         }
-        
+
         commandBuffer.commit()
     }
 }

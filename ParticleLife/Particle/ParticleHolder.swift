@@ -9,7 +9,6 @@ final class ParticleHolder {
     private(set) var colorCount: Int = Color.allCases.count
     
     let buffer: MTLBuffer
-    let drawBuffer: MTLBuffer
     let semaphore = DispatchSemaphore(value: 1)
     
     var isEmpty: Bool { particleCount == 0 }
@@ -19,12 +18,6 @@ final class ParticleHolder {
         self.buffer = try device.makeBuffer(length: length, options: .storageModeShared)
             .orThrow("Failed to make particle buffer")
         buffer.label = "particle_buffer"
-        
-        // Need this for executing `updateParticles` and `draw` simultaneously.
-        // There can be data race but it's not big problem.
-        drawBuffer = try device.makeBuffer(bytesNoCopy: buffer.contents(), length: buffer.length)
-            .orThrow("Failed to make draw buffer")
-        drawBuffer.label = "draw_buffer"
     }
     
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
