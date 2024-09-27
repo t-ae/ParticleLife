@@ -27,5 +27,5 @@
 #### Value
 
 - Left/Right click: ±0.1
-- Shift+Left/Right click: Set 1/-1
+- Shift+Left/Right click: ±1.0
 

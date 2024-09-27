@@ -62,7 +62,7 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
     
     override func mouseDown(with event: NSEvent) {
         if event.modifierFlags.contains(.shift) {
-            setStep(maxStep)
+            setStep(min(step+maxStep, maxStep))
         } else {
             startMouseHold(increment)
         }
@@ -74,7 +74,7 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
     
     override func rightMouseDown(with event: NSEvent) {
         if event.modifierFlags.contains(.shift) {
-            setStep(-maxStep)
+            setStep(max(step-maxStep, -maxStep))
         } else {
             startMouseHold(decrement)
         }
