@@ -132,23 +132,19 @@ class ControlViewController: NSViewController {
         }.store(in: &cancellables)
     }
     
-    private var attractionAutoUpdateTask: Task<Void, Error>? = nil
+    private var attractionAutoUpdateTimer: Timer? = nil
     func onChangeAttractionAutoUpdate(_ on: Bool) {
-        print("onSwitchAttractionAutoUpdateButton: \(on)")
+        print("onChangeAttractionAutoUpdate: \(on)")
         
-        attractionAutoUpdateSwitch.state = on ? .on : .off
-        
-        attractionAutoUpdateTask?.cancel()
+        attractionAutoUpdateTimer?.invalidate()
         if on {
-            attractionAutoUpdateTask = Task {
-                while true {
-                    print("Auto randomize attraction")
-                    viewModel.updateAttractionMatrix(.randomize)
-                    try await Task.sleep(seconds: 30)
-                }
+            viewModel.updateAttractionMatrix(.randomize)
+            attractionAutoUpdateTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
+                print("Auto randomize attraction")
+                self.viewModel.updateAttractionMatrix(.randomize)
             }
         } else {
-            attractionAutoUpdateTask = nil
+            attractionAutoUpdateTimer = nil
         }
     }
 }
