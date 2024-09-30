@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22690"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23094"/>
         <capability name="Combo buttons" minToolsVersion="14.0" minSystemVersion="13.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -381,7 +381,7 @@
                                             <rect key="frame" x="125" y="94" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="6" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="6" imageScaling="proportionallyDown" inset="2" selectedItem="e5D-QY-Mgc" id="daz-xY-kkd">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="message"/>
                                                 <menu key="menu" id="Mfh-Ss-YM0">
                                                     <items>
                                                         <menuItem title="1" tag="1" id="pqq-q8-Qc3"/>
@@ -425,7 +425,7 @@
                                             <rect key="frame" x="125" y="38" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="uniform" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OEK-vg-J4n" id="C5c-X0-tVN">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="message"/>
                                                 <menu key="menu" id="LKN-ws-Q9Y">
                                                     <items>
                                                         <menuItem title="uniform" state="on" id="OEK-vg-J4n"/>
@@ -551,7 +551,7 @@
                                             <rect key="frame" x="127" y="118" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="force1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="HD5-zQ-DWx" id="moK-Y2-PfX" userLabel="force function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="message"/>
                                                 <menu key="menu" id="4m1-im-Tnu">
                                                     <items>
                                                         <menuItem title="force1" state="on" tag="1" id="HD5-zQ-DWx"/>
@@ -581,7 +581,7 @@
                                             <rect key="frame" x="127" y="90" width="135" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="L2" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-3" imageScaling="proportionallyDown" inset="2" selectedItem="mkJ-pA-dD9" id="fDc-Xu-fdC" userLabel="distance function">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="message"/>
                                                 <menu key="menu" id="y7c-g6-4ia">
                                                     <items>
                                                         <menuItem title="L2" state="on" tag="-3" id="mkJ-pA-dD9"/>

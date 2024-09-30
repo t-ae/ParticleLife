@@ -160,10 +160,10 @@ class ViewController: NSViewController {
             viewModel.updateAttractionMatrix(.randomize)
         case ("p", true):
             let content = particleLifeController.dumpParameters()
-            appDelegate.openDumpModal(title: "Parameters", content: content)
+            viewModel.dumpEvent.send(.init(title: "Parameters", content: content))
         case ("s", true):
             let content = particleLifeController.particleHolder.dumpStatistics()
-            appDelegate.openDumpModal(title: "Statistics", content: content)
+            viewModel.dumpEvent.send(.init(title: "Statistics", content: content))
         case ("c", true):
             openCommandWindow()
         default:

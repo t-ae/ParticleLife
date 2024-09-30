@@ -122,5 +122,11 @@ final class ViewModel {
     }
     
     // MARK: Events
+    let dumpEvent = PassthroughSubject<Dump, Never>()
     let errorNotifyEvent = PassthroughSubject<Error, Never>()
+}
+
+struct Dump {
+    var title: String
+    var content: String
 }

@@ -23,8 +23,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func bindViewModel() {
+        viewModel.dumpEvent.sink { [ unowned self] dump in
+            self.openDumpModal(title: dump.title, content: dump.content)
+        }.store(in: &cancellables)
         viewModel.errorNotifyEvent.sink { [ unowned self] in
-            showErrorAlert($0)
+            self.showErrorAlert($0)
         }.store(in: &cancellables)
     }
     
