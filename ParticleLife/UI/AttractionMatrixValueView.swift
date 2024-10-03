@@ -113,5 +113,5 @@ class AttractionMatrixValueView: AttractionMatrixChildView {
 }
 
 protocol AttractionMatrixValueViewDelegate {
-    func attractionMatrixValueViewOnUpdateValue()
+    @MainActor func attractionMatrixValueViewOnUpdateValue()
 }

@@ -115,8 +115,8 @@ class AttractionMatrixView: NSView {
 }
 
 protocol AttractionMatrixViewDelegate {
-    func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>)
-    func attractionMatrixValueViewUpdateLine(_ update: AttractionLineUpdate, step: Int)
+    @MainActor func attractionMatrixViewOnChangeAttractionSteps(_ steps: Matrix<Int>)
+    @MainActor func attractionMatrixValueViewUpdateLine(_ update: AttractionLineUpdate, step: Int)
 }
 
 extension AttractionMatrixView: AttractionMatrixHeaderViewDelegate {

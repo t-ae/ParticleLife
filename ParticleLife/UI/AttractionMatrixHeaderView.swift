@@ -82,5 +82,5 @@ class AttractionMatrixHeaderView: AttractionMatrixChildView {
 }
 
 protocol AttractionMatrixHeaderViewDelegate {
-    func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, step: Int)
+    @MainActor func attractionMatrixHeaderViewOnClickFillMenu(_ view: AttractionMatrixHeaderView, step: Int)
 }

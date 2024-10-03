@@ -1,7 +1,7 @@
 import Cocoa
 import Combine
 
-@main
+@main @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     let viewModel = ViewModel()
     private var cancellables = Set<AnyCancellable>()

@@ -221,5 +221,8 @@ extension ParticleLifeController {
 }
 
 protocol ParticleLifeControllerDelegate {
-    func particleLifeController(_ particleLifeController: ParticleLifeController, notifyUpdatePerSecond updatePerSeond: Float)
+    @MainActor func particleLifeController(
+        _ particleLifeController: ParticleLifeController,
+        notifyUpdatePerSecond updatePerSeond: Float
+    )
 }
