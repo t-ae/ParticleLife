@@ -134,8 +134,6 @@ class ControlViewController: NSViewController {
     
     private var attractionAutoUpdateTask: Task<Void, Error>? = nil
     func onChangeAttractionAutoUpdate(_ on: Bool) {
-        print("onSwitchAttractionAutoUpdateButton: \(on)")
-        
         attractionAutoUpdateSwitch.state = on ? .on : .off
         
         attractionAutoUpdateTask?.cancel()
