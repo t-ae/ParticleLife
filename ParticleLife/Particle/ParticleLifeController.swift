@@ -81,11 +81,11 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     var isPaused = true
     
     func updateLoop() {
-        var lastUpdate = Date()
-        var updateCount = 0
-        var lastNotify = Date()
-        
         let thread = Thread { [unowned self] in
+            var lastUpdate = Date()
+            var updateCount = 0
+            var lastNotify = Date()
+            
             while true {
                 let semaphore = particleHolder.semaphore
                 semaphore.wait() // Wait until next buffer is available
