@@ -109,8 +109,6 @@ class AttractionMatrixView: NSView {
                 view.needsDisplay = true
             }
         }
-        
-        layoutSubtreeIfNeeded()
     }
 }
 

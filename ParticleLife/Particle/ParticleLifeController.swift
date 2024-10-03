@@ -72,7 +72,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         self.updateLoop()
     }
     
-    nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         viewportSize.x = Float(size.width)
         viewportSize.y = Float(size.height)
     }
