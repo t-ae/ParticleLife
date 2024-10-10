@@ -20,23 +20,16 @@ final class ParticleHolder {
         buffer.label = "particle_buffer"
     }
     
-    private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
-        let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * Self.maxCount)
-            .bindMemory(to: Particle.self)
-        f(bufferPointer)
-    }
-    
     func setParticles(_ particles: [Particle], colorCount: Int) throws {
         guard particles.count <= Self.maxCount else {
             throw MessageError("Particle count must be less than or equal to \(Self.maxCount)")
         }
         
-        update { bufferPointer in
-            self.particleCount = particles.count
-            self.colorCount = colorCount
-            
-            memcpy(bufferPointer.baseAddress, particles, MemoryLayout<Particle>.stride * particles.count)
-        }
+        self.particleCount = particles.count
+        self.colorCount = colorCount
+        
+        let bufferPointer = buffer.bufferPointer(of: Particle.self)
+        memcpy(bufferPointer.baseAddress, particles, MemoryLayout<Particle>.stride * particles.count)
     }
     
     func addParticle(_ particle: Particle) {
@@ -44,31 +37,30 @@ final class ParticleHolder {
             return
         }
         
-        update { bufferPointer in
-            bufferPointer[particleCount] = particle
-            particleCount += 1
-        }
+        let bufferPointer = buffer.bufferPointer(of: Particle.self)
+        bufferPointer[particleCount] = particle
+        particleCount += 1
     }
     
     func removeNaarestParticle(around center: SIMD2<Float>, in radius: Float) {
-        update { bufferPointer in 
-            var minimumIndex = -1
-            var minimumDistance = radius
-            for i in 0..<particleCount {
-                let v = bufferPointer[i].position - center
-                let distance = length(v.wrapped(max: 1))
-                
-                if length(v.wrapped(max: 1)) < minimumDistance {
-                    minimumIndex = i
-                    minimumDistance = distance
-                }
+        let bufferPointer = buffer.bufferPointer(of: Particle.self)
+        
+        var minimumIndex = -1
+        var minimumDistance = radius
+        for i in 0..<particleCount {
+            let v = bufferPointer[i].position - center
+            let distance = length(v.wrapped(max: 1))
+            
+            if length(v.wrapped(max: 1)) < minimumDistance {
+                minimumIndex = i
+                minimumDistance = distance
             }
-            if minimumIndex >= 0 {
-                if minimumIndex != particleCount-1 {
-                    swap(&bufferPointer[minimumIndex], &bufferPointer[particleCount-1])
-                }
-                particleCount -= 1
+        }
+        if minimumIndex >= 0 {
+            if minimumIndex != particleCount-1 {
+                swap(&bufferPointer[minimumIndex], &bufferPointer[particleCount-1])
             }
+            particleCount -= 1
         }
     }
     
@@ -98,5 +90,12 @@ final class ParticleHolder {
         """)
         
         return strs.joined(separator: "\n")
+    }
+}
+
+fileprivate extension MTLBuffer {
+    func bufferPointer<T>(of: T.Type) -> UnsafeMutableBufferPointer<T> {
+        UnsafeMutableRawBufferPointer(start: contents(), count: length)
+            .bindMemory(to: T.self)
     }
 }
