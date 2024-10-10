@@ -2,6 +2,7 @@ import Foundation
 import Metal
 import MetalKit
 
+@MainActor
 final class ParticleLifeController: NSObject, MTKViewDelegate {
     var delegate: ParticleLifeControllerDelegate?
     
@@ -69,7 +70,7 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
         
         super.init()
         
-        self.updateLoop()
+        self.startUpdateLoop()
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -80,16 +81,15 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
     @Published
     var isPaused = true
     
-    func updateLoop() {
-        let thread = Thread { [unowned self] in
+    private var loopTask: Task<Void, Error>?
+    
+    func startUpdateLoop() {
+        loopTask = Task { [unowned self] in
             var lastUpdate = Date()
             var updateCount = 0
             var lastNotify = Date()
             
             while true {
-                let semaphore = particleHolder.semaphore
-                semaphore.wait() // Wait until next buffer is available
-                
                 let now = Date()
                 let dt = Float(now.timeIntervalSince(lastUpdate))
                 lastUpdate = now
@@ -105,19 +105,20 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
                 }
                 
                 if isPaused || particleHolder.isEmpty {
-                    Thread.sleep(forTimeInterval: 1.0 / 1000)
-                    semaphore.signal()
+                    try await Task.sleep(milliseconds: 1)
                 } else {
                     updateCount += 1
-                    updateParticles(dt: dt)
-                    semaphore.signal() // Release buffer
+                    await updateParticles(dt: dt)
                 }
             }
         }
-        thread.start()
     }
     
-    func updateParticles(dt: Float) {
+    deinit {
+        loopTask?.cancel()
+    }
+    
+    func updateParticles(dt: Float) async {
         assert(!isPaused && !particleHolder.isEmpty)
         
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
@@ -163,9 +164,13 @@ final class ParticleLifeController: NSObject, MTKViewDelegate {
             computeEncoder.endEncoding()
         }
         
-        commandBuffer.commit()
-        
-        commandBuffer.waitUntilCompleted()
+        await withCheckedContinuation { cont in
+            commandBuffer.addCompletedHandler { _ in
+                cont.resume()
+            }
+            
+            commandBuffer.commit()
+        }
     }
     
     let rgbs = Color.allCases.map { $0.rgb }

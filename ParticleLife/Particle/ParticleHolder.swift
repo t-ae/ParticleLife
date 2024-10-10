@@ -1,5 +1,6 @@
 import Metal
 
+@MainActor
 final class ParticleHolder {
     static let maxCount: Int = 65536
     
@@ -9,7 +10,6 @@ final class ParticleHolder {
     private(set) var colorCount: Int = Color.allCases.count
     
     let buffer: MTLBuffer
-    let semaphore = DispatchSemaphore(value: 1)
     
     var isEmpty: Bool { particleCount == 0 }
     
@@ -21,13 +21,9 @@ final class ParticleHolder {
     }
     
     private func update(_ f: (UnsafeMutableBufferPointer<Particle>)->Void) {
-        semaphore.wait()
-        
         let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * Self.maxCount)
             .bindMemory(to: Particle.self)
         f(bufferPointer)
-        
-        semaphore.signal()
     }
     
     func setParticles(_ particles: [Particle], colorCount: Int) throws {
@@ -80,9 +76,6 @@ final class ParticleHolder {
         var nanCout = 0
         var infiniteCount = 0
         var colorCounts = [Int](repeating: 0, count: Color.allCases.count)
-        
-        semaphore.wait()
-        defer { semaphore.signal() }
         
         let bufferPointer = UnsafeMutableRawBufferPointer(start: buffer.contents(), count: MemoryLayout<Particle>.stride * particleCount)
             .bindMemory(to: Particle.self)
