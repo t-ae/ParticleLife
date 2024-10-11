@@ -2,7 +2,7 @@
 
 Particle Life for macOS/Metal.
 
-[![Demo](https://img.youtube.com/vi/sMCg2N1tcBA/0.jpg)](https://www.youtube.com/watch?v=sMCg2N1tcBA)
+[![Demo](https://img.youtube.com/vi/eEn6g6vy-iE/0.jpg)](https://www.youtube.com/watch?v=eEn6g6vy-iE)
 
 ## Force functions
 
