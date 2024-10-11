@@ -52,8 +52,8 @@ class ControlViewController: NSViewController {
         fixSeedsCheck.bind(&viewModel.$fixSeeds)
             .store(in: &cancellables)
         
-        generateParticlesButton.bind { [particleCountField] in
-            viewModel.particleCountString = particleCountField!.stringValue  // Assign editing value
+        generateParticlesButton.bind { [unowned self] in
+            viewModel.particleCountString = self.particleCountField!.stringValue  // Assign editing value
             
             do {
                 guard let particleCount = Int(viewModel.particleCountString), particleCount >= 0 else {
@@ -81,7 +81,7 @@ class ControlViewController: NSViewController {
         
         attractionAutoUpdateSwitch.bind(&viewModel.$autoUpdateAttractionMatrix)
             .store(in: &cancellables)
-        viewModel.$autoUpdateAttractionMatrix.sink {
+        viewModel.$autoUpdateAttractionMatrix.sink { [unowned self] in
             self.onChangeAttractionAutoUpdate($0)
         }.store(in: &cancellables)
         
@@ -129,6 +129,10 @@ class ControlViewController: NSViewController {
         }.store(in: &cancellables)
         pauseButton.bind {
             viewModel.isPaused = true
+        }.store(in: &cancellables)
+        viewModel.$isPaused.sink { [unowned self] isPaused in
+            self.playButton!.state = isPaused ? .off : .on
+            self.pauseButton!.state = isPaused ? .on : .off
         }.store(in: &cancellables)
     }
     
